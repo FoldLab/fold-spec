@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Example catalogue · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="example-catalogue">Example catalogue</h1>
+<p>All documents are original examples for this draft. Use <code>python tools/check.py</code> from the repository root to validate the complete examples and paired source files.</p>
+<table>
+<thead>
+<tr>
+  <th>Directory</th>
+  <th>Purpose</th>
+  <th>Availability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="minimal-text/README.html">minimal-text</a></td>
+  <td>Localized primary copy, tactile checks and fallback language</td>
+  <td>Instructions only; no fabricated geometry</td>
+</tr>
+<tr>
+  <td><a href="authoring/README.html">authoring</a></td>
+  <td>Named points, alignment, region and intent; <code>.foldsrc</code> → JSON AST</td>
+  <td>Authoring graph; no compiled animation</td>
+</tr>
+<tr>
+  <td><a href="hinge/README.html">hinge</a></td>
+  <td>Explicit analytic fold and reverse, crease history and layer hints</td>
+  <td>Complete small geometric lesson</td>
+</tr>
+<tr>
+  <td><a href="crane/README.html">crane</a></td>
+  <td>44 teaching steps, 40 resolved operations, static display, flourish, history and parallel text/source examples</td>
+  <td>Complete geometric demonstration with explicit approximations</td>
+</tr>
+<tr>
+  <td><a href="partial/README.html">partial</a></td>
+  <td>Resolved prefix followed by an unauthored physical action</td>
+  <td>Partial; playback must stop at the gap</td>
+</tr>
+<tr>
+  <td><a href="planned/README.html">planned</a></td>
+  <td>Cup finishing/display requirements before construction is authored</td>
+  <td>Metadata/proposed presentation only</td>
+</tr>
+<tr>
+  <td><a href="presentation/README.html">presentation</a></td>
+  <td>Validated bilateral hinge and bounded flutter</td>
+  <td>Calibration sheet, not a butterfly pattern</td>
+</tr>
+<tr>
+  <td><a href="scene/README.html">scene</a></td>
+  <td>Raster asset, reusable stage data and a packaged lesson</td>
+  <td>Runnable validation and asset round trip; no graphical stage player</td>
+</tr>
+<tr>
+  <td><a href="library/README.html">library</a></td>
+  <td>Data-only base declarations with exports</td>
+  <td>Structural example; full expansion not implemented by the helper</td>
+</tr>
+</tbody>
+</table>
+<p>Readable <code>.fold.json</code> documents are the source for the corresponding shipped <code>.foldlab</code> archives. Every archive has a new-format manifest; it is not a legacy application file. No optional artwork, physics or accessibility test is implied merely by a field or filename existing.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

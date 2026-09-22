@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Migration from existing FoldLab documents · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="migration-from-existing-foldlab-documents">Migration from existing FoldLab documents</h1>
+<p><strong>Informative.</strong> Fold Spec is a new discriminator and representation, not a renamed release of an existing app format. No universal automatic migrator is supplied.</p>
+<h2 id="safe-adapter-strategy">Safe adapter strategy</h2>
+<p>Preserve the original file unchanged. Detect its exact format and version, validate it using its own reader, then create a new document. Carry stable model/source IDs, author/license restrictions, instruction copy and review status. Record conversion history outside claims of designer origin. Do not upgrade uncertain accessibility to user-tested status.</p>
+<table>
+<thead>
+<tr>
+  <th>Existing concept</th>
+  <th>New representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>One action per instructional step</td>
+  <td>Ordered geometric operations plus instruction <code>runs</code></td>
+</tr>
+<tr>
+  <td>Normalized material and pose coordinates</td>
+  <td>Explicit millimeter material vertices and resolved positions</td>
+</tr>
+<tr>
+  <td>Axis-angle hinge fold</td>
+  <td><code>kind: &quot;hinge&quot;</code> with directed 3D axis, selected face IDs and signed degrees</td>
+</tr>
+<tr>
+  <td>Turnover or model rotation</td>
+  <td><code>kind: &quot;rigid&quot;</code>, or a sampled handling path when required to preserve the lift exactly</td>
+</tr>
+<tr>
+  <td>Dense compound motion</td>
+  <td><code>kind: &quot;sampled&quot;</code> with shared topology, key times, and interval strain budget</td>
+</tr>
+<tr>
+  <td>Crease record</td>
+  <td>Material segment event with stable ID, assignment and establishment time</td>
+</tr>
+<tr>
+  <td>Original front/back colors/patterns</td>
+  <td>Two material objects anchored to material coordinates</td>
+</tr>
+<tr>
+  <td>Accessibility side fields</td>
+  <td>Canonical localized body plus structured tactile guidance and review</td>
+</tr>
+<tr>
+  <td>Stage image and choreography</td>
+  <td>Declared hashed image asset and optional presentation stage</td>
+</tr>
+<tr>
+  <td>Existing <code>.foldscene</code> dialect</td>
+  <td>Explicit adapter to the new scene discriminator; not a blind version rewrite</td>
+</tr>
+</tbody>
+</table>
+<p>If the original long sheet edge spans two units, the millimeter multiplier is <code>max(widthMm,heightMm)/2</code>. Apply it to <strong>every</strong> relevant point, axis, camera target, path and bend width according to its actual old unit. Do not multiply angles or timestamps. Older camera angles expressed in radians need explicit conversion where mapped to a degree-valued field.</p>
+<h2 id="timing-and-easing">Timing and easing</h2>
+<p>If an old compound clip was sampled after an easing function, preserve the actual interpreted curve when baking. Avoid applying the old ease twice. Introducing geometric keyframes is an approximation between keys; validate the whole interpolation interval against the new declared error budget. Endpoints and source material identity remain exact within stated tolerances.</p>
+<p>The included crane demonstrates such a resolved adaptation, but its supporting development conversion script is not a general importer. The delivered example contains all data needed by the new sampler without importing the earlier application.</p>
+<h2 id="do-not-manufacture-intent">Do not manufacture intent</h2>
+<p>Numeric crease endpoints do not prove that the original author intended a named point-to-point or line-to-line alignment. Add symbolic intent only when the relationship has been verified. The crane's first two diagonal intents are explicit; the rest of its complex sequence remains resolved numerical geometry.</p>
+<h2 id="compatibility-policy">Compatibility policy</h2>
+<p>A legacy reader must reject the new <code>fold-spec</code> discriminator rather than misinterpret its units or filename. A new reader may support legacy formats through explicit adapters, but must not claim byte-for-byte replay if trajectories or presentation semantics changed. Extension/capability support is checked separately from document readability.</p>
+<p>Before releasing an adapter, test native/JSON round trips, source rights, locale fallback, material UVs, layer priorities, step ranges, final stills, and all required asset hashes. Maintain original fixtures for regression comparison.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

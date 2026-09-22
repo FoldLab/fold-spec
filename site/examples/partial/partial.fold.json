@@ -1,0 +1,584 @@
+{
+  "format": "fold-spec",
+  "specVersion": "1.0.0-draft.1",
+  "id": "partial-fold-lesson",
+  "revision": 1,
+  "defaultLocale": "en",
+  "status": "partial",
+  "metadata": {
+    "title": {
+      "en": "Partial lesson — fold animated, unfold not yet authored"
+    },
+    "summary": {
+      "en": "A valid partial document demonstrating a resolved prefix and the exact point where animation must stop."
+    },
+    "authors": [
+      {
+        "name": "fold-spec contributors",
+        "roles": [
+          "instructions",
+          "geometry"
+        ]
+      }
+    ],
+    "license": "MIT",
+    "difficulty": "beginner",
+    "categories": [
+      "lessons"
+    ],
+    "tags": [],
+    "sources": []
+  },
+  "sheets": [
+    {
+      "id": "paper",
+      "widthMm": 150,
+      "heightMm": 150,
+      "thicknessMm": 0.18,
+      "front": {
+        "color": "#DA453E",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      },
+      "back": {
+        "color": "#F7F2E8",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      }
+    }
+  ],
+  "accessibility": {
+    "referenceFrame": "folder-table",
+    "setup": [
+      {
+        "en": "Work on a clear, firm surface. Near means toward your body; far means away from you. Left and right are your own left and right, not the camera’s."
+      },
+      {
+        "en": "The material front is called Side A and the reverse Side B. Their colors are optional visual aids, not the only way to follow the steps."
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "near-edge",
+        "sheet": "paper",
+        "name": {
+          "en": "Near edge"
+        },
+        "description": {
+          "en": "The initial sheet edge nearest your body."
+        },
+        "uvMm": [
+          0,
+          -75.0
+        ]
+      }
+    ],
+    "review": {
+      "status": "authored"
+    },
+    "limitations": [
+      {
+        "en": "Authored guidance has not been tested with blind folders or physically paper-folded as part of this release."
+      }
+    ]
+  },
+  "instructions": {
+    "steps": [
+      {
+        "id": "setup",
+        "title": {
+          "en": "Place the square"
+        },
+        "body": {
+          "en": "Place the square with an edge nearest you and Side A facing up."
+        },
+        "kind": "setup",
+        "animation": "not-applicable",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Four edges form a square. The edge nearest you is the near edge."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      },
+      {
+        "id": "fold-center",
+        "title": {
+          "en": "Match the left and right edges"
+        },
+        "body": {
+          "en": "Lift the left edge and bring it onto the right edge. Align both pairs of corners before pressing the fold."
+        },
+        "kind": "fold",
+        "animation": "resolved",
+        "runs": [
+          {
+            "operation": "fold-center",
+            "from": 0,
+            "to": 1
+          }
+        ],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the current near edge toward your body."
+          },
+          "locate": [],
+          "check": [
+            {
+              "en": "The two original outside edges lie together. The opposite long edge is a single folded spine."
+            }
+          ],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "narrationIds": [
+          "audio-fold-center"
+        ]
+      },
+      {
+        "id": "unfold",
+        "title": {
+          "en": "Open the sheet"
+        },
+        "body": {
+          "en": "Lift the upper layer and return it to the left. Flatten gently; do not erase the center crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the current near edge toward your body."
+          },
+          "locate": [],
+          "check": [
+            {
+              "en": "The sheet is square again with one crease across its center."
+            }
+          ],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "lesson",
+        "title": {
+          "en": "Fold and unfold"
+        },
+        "stepIds": [
+          "setup",
+          "fold-center",
+          "unfold"
+        ]
+      }
+    ]
+  },
+  "assets": [],
+  "narration": [
+    {
+      "id": "audio-fold-center",
+      "step": "fold-center",
+      "locale": "en",
+      "variant": "primary",
+      "status": "missing",
+      "transcript": "Lift the left edge and bring it onto the right edge. Align both pairs of corners before pressing the fold.",
+      "textSha256": "2b913fd94f80ef2d8818b13f9394959cc80b9eee1e4914b9a4ef1c923b61f910"
+    }
+  ],
+  "history": [],
+  "extensions": [],
+  "geometry": {
+    "status": "partial",
+    "meshes": [
+      {
+        "id": "sheet-mesh",
+        "sheet": "paper",
+        "vertices": [
+          {
+            "id": "v0",
+            "uvMm": [
+              -75,
+              -75
+            ]
+          },
+          {
+            "id": "v1",
+            "uvMm": [
+              0,
+              -75
+            ]
+          },
+          {
+            "id": "v2",
+            "uvMm": [
+              75,
+              -75
+            ]
+          },
+          {
+            "id": "v3",
+            "uvMm": [
+              75,
+              75
+            ]
+          },
+          {
+            "id": "v4",
+            "uvMm": [
+              0,
+              75
+            ]
+          },
+          {
+            "id": "v5",
+            "uvMm": [
+              -75,
+              75
+            ]
+          }
+        ],
+        "faces": [
+          {
+            "id": "f0",
+            "vertices": [
+              0,
+              1,
+              4
+            ]
+          },
+          {
+            "id": "f1",
+            "vertices": [
+              0,
+              4,
+              5
+            ]
+          },
+          {
+            "id": "f2",
+            "vertices": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "id": "f3",
+            "vertices": [
+              1,
+              3,
+              4
+            ]
+          }
+        ]
+      }
+    ],
+    "operations": [
+      {
+        "id": "fold-center",
+        "sheet": "paper",
+        "mesh": "sheet-mesh",
+        "durationMs": 1800,
+        "creases": [
+          {
+            "id": "center-crease",
+            "sheet": "paper",
+            "segmentMm": [
+              [
+                0,
+                -75
+              ],
+              [
+                0,
+                75
+              ]
+            ],
+            "assignment": "valley",
+            "establishedAt": 1
+          }
+        ],
+        "layers": [],
+        "kind": "hinge",
+        "startPositionsMm": [
+          [
+            -75,
+            -75,
+            0
+          ],
+          [
+            0,
+            -75,
+            0
+          ],
+          [
+            75,
+            -75,
+            0
+          ],
+          [
+            75,
+            75,
+            0
+          ],
+          [
+            0,
+            75,
+            0
+          ],
+          [
+            -75,
+            75,
+            0
+          ]
+        ],
+        "axisMm": [
+          [
+            0,
+            -75,
+            0
+          ],
+          [
+            0,
+            75,
+            0
+          ]
+        ],
+        "movingFaces": [
+          "f0",
+          "f1"
+        ],
+        "angleDeg": 180,
+        "easing": "smoothstep",
+        "startLayerHint": {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "ranks": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "endLayerHint": {
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "ranks": [
+            3,
+            3,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "tolerances": {
+      "positionMm": 1e-06,
+      "relativeEdge": 1e-06,
+      "angularDeg": 1e-06
+    },
+    "review": {
+      "status": "authored"
+    },
+    "limitations": [
+      {
+        "en": "Zero-thickness geometry. No collision/contact solver is provided by this example."
+      }
+    ]
+  },
+  "print": {
+    "includeFinalPanel": true,
+    "includeHistory": false,
+    "template": {
+      "sizeMm": [
+        152.4,
+        152.4
+      ],
+      "sides": "both",
+      "includePattern": true,
+      "includeGuides": true,
+      "guideConvention": "mountain-solid-valley-dashed"
+    },
+    "panels": [
+      {
+        "step": "fold-center",
+        "samples": [
+          0,
+          0.5,
+          1
+        ]
+      },
+      {
+        "step": "unfold",
+        "samples": [
+          0,
+          1
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "status": "proposed",
+    "finishingStepIds": [
+      "unfold"
+    ],
+    "display": {
+      "camera": {
+        "projection": "orthographic",
+        "positionMm": [
+          150,
+          -200,
+          230
+        ],
+        "targetMm": [
+          0,
+          0,
+          0
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "verticalSpanMm": 230,
+        "transitionMs": 750
+      },
+      "orientation": {
+        "en": "Display the opened square with its center crease visible."
+      },
+      "checks": [
+        {
+          "en": "The final panel shows the opened sheet, not a frame during the fold."
+        }
+      ]
+    },
+    "flourish": {
+      "status": "proposed",
+      "kind": "tip",
+      "durationMs": 2200,
+      "cycles": 1,
+      "amplitudeDeg": 12,
+      "axisMm": [
+        [
+          -75,
+          0,
+          0
+        ],
+        [
+          75,
+          0,
+          0
+        ]
+      ],
+      "description": {
+        "en": "Gently tip the completed sheet and return it to rest."
+      }
+    },
+    "rigs": []
+  }
+}

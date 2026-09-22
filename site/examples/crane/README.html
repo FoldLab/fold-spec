@@ -1,0 +1,148 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Paper crane — complete format example · fold-spec</title><link rel="stylesheet" href="../../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../../README.html">Read me</a><a href="../../SPEC.html">Specification index</a><a href="../../docs/quickstart.html">Quick start</a><a href="../../examples/crane/README.html">Crane example</a><a href="../../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../../docs/field-reference.html">Field reference</a><a href="../../docs/glossary.html">Glossary</a><a href="../../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="paper-crane--complete-format-example">Paper crane — complete format example</h1>
+<p>This directory demonstrates a substantial origami document, not just a finished-model mesh. The primary example begins with a 150 × 150 mm square, stores every operation in its instructional sequence, and finishes with a three-dimensional crane display.</p>
+<p><strong>Status: resolved geometric demonstration; physical and accessibility-user review not performed.</strong> The head/neck/tail and body shaping are explicitly qualified approximations, not a universal physically accurate crane solver.</p>
+<h2 id="files">Files</h2>
+<table>
+<thead>
+<tr>
+  <th>File</th>
+  <th>What it contains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="crane.fold.json">crane.fold.json</a></td>
+  <td>Complete structured lesson and executable resolved data</td>
+</tr>
+<tr>
+  <td><a href="crane.foldlab">crane.foldlab</a></td>
+  <td>The same document in the verified native archive</td>
+</tr>
+<tr>
+  <td><a href="crane-text.fold.json">crane-text.fold.json</a></td>
+  <td>The same primary instruction copy without claiming animation</td>
+</tr>
+<tr>
+  <td><a href="crane-text.foldlab">crane-text.foldlab</a></td>
+  <td>Portable text-only counterpart</td>
+</tr>
+<tr>
+  <td><a href="crane-authoring.foldsrc">crane-authoring.foldsrc</a></td>
+  <td>Full text recipe plus two named diagonal-crease intents</td>
+</tr>
+<tr>
+  <td><a href="crane-authoring.fold.json">crane-authoring.fold.json</a></td>
+  <td>Exact parsed AST of the authoring study</td>
+</tr>
+<tr>
+  <td><a href="crane-instructions.html">crane-instructions.md</a></td>
+  <td>Clean Markdown instructions with tactile guidance</td>
+</tr>
+<tr>
+  <td><a href="crane-instructions.txt">crane-instructions.txt</a></td>
+  <td>Plain text export</td>
+</tr>
+<tr>
+  <td><a href="crane-instructions.html">crane-instructions.html</a></td>
+  <td>Script-free, semantic reading view</td>
+</tr>
+</tbody>
+</table>
+<p>The authoring study intentionally leaves complex operations unresolved symbolically. The full geometric document already carries those paths numerically, but that does not mean the reference parser can infer them from prose or constraint syntax.</p>
+<h2 id="structure">Structure</h2>
+<p>There are <strong>44 teaching steps and 40 ordered geometric operations</strong>. Each step maps to its operation range; a check may have no movement. Topology revisions sum to 2,360 triangles across the entire sequence. The <strong>final mesh contains 208 triangles</strong>. Do not confuse the summed revision count with simultaneous render complexity.</p>
+<table>
+<thead>
+<tr>
+  <th>Step range</th>
+  <th>Teaching purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1–11</td>
+  <td>Prepare the square; make/open two diagonals; turn over; make/open straight creases; return to Side A</td>
+</tr>
+<tr>
+  <td>12–16</td>
+  <td>Guide and flatten the square base in four physical phases, then check it</td>
+</tr>
+<tr>
+  <td>17–23</td>
+  <td>Front guide creases, top hinge and coupled petal fold</td>
+</tr>
+<tr>
+  <td>24–30</td>
+  <td>Work on the reverse face, prepare the second petal and orient the bird base</td>
+</tr>
+<tr>
+  <td>31–36</td>
+  <td>Narrow both sides of the two lower points</td>
+</tr>
+<tr>
+  <td>37–39</td>
+  <td>Raise neck and tail; form the beak with qualified paired-layer motion</td>
+</tr>
+<tr>
+  <td>40–44</td>
+  <td>Spread wings, orient for display, ease open the body and check the result</td>
+</tr>
+</tbody>
+</table>
+<p>The primary instruction is shared by the text counterpart. Tactile sections identify orientation, relevant layers and review limits. Empty locating/check arrays are not padded with made-up tactile facts.</p>
+<h2 id="the-square-base-subdivision">The square-base subdivision</h2>
+<p>All four ranges reference <code>op-12</code>:</p>
+<table>
+<thead>
+<tr>
+  <th>Step</th>
+  <th style="text-align:right">Operation interval</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>begin-base</code></td>
+  <td style="text-align:right">0.00–0.18</td>
+  <td>Begin bending along existing precreases</td>
+</tr>
+<tr>
+  <td><code>guide-pockets</code></td>
+  <td style="text-align:right">0.18–0.55</td>
+  <td>Guide connected side pockets inward</td>
+</tr>
+<tr>
+  <td><code>lower-panel</code></td>
+  <td style="text-align:right">0.55–0.88</td>
+  <td>Lower the outer panel while retaining the nested sides</td>
+</tr>
+<tr>
+  <td><code>flatten-base</code></td>
+  <td style="text-align:right">0.88–1.00</td>
+  <td>Close the square base</td>
+</tr>
+<tr>
+  <td><code>check-base</code></td>
+  <td style="text-align:right">No operation</td>
+  <td>Confirm orientation and layer arrangement</td>
+</tr>
+</tbody>
+</table>
+<p>These are ranges of one coupled movement. They do not claim that every panel can move independently or that a pause introduces another physical crease. Endpoint comparisons check the exact shared range boundaries.</p>
+<h2 id="geometric-verification">Geometric verification</h2>
+<p>The reference validator checks disk topology, material coordinates, winding, shared hinge seams, first-state flatness, operation-to-operation material continuity, and sampled-edge interpolation budgets. The supplied crane has 1,002 sampled interpolation intervals. Its measured maximum relative edge error is approximately <strong>0.0014848975</strong>, or <strong>0.14849%</strong>, below the declared maximum of 0.005.</p>
+<p>That error measures edge-length deviation in the particular interpolation representation. It is not an accuracy percentage for the model's entire physical behavior. No real-paper review, self-collision certification, finite-thickness contact solver, or perfect remesh-arrangement proof is supplied.</p>
+<p>The continuously sampled paths are authored geometry. The neck/tail/head motions simplify inside reverse folds as paired-layer hinges. The central opening is faceted and does not simulate air pressure, fingertip forces or paper spring-back. These limitations travel in the document and its text exports.</p>
+<h2 id="appearance-display-and-context">Appearance, display and context</h2>
+<p>The example has a modern cobalt front, off-white reverse, restrained washi texture, explicit physical dimensions and visual thickness. Text directions do not rely on those colors. The material stays attached to the same original sheet coordinates through every operation.</p>
+<p>The final display refers to the last physical operation and has an orthographic camera. A short decorative bow returns to that pose. Printing uses the static completed crane, never a mid-bow frame. The print configuration includes all teaching panels and a 152.4 mm cut-out square (six inches) with the explicitly labelled guide convention.</p>
+<p>The historical note is scoped to the crane as a <strong>symbol</strong>. Its source is the <a href="https://www.city.hiroshima.lg.jp/english/peace/1033408/1009685.html">City of Hiroshima's paper-crane information</a>. It is not a claim that this particular geometric demonstration is an authenticated historical pattern or that its exact construction dates to a particular period.</p>
+<h2 id="reproduce">Reproduce</h2>
+<p>From the repository root:</p>
+<pre><code class="language-sh">python tools/foldspec.py validate examples/crane/crane.fold.json
+python tools/foldspec.py inspect examples/crane/crane.foldlab
+python tools/foldspec.py sample examples/crane/crane.fold.json --operation op-12 --progress 0.55 -o build/crane-pocket-phase.json
+python tools/foldspec.py text examples/crane/crane.fold.json --descriptive --html -o build/crane-reading.html
+</code></pre>
+<p>The sampler produces millimeter geometry for a renderer; it does not output an image. The full example is in the new Fold Spec dialect and needs its reader, not the earlier FoldLab v0.8 loader.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

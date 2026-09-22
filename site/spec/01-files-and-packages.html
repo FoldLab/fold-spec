@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>01 · Files and packages · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="01--files-and-packages">01 · Files and packages</h1>
+<p><strong>Normative</strong></p>
+<h2 id="encodings-and-filenames">Encodings and filenames</h2>
+<table>
+<thead>
+<tr>
+  <th>Filename</th>
+  <th>Representation</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>name.fold.json</code></td>
+  <td>UTF-8 JSON document</td>
+  <td>Readable, diffable interchange.</td>
+</tr>
+<tr>
+  <td><code>name.foldlab</code></td>
+  <td>ZIP package</td>
+  <td>One document plus exactly its declared local assets.</td>
+</tr>
+<tr>
+  <td><code>name.foldsrc</code></td>
+  <td>UTF-8 Fold Source</td>
+  <td>Optional readable typed authoring form.</td>
+</tr>
+<tr>
+  <td><code>name.foldlib.json</code></td>
+  <td>UTF-8 JSON library</td>
+  <td>Data-only reusable construction parts.</td>
+</tr>
+<tr>
+  <td><code>name.foldscene</code></td>
+  <td>UTF-8 JSON scene</td>
+  <td>Reusable presentation styling, without model geometry.</td>
+</tr>
+</tbody>
+</table>
+<p>The project/repository name is <code>fold-spec</code>. A <code>.foldlab</code> suffix is retained for the existing application family, but the root discriminator <code>format: &quot;fold-spec&quot;</code> identifies this new contract. Merely changing a filename does not migrate an old file. The <code>.fold</code> suffix is <strong>not</strong> claimed: it belongs to the separate geometry interchange described in chapter 17.</p>
+<p>Use <code>application/json</code> for JSON and <code>application/zip</code> for packages when serving files. No new IANA media type is registered by this draft. The example schema URLs under <code>fold-spec.example</code> are reserved documentation identifiers, not a deployed service. Tooling MUST resolve bundled schemas offline rather than fetch that domain.</p>
+<p>JSON MUST satisfy RFC 8259 <a href="https://www.rfc-editor.org/rfc/rfc8259">R1</a>, be UTF-8 without a BOM, and have no duplicate object members, lone surrogates, NUL strings, NaN, infinity, or numeric overflow. Object-member order is not semantic; array order generally is. Unknown core fields are rejected rather than treated as misspelled optional settings.</p>
+<h2 id="archive-layout">Archive layout</h2>
+<pre><code class="language-text">paper-crane.foldlab
+├── manifest.json
+├── document.json
+└── assets/
+    ├── stage.png             # only when declared
+    └── narration-01.mp3      # only when declared
+</code></pre>
+<p><code>manifest.json</code> has <code>format: &quot;fold-spec-package&quot;</code>, the same <code>specVersion</code> as the document, <code>document: &quot;document.json&quot;</code>, and an <code>entries</code> array. Every entry has <code>path</code>, <code>byteLength</code>, and a lowercase hexadecimal <code>sha256</code>. The manifest lists <strong>every payload except itself</strong> exactly once. <code>document.json</code> is mandatory. Directory entries are unnecessary and excluded by the core package profile.</p>
+<p>A document asset record repeats the asset’s byte length and hash. Both declarations MUST match the actual bytes. No unlisted, unreferenced, or missing payload is allowed in a complete package, including optional assets that were explicitly declared. A hosted optional narration URL is different: it is not a fictitious local asset and is not in the package manifest.</p>
+<p>Hashes cover exact stored uncompressed bytes. They detect corruption, not authorship or trust. There is no signature mechanism in the core draft. A signature extension must specify its canonicalization and trust model independently.</p>
+<h2 id="paths-and-compression">Paths and compression</h2>
+<p>Paths are ASCII relative POSIX paths with the restricted characters and length defined by the schema. Reject leading slash, backslash, colon, percent-encoded paths, empty segments, <code>.</code> or <code>..</code>, trailing dots/spaces, platform device names, duplicates and case-folding collisions. <code>document.json</code> and <code>manifest.json</code> cannot be used as asset paths. Readers MUST NOT extract symlinks, devices, or executable files from a package.</p>
+<p>Only stored and DEFLATE compression are supported. Encryption, multi-volume archives and ZIP64 are not part of this bounded profile. Readers enforce limits on declared sizes and actual streamed expansion. Do not allocate a full advertised buffer before checking limits.</p>
+<p>The reference policy is 64 MiB compressed, 32 MiB per expanded entry, 128 MiB total expanded, and 258 entries. A document may contain at most 256 assets. These limits are conservative interoperability targets, not hard physical limits on origami complexity.</p>
+<h2 id="deterministic-writing">Deterministic writing</h2>
+<p>Writers SHOULD emit manifest first, remaining entries in path order, fixed timestamps, ordinary file permissions, and deterministic JSON serialization. Identical compressed bytes are not required across DEFLATE implementations. The provided writer uses deterministic readable JSON; it is <strong>not</strong> RFC 8785 canonical JSON <a href="https://www.rfc-editor.org/rfc/rfc8785">R2</a>. Never describe <code>sort_keys=True</code> or a pretty printer as JCS.</p>
+<p>The essential equivalence test is decoded document meaning plus exact required asset bytes. A verified round trip may change whitespace without changing the tutorial.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

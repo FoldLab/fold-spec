@@ -1,0 +1,272 @@
+{
+  "format": "fold-spec",
+  "specVersion": "1.0.0-draft.1",
+  "id": "first-fold",
+  "revision": 1,
+  "defaultLocale": "en",
+  "status": "animated",
+  "metadata": {
+    "title": {
+      "en": "Your first fold",
+      "fr": "Votre premier pli"
+    },
+    "summary": {
+      "en": "A small text-only lesson demonstrating clear copy, tactile checks, and an honest animation status."
+    },
+    "authors": [
+      {
+        "name": "fold-spec contributors",
+        "roles": [
+          "instructions",
+          "geometry"
+        ]
+      }
+    ],
+    "license": "MIT",
+    "difficulty": "beginner",
+    "categories": [
+      "lessons"
+    ],
+    "tags": [],
+    "sources": []
+  },
+  "sheets": [
+    {
+      "id": "paper",
+      "widthMm": 150,
+      "heightMm": 150,
+      "thicknessMm": 0.18,
+      "front": {
+        "color": "#DA453E",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      },
+      "back": {
+        "color": "#F7F2E8",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      }
+    }
+  ],
+  "accessibility": {
+    "referenceFrame": "folder-table",
+    "setup": [
+      {
+        "en": "Work on a clear, firm surface. Near means toward your body; far means away from you. Left and right are your own left and right, not the camera’s."
+      },
+      {
+        "en": "The material front is called Side A and the reverse Side B. Their colors are optional visual aids, not the only way to follow the steps."
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "near-edge",
+        "sheet": "paper",
+        "name": {
+          "en": "Near edge"
+        },
+        "description": {
+          "en": "The initial sheet edge nearest your body."
+        },
+        "uvMm": [
+          0,
+          -75.0
+        ]
+      }
+    ],
+    "review": {
+      "status": "authored"
+    },
+    "limitations": [
+      {
+        "en": "Authored guidance has not been tested with blind folders or physically paper-folded as part of this release."
+      }
+    ]
+  },
+  "instructions": {
+    "steps": [
+      {
+        "id": "setup",
+        "title": {
+          "en": "Place the square"
+        },
+        "body": {
+          "en": "Place the square with an edge nearest you and Side A facing up."
+        },
+        "kind": "setup",
+        "animation": "not-applicable",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Four edges form a square. The edge nearest you is the near edge."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      },
+      {
+        "id": "fold-center",
+        "title": {
+          "en": "Match the left and right edges"
+        },
+        "body": {
+          "en": "Lift the left edge and bring it onto the right edge. Align both pairs of corners before pressing the fold."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the current near edge toward your body."
+          },
+          "locate": [],
+          "check": [
+            {
+              "en": "The two original outside edges lie together. The opposite long edge is a single folded spine."
+            }
+          ],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      },
+      {
+        "id": "unfold",
+        "title": {
+          "en": "Open the sheet"
+        },
+        "body": {
+          "en": "Lift the upper layer and return it to the left. Flatten gently; do not erase the center crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the current near edge toward your body."
+          },
+          "locate": [],
+          "check": [
+            {
+              "en": "The sheet is square again with one crease across its center."
+            }
+          ],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      }
+    ],
+    "groups": [
+      {
+        "id": "lesson",
+        "title": {
+          "en": "Fold and unfold"
+        },
+        "stepIds": [
+          "setup",
+          "fold-center",
+          "unfold"
+        ]
+      }
+    ]
+  },
+  "assets": [],
+  "narration": [],
+  "history": [],
+  "extensions": []
+}

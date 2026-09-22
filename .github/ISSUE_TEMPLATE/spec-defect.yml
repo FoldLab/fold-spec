@@ -1,0 +1,28 @@
+name: Specification defect
+description: Report contradictory, ambiguous, or unimplementable behavior.
+title: '[Spec] '
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Draft version and affected chapter
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Contradiction or ambiguity
+      description: Identify both the expected interpretation and the competing interpretation.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Minimal document or source fragment
+      description: Do not include private files, credentials, or large exploit payloads.
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Proposed correction and test

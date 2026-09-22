@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "specVersion": "1.0.0-draft.1",
+  "cases": [
+    {
+      "id": "text-only",
+      "file": "valid/text-only.fold.json",
+      "profile": "document-1",
+      "valid": true
+    },
+    {
+      "id": "analytic-fold",
+      "file": "valid/analytic-fold.fold.json",
+      "profile": "playback-1",
+      "valid": true
+    },
+    {
+      "id": "future-version",
+      "file": "invalid/future-version.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_SCHEMA"
+    },
+    {
+      "id": "invalid-status",
+      "file": "invalid/invalid-status.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_SCHEMA"
+    },
+    {
+      "id": "missing-default-locale",
+      "file": "invalid/missing-default-locale.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_LOCALE"
+    },
+    {
+      "id": "unknown-core-member",
+      "file": "invalid/unknown-core-member.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_SCHEMA"
+    },
+    {
+      "id": "missing-landmark",
+      "file": "invalid/missing-landmark.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_REFERENCE"
+    },
+    {
+      "id": "unsupported-review-claim",
+      "file": "invalid/unsupported-review-claim.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_REVIEW"
+    },
+    {
+      "id": "off-axis-shared-seam",
+      "file": "invalid/off-axis-shared-seam.fold.json",
+      "profile": "playback-1",
+      "valid": false,
+      "error": "E_TEAR"
+    },
+    {
+      "id": "instruction-run-gap",
+      "file": "invalid/instruction-run-gap.fold.json",
+      "profile": "playback-1",
+      "valid": false,
+      "error": "E_RUN_COVERAGE"
+    },
+    {
+      "id": "duplicate-member",
+      "file": "invalid/duplicate-member.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_DUPLICATE_KEY"
+    },
+    {
+      "id": "nonfinite-number",
+      "file": "invalid/nonfinite-number.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_NUMBER"
+    }
+  ]
+}

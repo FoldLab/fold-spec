@@ -1,0 +1,140 @@
+{
+  "format": "fold-spec",
+  "specVersion": "1.0.0-draft.1",
+  "id": "cup-planned",
+  "revision": 1,
+  "defaultLocale": "en",
+  "status": "planned",
+  "metadata": {
+    "title": {
+      "en": "Paper cup — planned display"
+    },
+    "summary": {
+      "en": "A metadata-only record showing how unimplemented construction and presentation are disclosed."
+    },
+    "authors": [
+      {
+        "name": "fold-spec contributors",
+        "roles": [
+          "instructions",
+          "geometry"
+        ]
+      }
+    ],
+    "license": "MIT",
+    "difficulty": "beginner",
+    "categories": [
+      "lessons"
+    ],
+    "tags": [],
+    "sources": []
+  },
+  "sheets": [
+    {
+      "id": "paper",
+      "widthMm": 150,
+      "heightMm": 150,
+      "thicknessMm": 0.18,
+      "front": {
+        "color": "#DA453E",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      },
+      "back": {
+        "color": "#F7F2E8",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      }
+    }
+  ],
+  "accessibility": {
+    "referenceFrame": "folder-table",
+    "setup": [
+      {
+        "en": "Work on a clear, firm surface. Near means toward your body; far means away from you. Left and right are your own left and right, not the camera’s."
+      },
+      {
+        "en": "The material front is called Side A and the reverse Side B. Their colors are optional visual aids, not the only way to follow the steps."
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "near-edge",
+        "sheet": "paper",
+        "name": {
+          "en": "Near edge"
+        },
+        "description": {
+          "en": "The initial sheet edge nearest your body."
+        },
+        "uvMm": [
+          0,
+          -75.0
+        ]
+      }
+    ],
+    "review": {
+      "status": "authored"
+    },
+    "limitations": [
+      {
+        "en": "Authored guidance has not been tested with blind folders or physically paper-folded as part of this release."
+      }
+    ]
+  },
+  "instructions": {
+    "steps": [],
+    "groups": []
+  },
+  "assets": [],
+  "narration": [],
+  "history": [],
+  "extensions": [],
+  "presentation": {
+    "status": "proposed",
+    "finishingStepIds": [],
+    "display": {
+      "orientation": {
+        "en": "When a complete cup construction is authored, separate its two mouth layers without loosening the tucked flaps, then display the opening upward."
+      },
+      "checks": [
+        {
+          "en": "No cup geometry or finishing instructions are implemented by this record."
+        }
+      ]
+    },
+    "flourish": {
+      "status": "proposed",
+      "kind": "tip",
+      "durationMs": 2600,
+      "cycles": 1,
+      "amplitudeDeg": 16,
+      "description": {
+        "en": "Suggested future presentation: tip the finished cup and return it upright."
+      }
+    },
+    "rigs": []
+  }
+}

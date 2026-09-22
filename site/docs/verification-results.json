@@ -1,0 +1,332 @@
+{
+  "status": "passed",
+  "specVersion": "1.0.0-draft.1",
+  "python": "3.13.5",
+  "schemas": 4,
+  "documentExamples": 10,
+  "packageExamples": 10,
+  "sourcePairs": 2,
+  "scenes": 1,
+  "libraries": 2,
+  "localLinksChecked": 152,
+  "unitTests": 124,
+  "testFailures": 0,
+  "testErrors": 0,
+  "seconds": 33.015,
+  "documents": [
+    {
+      "file": "examples/authoring/named-fold.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "symbolic-first-fold",
+      "status": "instructions",
+      "steps": 3,
+      "assets": 0,
+      "geometry": {
+        "operations": 0,
+        "triangles": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "no-geometry"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/crane/crane-authoring.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "crane-authoring-study",
+      "status": "instructions",
+      "steps": 44,
+      "assets": 0,
+      "geometry": {
+        "operations": 0,
+        "triangles": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "no-geometry"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/crane/crane-text.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "paper-crane-text",
+      "status": "instructions",
+      "steps": 44,
+      "assets": 0,
+      "geometry": {
+        "operations": 0,
+        "triangles": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "no-geometry"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/crane/crane.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "paper-crane",
+      "status": "resolved",
+      "steps": 44,
+      "assets": 0,
+      "geometry": {
+        "operations": 40,
+        "triangles": 2360,
+        "sampledIntervals": 1002,
+        "maxMeasuredRelativeEdgeError": 0.0014848974941527038,
+        "checks": "disk-topology,material-coverage,boundary-samples,analytic-edge-intervals"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/hinge/center-fold.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "hinge-demo",
+      "status": "resolved",
+      "steps": 3,
+      "assets": 0,
+      "geometry": {
+        "operations": 2,
+        "triangles": 4,
+        "sampledIntervals": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "disk-topology,material-coverage,boundary-samples,analytic-edge-intervals"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/minimal-text/first-fold.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "first-fold",
+      "status": "instructions",
+      "steps": 3,
+      "assets": 0,
+      "geometry": {
+        "operations": 0,
+        "triangles": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "no-geometry"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/partial/partial.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "partial-fold-lesson",
+      "status": "partial",
+      "steps": 3,
+      "assets": 0,
+      "geometry": {
+        "operations": 1,
+        "triangles": 4,
+        "sampledIntervals": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "disk-topology,material-coverage,boundary-samples,analytic-edge-intervals"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/planned/cup.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "cup-planned",
+      "status": "planned",
+      "steps": 0,
+      "assets": 0,
+      "geometry": {
+        "operations": 0,
+        "triangles": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "no-geometry"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/presentation/wing-rig.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "wing-rig-calibration",
+      "status": "resolved",
+      "steps": 3,
+      "assets": 0,
+      "geometry": {
+        "operations": 2,
+        "triangles": 4,
+        "sampledIntervals": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "disk-topology,material-coverage,boundary-samples,analytic-edge-intervals"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    },
+    {
+      "file": "examples/scene/staged-fold.fold.json",
+      "format": "fold-spec",
+      "specVersion": "1.0.0-draft.1",
+      "id": "staged-hinge",
+      "status": "resolved",
+      "steps": 3,
+      "assets": 1,
+      "geometry": {
+        "operations": 2,
+        "triangles": 4,
+        "sampledIntervals": 0,
+        "maxMeasuredRelativeEdgeError": 0.0,
+        "checks": "disk-topology,material-coverage,boundary-samples,analytic-edge-intervals"
+      },
+      "requiredExtensions": {
+        "text": [],
+        "authoring": [],
+        "playback": [],
+        "presentation": [],
+        "print": []
+      },
+      "notChecked": [
+        "self-collision",
+        "finite-thickness feasibility",
+        "physical folding",
+        "assistive-technology usability",
+        "pixel-equivalent rendering",
+        "all symbolic alignment solving"
+      ]
+    }
+  ],
+  "notClaimed": [
+    "full symbolic compiler",
+    "full library expander",
+    "complete local overlap-order validator",
+    "real-time renderer",
+    "PDF generation",
+    "physical folding certification",
+    "assistive technology user testing"
+  ]
+}

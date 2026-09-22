@@ -1,0 +1,27 @@
+name: Feature proposal
+description: Propose a bounded capability with clear compatibility and fallback behavior.
+title: '[Proposal] '
+body:
+  - type: textarea
+    id: use-case
+    attributes:
+      label: User need and smallest example
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Proposed fields and precise interpretation
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility, security, accessibility and resource implications
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Existing implementation and conformance evidence
+      description: Planned or untested support must be identified as such.

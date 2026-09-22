@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Text-only lessons and accessible instruction · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="text-only-lessons-and-accessible-instruction">Text-only lessons and accessible instruction</h1>
+<p><strong>Informative authoring guide.</strong> The normative contract is <a href="../spec/09-accessibility-and-text-only.html">chapter 09</a>.</p>
+<p>A lesson does not need animation to be useful. It needs accurate actions, stable orientation and honest status. Use <code>status: &quot;instructions&quot;</code> with <code>animation: &quot;not-authored&quot;</code> on physical actions. Do not add empty geometry or a rotating completed model merely to make the file look animated.</p>
+<h2 id="one-action-supplementary-detail">One action, supplementary detail</h2>
+<p>The primary <code>body</code> is the same instruction in visual playback, text mode, transcript and print. The <code>tactile</code> object adds context, not a different recipe.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Authoring question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>orientation</code></td>
+  <td>Which edge or point is nearest the folder, and which side is up?</td>
+</tr>
+<tr>
+  <td><code>locate</code></td>
+  <td>How can the relevant point, crease, pocket or layer be found without seeing it?</td>
+</tr>
+<tr>
+  <td><code>check</code></td>
+  <td>What result can the learner verify by touch or alignment?</td>
+</tr>
+<tr>
+  <td><code>recovery</code></td>
+  <td>What safe previous state can the learner return to if the result does not match?</td>
+</tr>
+<tr>
+  <td><code>landmarkIds</code></td>
+  <td>Which stable named landmarks are referenced?</td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>Is this draft copy, authored guidance or user-tested content?</td>
+</tr>
+</tbody>
+</table>
+<p>For example, “fold it like the picture” is insufficient. A better instruction identifies the moving layer and destination: “Bring only the upper near point to the far point; leave the lower layers on the table.” Useful checking might state that another point remains at the near edge—but only if that is true of this model.</p>
+<h2 id="stable-orientation">Stable orientation</h2>
+<p>Near/far and left/right are relative to the folder's work surface. A camera orbit does not turn the person's paper. A true turnover is a physical action and should say how to retain the intended near edge. Color names are optional aids; Side A/Side B and tactile construction features carry the instruction independently.</p>
+<h2 id="uncertainty-and-user-testing">Uncertainty and user testing</h2>
+<p>Do not fill all touch-check arrays with confident invented descriptions. Empty arrays plus an explicit limitation are better than false guidance. <code>review.status: &quot;tested&quot;</code> requires evidence text, but the parser cannot authenticate that evidence. Retest when changing the sequence or moving layer.</p>
+<p>The examples in this repository have not been tested with blind folders, NVDA or VoiceOver. Their semantic HTML output can support assistive technologies, but is not an accessibility certification. A consumer still needs correct landmarks, focus handling, labels, keyboard access, zoom/reflow, contrast and reduced-motion behavior.</p>
+<h2 id="personal-controls">Personal controls</h2>
+<p>A player should offer text size, spacing, readable/local dyslexia-friendly font selection, high contrast, plain backdrops, outlines and motion reduction. Keep these as personal overrides, not edits to original paper colors or exported diagrams. Never silently substitute a requested unavailable font while claiming it is active. No font binaries are distributed here.</p>
+<h2 id="audio-is-optional">Audio is optional</h2>
+<p>A missing clip leaves text usable. Read-aloud begins only on explicit user choice; advancing steps cancels obsolete audio and avoids double narration from live regions. The file can record a transcript and hash before audio exists. A provider-specific generation workflow does not belong in the trusted document interpreter.</p>
+<p>The <a href="../examples/minimal-text/first-fold.fold.json">minimal lesson</a> and <a href="../examples/crane/crane-text.fold.json">crane text counterpart</a> are complete structured examples. Their generated HTML is script-free and keeps actual language tags on fallback copy.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

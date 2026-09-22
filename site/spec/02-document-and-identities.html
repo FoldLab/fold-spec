@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>02 · Document model and identities · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="02--document-model-and-identities">02 · Document model and identities</h1>
+<p><strong>Normative</strong></p>
+<h2 id="root-members">Root members</h2>
+<table>
+<thead>
+<tr>
+  <th>Member</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>format</code>, <code>specVersion</code></td>
+  <td>Exact wire discriminator and edition.</td>
+</tr>
+<tr>
+  <td><code>id</code>, <code>revision</code></td>
+  <td>Stable document identity and positive, monotonically increasing author revision.</td>
+</tr>
+<tr>
+  <td><code>defaultLocale</code></td>
+  <td>Required primary copy locale.</td>
+</tr>
+<tr>
+  <td><code>status</code></td>
+  <td>Planned, instructions, partial geometry, or resolved geometry.</td>
+</tr>
+<tr>
+  <td><code>metadata</code></td>
+  <td>Title, summary, authors, licensing, taxonomy and sources.</td>
+</tr>
+<tr>
+  <td><code>sheets</code></td>
+  <td>Original material dimensions and both paper faces.</td>
+</tr>
+<tr>
+  <td><code>accessibility</code></td>
+  <td>Nonvisual setup, landmarks, limitations and review.</td>
+</tr>
+<tr>
+  <td><code>instructions</code></td>
+  <td>One canonical ordered lesson, independently grouped for teaching.</td>
+</tr>
+<tr>
+  <td><code>geometry</code></td>
+  <td>Optional resolved meshes and ordered operations.</td>
+</tr>
+<tr>
+  <td><code>authoring</code></td>
+  <td>Optional typed construction graph and explicit links to resolved operations.</td>
+</tr>
+<tr>
+  <td><code>assets</code></td>
+  <td>Local packaged resources with exact hashes.</td>
+</tr>
+<tr>
+  <td><code>presentation</code></td>
+  <td>Final state and optional playthrough-only staging/flourish.</td>
+</tr>
+<tr>
+  <td><code>narration</code></td>
+  <td>Optional per-step transcripts and audio availability.</td>
+</tr>
+<tr>
+  <td><code>history</code></td>
+  <td>Optional sourced model/symbol/tradition context.</td>
+</tr>
+<tr>
+  <td><code>print</code></td>
+  <td>Portable publication defaults, not mandatory personal settings.</td>
+</tr>
+<tr>
+  <td><code>extensions</code></td>
+  <td>Versioned, scoped extension declarations.</td>
+</tr>
+</tbody>
+</table>
+<p>See the <a href="../docs/field-reference.html">field reference</a> for exact required members and schemas.</p>
+<h2 id="stable-names-not-rendering-indices">Stable names, not rendering indices</h2>
+<p>Document, sheet, step, operation, mesh, landmark, source, asset and narration identifiers are case-sensitive ASCII strings matching the schema. They MUST remain stable when their semantic identity remains stable. A renderer’s GPU buffer index is not a persistent identity.</p>
+<p>Each named collection has a separate namespace, except authoring points, lines, regions and intents, which share a typed name namespace. Thus a step and operation can both be <code>fold-center</code>, but two points cannot share an ID or collide with a line name. A mesh’s face and vertex IDs are local to that mesh. Cross-mesh continuity is determined by material coordinates, not accidentally equal local names.</p>
+<p>Revisions are not timestamps. The core does not require embedding a complete edit history. Applications MAY keep an append-only revision store outside the document. On splitting a step, retain the original mapping in authoring/source records and update progress/audio links deliberately; do not silently reuse an old ID for a different physical action.</p>
+<h2 id="metadata-and-licensing">Metadata and licensing</h2>
+<p>Titles and summaries are localized plain text. Authors declare roles such as design, instructions, geometry, translation, review and assets. A design being traditional does not establish the rights to another author’s prose, photographs or diagrams. Document licensing and each asset’s license are distinct. An application’s open-source license does not overwrite imported content restrictions.</p>
+<p>Categories are broad labels; tags are concise search terms. The spec does not prescribe a global category taxonomy. Applications SHOULD deduplicate obvious aliases and keep source IDs so two procedures sharing a title are not accidentally merged.</p>
+<h2 id="planned-entries-and-derived-ui-status">Planned entries and derived UI status</h2>
+<p>A planned entry has valid identity and useful known metadata, but zero lesson steps. It MAY include proposed display guidance, provided that the absence of authored construction remains explicit. Applications MUST NOT generate empty paper animations, completed-model images, or fake progress counts to fill missing data.</p>
+<p>Status counters should be derived from actual validated content. A Markdown work record is not an imported lesson. A lesson with a required manual pocket opening is not a fully resolved cup. Background assignment, custom artwork generation, narration availability, geometry authoring, accessibility testing and real-paper testing are separate accomplishments.</p>
+<h2 id="local-user-state">Local user state</h2>
+<p>Current step, elapsed wait, selected theme, text sizing, font preference, temporary camera orbit and high-contrast overlays are not source geometry. They belong in per-user state keyed to document ID/revision. Model paper changes and authored cameras are source changes. Export-only recoloring stays in export preferences unless the author explicitly applies it to the model.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

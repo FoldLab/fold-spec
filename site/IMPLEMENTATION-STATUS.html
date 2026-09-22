@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reference implementation coverage · fold-spec</title><link rel="stylesheet" href="assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="README.html">Read me</a><a href="SPEC.html">Specification index</a><a href="docs/quickstart.html">Quick start</a><a href="examples/crane/README.html">Crane example</a><a href="IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="spec/01-files-and-packages.html">01 · Files and packages</a><a href="spec/02-document-and-identities.html">02 · Document model and identities</a><a href="spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="docs/field-reference.html">Field reference</a><a href="docs/glossary.html">Glossary</a><a href="VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="reference-implementation-coverage">Reference implementation coverage</h1>
+<p>This table describes <strong>the supplied tools</strong>, not every behavior a conforming independent player must implement. Read the normative chapters for the complete draft contract.</p>
+<table>
+<thead>
+<tr>
+  <th>Area</th>
+  <th>Supplied implementation</th>
+  <th>Limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>JSON and structural validation</td>
+  <td>Strict UTF-8/duplicate/nonfinite/depth policy and bundled Draft 2020-12 schemas</td>
+  <td>BCP 47 syntax subset, not full IANA language registry validation</td>
+</tr>
+<tr>
+  <td>Cross-field semantics</td>
+  <td>IDs, references, locales, status, instruction-run partitions, narration hashes, camera vectors, review evidence, core authoring cycles</td>
+  <td>Does not authenticate evidence or review the truth of prose</td>
+</tr>
+<tr>
+  <td>Geometric validation</td>
+  <td>Rectangular disk topology, orientation/coverage checks, hinge seam constraints, finite positions, analytic sampled-edge bounds</td>
+  <td>No collision, finite-thickness, force simulation or physical user review</td>
+</tr>
+<tr>
+  <td>Operation boundaries</td>
+  <td>Bidirectional material vertex/edge-midpoint/centroid comparisons</td>
+  <td>Not a full overlay-arrangement proof for all possible remesh intersections</td>
+</tr>
+<tr>
+  <td>Local layer relations</td>
+  <td>Face references and unit normals</td>
+  <td>No full overlap-region order/cycle/contact validator; display hints are not physical order proof</td>
+</tr>
+<tr>
+  <td>Motion sampling</td>
+  <td>Analytic hinges/rigid handling, shared sampled positions, duration-weighted instruction runs</td>
+  <td>No real-time renderer, no arbitrary solver-generated complex folds</td>
+</tr>
+<tr>
+  <td>Fold Source</td>
+  <td>Finite parser producing the JSON AST; typed graph/reference checks</td>
+  <td>Not a complete construction compiler</td>
+</tr>
+<tr>
+  <td>Planar constraint helpers</td>
+  <td>Enumerates four families; checks all seven supplied witness families with separate position/angular residuals</td>
+  <td>No general enumeration for the last three families, no root conditioning certificate</td>
+</tr>
+<tr>
+  <td>Libraries</td>
+  <td>Versioned structural schema and fully declared example</td>
+  <td>No parameter expander, nested-library resolver or multisheet assembly engine</td>
+</tr>
+<tr>
+  <td>Scenes</td>
+  <td>Structural schema and example asset checks</td>
+  <td>No interactive stage renderer; image files still need safe platform decoding</td>
+</tr>
+<tr>
+  <td>Packages</td>
+  <td>ZIP creation/inspection, sizes/hashes/paths/regular-file checks and declared payload enforcement</td>
+  <td>Not signed author authentication; codec decoding not an image security certificate</td>
+</tr>
+<tr>
+  <td>Text output</td>
+  <td>Plain text and semantic, escaped, localized HTML</td>
+  <td>No actual screen-reader/voice testing or tagged PDF generation</td>
+</tr>
+<tr>
+  <td>Final presentation</td>
+  <td>Static state and deterministic root/hinge flourish sampler</td>
+  <td>No stage travel renderer, no calibrated spring/cloth solver</td>
+</tr>
+<tr>
+  <td>Print</td>
+  <td>Normative diagram/template/final-panel semantics</td>
+  <td>No PDF backend or visual layout engine shipped</td>
+</tr>
+<tr>
+  <td>Compatibility</td>
+  <td>New-format examples and a documented migration strategy</td>
+  <td>No complete legacy application adapter; old apps cannot load these files directly</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reporting-a-successful-run">Reporting a successful run</h2>
+<p>Use the validator's actual <code>checks</code> and <code>notChecked</code> fields. Do not collapse the table above into “fully conformant” or “physically correct.” Passing <code>--schema-only</code> proves less than the normal validator, and neither proves every normative semantic or UI behavior.</p>
+<p>The <a href="VERIFICATION.html">verification report</a> records executed tests for this delivery. Future maintainers must regenerate evidence after changes, rather than copying a prior count into a new release.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

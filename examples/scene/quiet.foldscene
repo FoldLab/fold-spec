@@ -1,0 +1,93 @@
+{
+  "format": "fold-spec-scene",
+  "specVersion": "1.0.0-draft.1",
+  "id": "quiet-stage",
+  "stage": {
+    "backgroundAsset": "stage-grid",
+    "keys": [
+      {
+        "at": 0,
+        "positionMm": [
+          0,
+          0,
+          0
+        ],
+        "rotationDeg": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "at": 0.5,
+        "positionMm": [
+          12,
+          3,
+          0
+        ],
+        "rotationDeg": [
+          0,
+          8,
+          0
+        ]
+      },
+      {
+        "at": 1,
+        "positionMm": [
+          0,
+          0,
+          0
+        ],
+        "rotationDeg": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "modelScale": 0.8,
+    "camera": {
+      "projection": "orthographic",
+      "positionMm": [
+        150,
+        -200,
+        230
+      ],
+      "targetMm": [
+        0,
+        0,
+        0
+      ],
+      "up": [
+        0,
+        0,
+        1
+      ],
+      "verticalSpanMm": 230,
+      "transitionMs": 750
+    },
+    "paperResponse": {
+      "enabled": true,
+      "bendWidthMm": 3.4,
+      "settleDeg": 1.8,
+      "damping": 6,
+      "cycles": 1.5
+    }
+  },
+  "assets": [
+    {
+      "id": "stage-grid",
+      "path": "assets/grid.png",
+      "mediaType": "image/png",
+      "byteLength": 208,
+      "sha256": "ae5ef93dc09cdc9d88f6a82f0f1fe4b0c3a435c402511f86878ca7978eead7d7",
+      "required": false,
+      "role": "background",
+      "license": "MIT",
+      "description": {
+        "en": "Small calibration raster for package integrity tests; not an artistic garden image."
+      }
+    }
+  ],
+  "license": "MIT"
+}

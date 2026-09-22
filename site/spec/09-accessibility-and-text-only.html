@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>09 · Accessibility and text-only copy · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="09--accessibility-and-text-only-copy">09 · Accessibility and text-only copy</h1>
+<p><strong>Normative for <code>text-1</code>; additional UI requirements for <code>accessible-viewer-1</code></strong></p>
+<p>A text representation is a first-class view of the same origami, not an alternative “disabled-user library.” Users may choose words, diagrams, animation, narration, or a combination. A reader must not require a canvas to reach the primary instructions.</p>
+<h2 id="nonvisual-copy-model">Nonvisual copy model</h2>
+<p>Document-level <code>accessibility</code> defines <code>referenceFrame: &quot;folder-table&quot;</code>, setup statements, landmarks, review state and known limitations. Landmarks can have a stable material location <code>uvMm</code>, a name, and a nonvisual description. A name alone is insufficient when the user cannot locate it by touch.</p>
+<p>Every step includes <code>tactile</code>:</p>
+<table>
+<thead>
+<tr>
+  <th>Member</th>
+  <th>Authoring rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>orientation</code></td>
+  <td>Identify the current near/far/left/right arrangement without relying on the camera.</td>
+</tr>
+<tr>
+  <td><code>locate</code></td>
+  <td>Explain how to find the specific edge, point, layer or pocket.</td>
+</tr>
+<tr>
+  <td><code>check</code></td>
+  <td>State what a successful result feels like or otherwise reveals.</td>
+</tr>
+<tr>
+  <td><code>recovery</code></td>
+  <td>Give a safe way to undo/reorient when the check fails.</td>
+</tr>
+<tr>
+  <td><code>landmarkIds</code></td>
+  <td>Link to existing document landmarks, never invented renderer vertices.</td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>Mark draft, authored, or tested and retain evidence for tested claims.</td>
+</tr>
+</tbody>
+</table>
+<p>Lists may be empty when a truthful check is not yet known. A migration MUST NOT invent a tactile assertion merely to populate a field. “Authored” means someone supplied copy; it does not mean a blind user validated it. Tested claims require nonblank evidence, but that evidence is still an author’s claim, not a signature or platform certification.</p>
+<h2 id="example-of-aligned-primary-and-detailed-copy">Example of aligned primary and detailed copy</h2>
+<p>Primary: “Lift only the upper layer at the far point and bring it to the middle of the near edge.”</p>
+<p>Locate: “At the far corner, slide a finger between the two layers. Keep the lower layer on the table.”</p>
+<p>Check: “One point remains at the far corner; the moved point meets the near edge’s midpoint.”</p>
+<p>The detailed copy adds locating/checking information without instructing a different fold. Colors can reinforce a named side, but “move the red piece” is not a sufficient primary instruction. A reference like “left” is always the folder’s left in the stated orientation, not the camera’s current left.</p>
+<h2 id="text-only-and-planned-records">Text-only and planned records</h2>
+<p>An <code>instructions</code> document contains real canonical copy and no geometry. Physical steps have <code>animation: &quot;not-authored&quot;</code>; setup/check steps can be <code>not-applicable</code>. An <code>authoring</code> recipe alone does not make it animated. Text-only records may include <strong>proposed</strong> final display/flourish guidance, explicitly unavailable as animation.</p>
+<p>A <code>planned</code> record contains no procedure. Its UI can show known metadata, sources and missing work, but must not manufacture steps or a completed illustration. The machine status remains distinguishable from an actual text lesson.</p>
+<h2 id="viewer-controls">Viewer controls</h2>
+<p>An accessible viewer provides keyboard-accessible step selection, previous/next, pause/replay, descriptive-copy toggle, high contrast, plain background, text size/spacing, reduced motion, and an understandable focus order. Controls expose accessible names and state. Pointer-only camera gestures must have keyboard/button alternatives; Text mode must not require the user to operate the camera.</p>
+<p>Honor user/system motion and contrast preferences. A dyslexia-oriented typeface may be offered as a preference, with honest fallback when unavailable; no font is mandated by the file format and no font universally establishes reading accessibility. No font binaries are embedded by this specification repository.</p>
+<p>UI themes, high-contrast colors and temporary outlines are user preferences, not a mutation of model materials. Narration controls remain explicit and separate from screen-reader announcements. Avoid duplicate utterances and focus stealing during automatic playback.</p>
+<p>The WCAG 2.2 framework is a useful web implementation target <a href="https://www.w3.org/TR/WCAG22/">R1</a>, but conforming data alone cannot prove an entire application conforms. Test actual assistive technology, large text/reflow, forced colors, keyboard-only operation and user comprehension. A schema test is not a substitute.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

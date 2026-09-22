@@ -1,0 +1,2499 @@
+{
+  "format": "fold-spec",
+  "specVersion": "1.0.0-draft.1",
+  "id": "paper-crane-text",
+  "revision": 1,
+  "defaultLocale": "en",
+  "status": "instructions",
+  "metadata": {
+    "title": {
+      "en": "Paper crane"
+    },
+    "summary": {
+      "en": "The same 44-step crane lesson as readable, localized instruction data, without executable geometry or a claimed completed animation."
+    },
+    "authors": [
+      {
+        "name": "fold-spec contributors",
+        "roles": [
+          "instructions",
+          "geometry"
+        ]
+      }
+    ],
+    "license": "MIT",
+    "difficulty": "intermediate",
+    "categories": [
+      "animals",
+      "traditional-form"
+    ],
+    "tags": [
+      "bird",
+      "crane",
+      "single-sheet",
+      "dimensional"
+    ],
+    "sources": [
+      {
+        "id": "hiroshima-cranes",
+        "title": "Paper Cranes and Children’s Peace Monument — City of Hiroshima",
+        "url": "https://www.city.hiroshima.lg.jp/english/peace/1033408/1009685.html",
+        "accessed": "2026-09-22"
+      }
+    ]
+  },
+  "sheets": [
+    {
+      "id": "paper",
+      "widthMm": 150,
+      "heightMm": 150,
+      "thicknessMm": 0.18,
+      "front": {
+        "color": "#335FC7",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      },
+      "back": {
+        "color": "#F7F2E8",
+        "roughness": 0.88,
+        "texture": {
+          "kind": "washi",
+          "strength": 0.18,
+          "seed": 739,
+          "scaleMm": 0.35
+        },
+        "pattern": {
+          "kind": "none",
+          "ink": "#746C60",
+          "opacity": 0.25,
+          "tileMm": 12
+        }
+      }
+    }
+  ],
+  "accessibility": {
+    "referenceFrame": "folder-table",
+    "setup": [
+      {
+        "en": "Work on a clear, firm surface. Near means toward your body; far means away from you. Left and right are your own left and right, not the camera’s."
+      },
+      {
+        "en": "The material front is called Side A and the reverse Side B. Their colors are optional visual aids, not the only way to follow the steps."
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "near-edge",
+        "sheet": "paper",
+        "name": {
+          "en": "Near edge"
+        },
+        "description": {
+          "en": "The initial sheet edge nearest your body."
+        },
+        "uvMm": [
+          0,
+          -75.0
+        ]
+      }
+    ],
+    "review": {
+      "status": "authored"
+    },
+    "limitations": [
+      {
+        "en": "Authored guidance has not been tested with blind folders or physically paper-folded as part of this release."
+      },
+      {
+        "en": "Detailed tactile checkpoints for the reverse-fold approximations need review with experienced blind folders. Do not infer an accessibility certification from schema validity."
+      }
+    ]
+  },
+  "instructions": {
+    "steps": [
+      {
+        "id": "s01",
+        "title": {
+          "en": "Prepare the square"
+        },
+        "body": {
+          "en": "Place the square with Side A facing up and an edge nearest your body. Keep all four original corners available for the precreases."
+        },
+        "kind": "setup",
+        "animation": "not-applicable",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-01"
+        ]
+      },
+      {
+        "id": "s02",
+        "title": {
+          "en": "Make the first diagonal"
+        },
+        "body": {
+          "en": "Bring the far-left corner to the near-right corner. Align the two corners and press the diagonal crease."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-02"
+        ]
+      },
+      {
+        "id": "s03",
+        "title": {
+          "en": "Open the first diagonal"
+        },
+        "body": {
+          "en": "Return the folded half to its starting position. Leave the diagonal crease in the paper."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-03"
+        ]
+      },
+      {
+        "id": "s04",
+        "title": {
+          "en": "Make the second diagonal"
+        },
+        "body": {
+          "en": "Bring the far-right corner to the near-left corner and press the second diagonal."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-04"
+        ]
+      },
+      {
+        "id": "s05",
+        "title": {
+          "en": "Open the second diagonal"
+        },
+        "body": {
+          "en": "Open the square again. The two diagonal creases meet at the center."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-05"
+        ]
+      },
+      {
+        "id": "s06",
+        "title": {
+          "en": "Turn over for the straight creases"
+        },
+        "body": {
+          "en": "Turn the whole square over from left to right. Side B is now facing up."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-06"
+        ]
+      },
+      {
+        "id": "s07",
+        "title": {
+          "en": "Bring the far edge to the near edge"
+        },
+        "body": {
+          "en": "Lift the far half and align its outer edge with the near edge. Press the horizontal center crease."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-07"
+        ]
+      },
+      {
+        "id": "s08",
+        "title": {
+          "en": "Open the horizontal crease"
+        },
+        "body": {
+          "en": "Return the upper layer to the far side. Keep the new center crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-08"
+        ]
+      },
+      {
+        "id": "s09",
+        "title": {
+          "en": "Bring the left edge to the right edge"
+        },
+        "body": {
+          "en": "Lift the left half and align it with the right edge. Press the vertical center crease."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-09"
+        ]
+      },
+      {
+        "id": "s10",
+        "title": {
+          "en": "Open the vertical crease"
+        },
+        "body": {
+          "en": "Open the square completely. Two straight center creases and two diagonals now cross at the center."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-10"
+        ]
+      },
+      {
+        "id": "s11",
+        "title": {
+          "en": "Return to Side A"
+        },
+        "body": {
+          "en": "Turn the whole square over from left to right. Do not make a new crease."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-11"
+        ]
+      },
+      {
+        "id": "begin-base",
+        "title": {
+          "en": "Begin the square base"
+        },
+        "body": {
+          "en": "Support the center and start bending the side panels inward along the existing creases."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the gathering open corners toward your body. Support the closed center rather than pulling the panels apart."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-12"
+        ]
+      },
+      {
+        "id": "guide-pockets",
+        "title": {
+          "en": "Guide the side pockets inward"
+        },
+        "body": {
+          "en": "Guide the two side pockets toward one another. Several panels must move together because they remain connected."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the gathering open corners toward your body. Support the closed center rather than pulling the panels apart."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-12"
+        ]
+      },
+      {
+        "id": "lower-panel",
+        "title": {
+          "en": "Lower the upper panel"
+        },
+        "body": {
+          "en": "Bring the upper panel toward the lower panel while keeping the side pockets nested inside."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the gathering open corners toward your body. Support the closed center rather than pulling the panels apart."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-12"
+        ]
+      },
+      {
+        "id": "flatten-base",
+        "title": {
+          "en": "Flatten the square base"
+        },
+        "body": {
+          "en": "Close and gently flatten the layered diamond. Keep the open corners together at the near end."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the gathering open corners toward your body. Support the closed center rather than pulling the panels apart."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-12"
+        ]
+      },
+      {
+        "id": "check-base",
+        "title": {
+          "en": "Check the square base"
+        },
+        "body": {
+          "en": "Locate a layered diamond with a closed far point and open points at the near end. Check that two outer flaps lie on each side."
+        },
+        "kind": "check",
+        "animation": "not-applicable",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Closed point away from you; open points nearest you."
+          },
+          "locate": [],
+          "check": [
+            {
+              "en": "The side panels are nested rather than hanging loose."
+            }
+          ],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        }
+      },
+      {
+        "id": "s13",
+        "title": {
+          "en": "Precrease the front right edge"
+        },
+        "body": {
+          "en": "On the uppermost flap, bring its lower-right sloping edge to the centerline. Keep the layers underneath still."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-13"
+        ]
+      },
+      {
+        "id": "s14",
+        "title": {
+          "en": "Release the right guide fold"
+        },
+        "body": {
+          "en": "Unfold only the flap just moved. Keep its new guide crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-14"
+        ]
+      },
+      {
+        "id": "s15",
+        "title": {
+          "en": "Precrease the front left edge"
+        },
+        "body": {
+          "en": "Bring the lower-left edge of the uppermost flap to the same centerline. Keep the underlying layers in place."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-15"
+        ]
+      },
+      {
+        "id": "s16",
+        "title": {
+          "en": "Release the left guide fold"
+        },
+        "body": {
+          "en": "Unfold only the left guide fold. The paired guide creases remain."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-16"
+        ]
+      },
+      {
+        "id": "s17",
+        "title": {
+          "en": "Mark the top hinge"
+        },
+        "body": {
+          "en": "Fold the closed top point downward across the tops of the two guide creases."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-17"
+        ]
+      },
+      {
+        "id": "s18",
+        "title": {
+          "en": "Open the hinge mark"
+        },
+        "body": {
+          "en": "Return the top point to its prior position. Keep the short cross-crease as the petal hinge."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-18"
+        ]
+      },
+      {
+        "id": "s19",
+        "title": {
+          "en": "Open and close the front petal"
+        },
+        "body": {
+          "en": "Lift only the near corner of the uppermost flap. Guide both sides inward along their precreases while raising that flap into a long diamond. This is a coupled motion; do not pull a single side away from the sheet."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-19"
+        ]
+      },
+      {
+        "id": "s20",
+        "title": {
+          "en": "Turn to the second face"
+        },
+        "body": {
+          "en": "Turn the complete model over without rotating its near and far ends. Work on the unshaped face now facing you."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-20"
+        ]
+      },
+      {
+        "id": "s21",
+        "title": {
+          "en": "Precrease the second left edge"
+        },
+        "body": {
+          "en": "Bring the lower-left edge of the new uppermost face to the centerline."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-21"
+        ]
+      },
+      {
+        "id": "s22",
+        "title": {
+          "en": "Open that left guide"
+        },
+        "body": {
+          "en": "Return the flap to its previous position, retaining the crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-22"
+        ]
+      },
+      {
+        "id": "s23",
+        "title": {
+          "en": "Precrease the second right edge"
+        },
+        "body": {
+          "en": "Bring the lower-right edge of this uppermost face to the centerline."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-23"
+        ]
+      },
+      {
+        "id": "s24",
+        "title": {
+          "en": "Open that right guide"
+        },
+        "body": {
+          "en": "Return the right flap to its previous position, leaving the guide crease."
+        },
+        "kind": "unfold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-24"
+        ]
+      },
+      {
+        "id": "s25",
+        "title": {
+          "en": "Open and close the second petal"
+        },
+        "body": {
+          "en": "Lift the near corner of this uppermost flap. Guide its sides inward along the precreases so it forms a second long diamond."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-25"
+        ]
+      },
+      {
+        "id": "s26",
+        "title": {
+          "en": "Orient the bird base"
+        },
+        "body": {
+          "en": "Turn the model back to its first face. Keep its two separated narrow points nearest you."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-26"
+        ]
+      },
+      {
+        "id": "s27",
+        "title": {
+          "en": "Narrow the first left point"
+        },
+        "body": {
+          "en": "Fold the lower-left edge of the uppermost face toward the central gap, leaving the two lower points separate."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-27"
+        ]
+      },
+      {
+        "id": "s28",
+        "title": {
+          "en": "Narrow the first right point"
+        },
+        "body": {
+          "en": "Fold the lower-right edge toward the central gap. Do not glue or join the two points."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-28"
+        ]
+      },
+      {
+        "id": "s29",
+        "title": {
+          "en": "Turn to the reverse"
+        },
+        "body": {
+          "en": "Turn the whole model over, keeping the split points toward you."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-29"
+        ]
+      },
+      {
+        "id": "s30",
+        "title": {
+          "en": "Narrow the reverse left edge"
+        },
+        "body": {
+          "en": "Fold this face’s lower-left edge toward the centerline."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-30"
+        ]
+      },
+      {
+        "id": "s31",
+        "title": {
+          "en": "Narrow the reverse right edge"
+        },
+        "body": {
+          "en": "Fold the corresponding lower-right edge toward the centerline."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-31"
+        ]
+      },
+      {
+        "id": "s32",
+        "title": {
+          "en": "Return to the front"
+        },
+        "body": {
+          "en": "Turn the model back to the first face. The two narrow lower points will become the neck and tail."
+        },
+        "kind": "turn-over",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-32"
+        ]
+      },
+      {
+        "id": "s33",
+        "title": {
+          "en": "Raise the neck point"
+        },
+        "body": {
+          "en": "Ease apart the layers around one lower point and reverse that point upward between the wings. The geometric demonstration approximates this inside reverse fold with a paired-layer hinge."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [
+            {
+              "en": "If a real layer resists, stop and reopen the last operation. Do not force the paper to imitate the simplified path."
+            }
+          ],
+          "landmarkIds": [],
+          "review": {
+            "status": "draft"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-33"
+        ]
+      },
+      {
+        "id": "s34",
+        "title": {
+          "en": "Raise the tail point"
+        },
+        "body": {
+          "en": "Reverse the remaining lower point upward on the other side, keeping the wing layers supported. Its stored motion is also a paired-layer approximation."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [
+            {
+              "en": "If a real layer resists, stop and reopen the last operation. Do not force the paper to imitate the simplified path."
+            }
+          ],
+          "landmarkIds": [],
+          "review": {
+            "status": "draft"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-34"
+        ]
+      },
+      {
+        "id": "s35",
+        "title": {
+          "en": "Form the head"
+        },
+        "body": {
+          "en": "Open the neck tip slightly, reverse the tip inward, then close the surrounding layers to form a downward-facing beak."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [
+            {
+              "en": "If a real layer resists, stop and reopen the last operation. Do not force the paper to imitate the simplified path."
+            }
+          ],
+          "landmarkIds": [],
+          "review": {
+            "status": "draft"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-35"
+        ]
+      },
+      {
+        "id": "s36",
+        "title": {
+          "en": "Spread the front wing"
+        },
+        "body": {
+          "en": "Support the body and lower the broad front flap outward. Do not pull on the neck."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-36"
+        ]
+      },
+      {
+        "id": "s37",
+        "title": {
+          "en": "Spread the back wing"
+        },
+        "body": {
+          "en": "Lower the other broad flap outward to the opposite side while continuing to support the body."
+        },
+        "kind": "fold",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-37"
+        ]
+      },
+      {
+        "id": "s38",
+        "title": {
+          "en": "Lift into display orientation"
+        },
+        "body": {
+          "en": "Lift the whole crane into an upright display orientation without adding another crease."
+        },
+        "kind": "rotate",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-38"
+        ]
+      },
+      {
+        "id": "s39",
+        "title": {
+          "en": "Ease open the body"
+        },
+        "body": {
+          "en": "Support the body and gently ease the wing roots apart so the central layers gain depth. Do not force the neck or tail. The supplied opening is faceted display geometry rather than a pressure or collision simulation."
+        },
+        "kind": "shape",
+        "animation": "not-authored",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [
+            {
+              "en": "If a real layer resists, stop and reopen the last operation. Do not force the paper to imitate the simplified path."
+            }
+          ],
+          "landmarkIds": [],
+          "review": {
+            "status": "draft"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:shape-open-body"
+        ]
+      },
+      {
+        "id": "s40",
+        "title": {
+          "en": "Check the completed crane"
+        },
+        "body": {
+          "en": "Check for two broad wings, a narrow raised tail, and a neck ending in a beak. Adjust your real paper gently; the digital example is not a physical-foldability certificate."
+        },
+        "kind": "check",
+        "animation": "not-applicable",
+        "runs": [],
+        "pauseAfterMs": 1200,
+        "tactile": {
+          "orientation": {
+            "en": "Keep the orientation described in the current instruction. Camera movement is only an inspection aid."
+          },
+          "locate": [],
+          "check": [],
+          "recovery": [],
+          "landmarkIds": [],
+          "review": {
+            "status": "authored"
+          }
+        },
+        "camera": {
+          "projection": "orthographic",
+          "positionMm": [
+            150,
+            -200,
+            230
+          ],
+          "targetMm": [
+            0,
+            0,
+            0
+          ],
+          "up": [
+            0,
+            0,
+            1
+          ],
+          "verticalSpanMm": 230,
+          "transitionMs": 750
+        },
+        "sourceSteps": [
+          "legacy:step-39"
+        ]
+      }
+    ],
+    "groups": [
+      {
+        "id": "prepare",
+        "title": {
+          "en": "Precreases"
+        },
+        "stepIds": [
+          "s01",
+          "s02",
+          "s03",
+          "s04",
+          "s05",
+          "s06",
+          "s07",
+          "s08",
+          "s09",
+          "s10",
+          "s11"
+        ]
+      },
+      {
+        "id": "square-base",
+        "title": {
+          "en": "Square base"
+        },
+        "stepIds": [
+          "begin-base",
+          "guide-pockets",
+          "lower-panel",
+          "flatten-base",
+          "check-base"
+        ]
+      },
+      {
+        "id": "bird-base",
+        "title": {
+          "en": "Petal folds and bird base"
+        },
+        "stepIds": [
+          "s13",
+          "s14",
+          "s15",
+          "s16",
+          "s17",
+          "s18",
+          "s19",
+          "s20",
+          "s21",
+          "s22",
+          "s23",
+          "s24",
+          "s25",
+          "s26"
+        ]
+      },
+      {
+        "id": "finish",
+        "title": {
+          "en": "Neck, tail, wings and display"
+        },
+        "stepIds": [
+          "s27",
+          "s28",
+          "s29",
+          "s30",
+          "s31",
+          "s32",
+          "s33",
+          "s34",
+          "s35",
+          "s36",
+          "s37",
+          "s38",
+          "s39",
+          "s40"
+        ]
+      }
+    ]
+  },
+  "assets": [],
+  "narration": [],
+  "history": [
+    {
+      "id": "cranes-and-peace",
+      "scope": "symbol",
+      "title": {
+        "en": "Paper cranes and peace"
+      },
+      "summary": {
+        "en": "Paper cranes are offered in Hiroshima as wishes for peace. The City of Hiroshima connects this symbolism with Sadako Sasaki, who folded cranes while seriously ill, and the later movement to commemorate children affected by the atomic bombing."
+      },
+      "sourceIds": [
+        "hiroshima-cranes"
+      ],
+      "review": {
+        "status": "authored"
+      },
+      "qualifications": [
+        {
+          "en": "This note describes the symbolism of paper cranes, not the documented origin of this particular digital folding sequence."
+        }
+      ]
+    }
+  ],
+  "extensions": [],
+  "presentation": {
+    "status": "proposed",
+    "finishingStepIds": [
+      "s33",
+      "s34",
+      "s35",
+      "s36",
+      "s37",
+      "s38",
+      "s39",
+      "s40"
+    ],
+    "display": {
+      "camera": {
+        "projection": "orthographic",
+        "positionMm": [
+          170,
+          -210,
+          185
+        ],
+        "targetMm": [
+          0,
+          -20,
+          15
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "verticalSpanMm": 245,
+        "transitionMs": 750
+      },
+      "orientation": {
+        "en": "Display the crane upright with the neck and tail raised and the two broad wings spread. This is the static final pose used by the printout."
+      },
+      "checks": [
+        {
+          "en": "The two broad wings are separated. The beak bends away from the neck, and the central body has visible depth."
+        }
+      ]
+    },
+    "flourish": {
+      "status": "proposed",
+      "kind": "bow",
+      "durationMs": 2600,
+      "cycles": 1,
+      "amplitudeDeg": 8,
+      "axisMm": [
+        [
+          -20,
+          -15,
+          0
+        ],
+        [
+          20,
+          -15,
+          0
+        ]
+      ],
+      "description": {
+        "en": "Bow the whole finished crane gently once and return to the exact rest pose. This is not another folding step."
+      }
+    },
+    "rigs": [],
+    "stage": {
+      "keys": [
+        {
+          "at": 0,
+          "positionMm": [
+            0,
+            0,
+            0
+          ],
+          "rotationDeg": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "at": 1,
+          "positionMm": [
+            0,
+            0,
+            0
+          ],
+          "rotationDeg": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "modelScale": 1,
+      "camera": {
+        "projection": "orthographic",
+        "positionMm": [
+          170,
+          -210,
+          185
+        ],
+        "targetMm": [
+          0,
+          -20,
+          15
+        ],
+        "up": [
+          0,
+          0,
+          1
+        ],
+        "verticalSpanMm": 245,
+        "transitionMs": 750
+      },
+      "paperResponse": {
+        "enabled": true,
+        "bendWidthMm": 3.4,
+        "settleDeg": 1.8,
+        "damping": 6,
+        "cycles": 1.5
+      }
+    }
+  },
+  "print": {
+    "includeFinalPanel": true,
+    "includeHistory": true,
+    "template": {
+      "sizeMm": [
+        152.4,
+        152.4
+      ],
+      "sides": "both",
+      "includePattern": false,
+      "includeGuides": true,
+      "guideConvention": "mountain-solid-valley-dashed"
+    },
+    "panels": []
+  }
+}

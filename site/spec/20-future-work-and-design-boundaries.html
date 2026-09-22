@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>20 · Design boundaries and future work · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="20--design-boundaries-and-future-work">20 · Design boundaries and future work</h1>
+<p><strong>Informative</strong></p>
+<p>The core deliberately separates what a file says from what a renderer can prove. It provides a useful interoperable boundary: plain instructions, explicit geometry, typed authoring, and portable presentation can improve independently.</p>
+<h2 id="candidate-future-extensions">Candidate future extensions</h2>
+<table>
+<thead>
+<tr>
+  <th>Area</th>
+  <th>Evidence needed before inclusion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>General pocket insertion/contact</td>
+  <td>Local material-layer relations, continuous nonpenetration checks, example tucks and physical reviews.</td>
+</tr>
+<tr>
+  <td>Finite-thickness mechanics</td>
+  <td>Thickness-aware hinge/shell model, contact constraints and measured material parameters.</td>
+</tr>
+<tr>
+  <td>General multi-sheet assembly</td>
+  <td>Sheet identity, connection semantics, no implicit glue, disassembly and interaction tests.</td>
+</tr>
+<tr>
+  <td>Curved creases and wet folding</td>
+  <td>A representation preserving source curvature, surface strain bounds and authorship intent.</td>
+</tr>
+<tr>
+  <td>Binary/compressed motion</td>
+  <td>Typed accessors, endianness, bounds, round-trip tests and safe decompression.</td>
+</tr>
+<tr>
+  <td>Signature/authorship</td>
+  <td>Canonical signed payload, trust policy, revocation and privacy considerations.</td>
+</tr>
+<tr>
+  <td>Rich language functions</td>
+  <td>Termination/resource rules, type checking, deterministic expansion and safe module locking.</td>
+</tr>
+<tr>
+  <td>More exact geometry</td>
+  <td>Robust predicates, interval/root isolation and documented degeneracy handling.</td>
+</tr>
+</tbody>
+</table>
+<p>No candidate is an implied supported feature. A JSON field named <code>physics</code> cannot certify real paper behavior. An “inside reverse fold” label cannot substitute for a reproducible operation. New language syntax should preserve semantic intent rather than hide unsupported behavior behind a shorter string.</p>
+<h2 id="standardization-goals">Standardization goals</h2>
+<p>Before a stable 1.0 release, obtain independent parser and playback implementations, verify cross-renderer examples, resolve all normative contradictions, review the authoring/motion binding model, test real assistive technology and folders, and freeze extension/version negotiation. Keep a documented test matrix and release checklist.</p>
+<p>The current draft is intentionally usable for implementing those experiments: complete examples, schemas, a safe package format, reference validators and precise limitations are provided now. It is not a declaration that the remaining engineering has already been completed.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

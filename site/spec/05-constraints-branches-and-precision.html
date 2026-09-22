@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>05 · Crease constraints, branches and precision · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="05--crease-constraints-branches-and-precision">05 · Crease constraints, branches and precision</h1>
+<p><strong>Normative for <code>construction-1</code></strong></p>
+<p>The core construction families specify a single straight crease in a common plane. They are geometric constraints, not a universal language for all possible three-dimensional paper manipulation <a href="https://langorigami.com/article/huzita-justin-axioms/">R1</a>. In particular, pocket opening, curling and simultaneous coupled operations need additional resolved motion or a separately defined solver.</p>
+<h2 id="mathematical-definition">Mathematical definition</h2>
+<p>Represent a candidate crease by a unit normal <code>n</code> and offset <code>d</code>, so <code>n·x = d</code>. Reflection of point p is:</p>
+<pre><code class="language-text">R(p) = p - 2 * (n·p - d) * n
+</code></pre>
+<p>A target line has unit normal m and offset c. Its point residual is <code>|m·p-c|</code> in millimeters.</p>
+<table>
+<thead>
+<tr>
+  <th>Constraint kind</th>
+  <th>Required relations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>through-points</code></td>
+  <td><code>n·a=d</code> and <code>n·b=d</code>. Distinct points determine one line.</td>
+</tr>
+<tr>
+  <td><code>point-to-point</code></td>
+  <td><code>R(a)=b</code>. For distinct points the crease is their perpendicular bisector.</td>
+</tr>
+<tr>
+  <td><code>line-to-line</code></td>
+  <td>Reflection maps the complete first line onto the second line. Intersecting distinct lines generally admit two angle bisectors.</td>
+</tr>
+<tr>
+  <td><code>perpendicular-through</code></td>
+  <td>Crease passes through p and is perpendicular to line l. Thus <code>n·p=d</code> and <code>n·l.normal=0</code>.</td>
+</tr>
+<tr>
+  <td><code>point-to-line-through</code></td>
+  <td><code>R(p)</code> lies on l and the crease passes through q. Zero, one, or multiple solutions can occur.</td>
+</tr>
+<tr>
+  <td><code>two-points-to-lines</code></td>
+  <td><code>R(a)</code> lies on line A and <code>R(b)</code> on line B. Multiple solutions and degeneracies are possible.</td>
+</tr>
+<tr>
+  <td><code>point-to-line-perpendicular</code></td>
+  <td><code>R(p)</code> lies on l and the crease is perpendicular to r. Feasibility depends on the input configuration.</td>
+</tr>
+</tbody>
+</table>
+<p>A solver MUST NOT assert universal uniqueness for these families. Coincident points/lines, parallel relationships and identity mappings can underdetermine a crease. Degenerate or nonisolated solutions must be reported distinctly from “no solution.”</p>
+<h2 id="choosing-a-branch">Choosing a branch</h2>
+<p><code>branch.mode: &quot;unique&quot;</code> succeeds only when exactly one admissible distinct solution remains after the declared constraints. Zero solutions produce <code>E_NO_SOLUTION</code>; multiple solutions produce <code>E_AMBIGUOUS</code>; a continuum produces <code>E_DEGENERATE</code>. An arbitrary “first solver result” is never an interoperable branch rule.</p>
+<p><code>branch.mode: &quot;witness&quot;</code> supplies the intended crease’s unit normal and offset. A compiler validates that candidate against the constraints and the stated tolerance, then retains the explicit solution. A witness is a solution selector, not permission to ignore a failed constraint. Canonicalizing the sign of a witness must not change the geometric line.</p>
+<p>Example: mapping X=0 to Y=0 permits both diagonal bisectors. A witness can distinguish them without depending on enumeration order:</p>
+<pre><code class="language-json">{&quot;mode&quot;:&quot;witness&quot;,&quot;normal&quot;:[0.7071067811865476,0.7071067811865476],&quot;offsetMm&quot;:0}
+</code></pre>
+<p>This is a branch fragment; see <a href="../tests/test_construction.py">construction tests</a> for complete operands and expected solutions.</p>
+<h2 id="movement-remains-explicit">Movement remains explicit</h2>
+<p>Selecting a crease does not select the moving layer, amount of rotation, or final contact relationship. Those are explicit fields in the intent and resolved operation. A line-to-line construction can be meaningful even where a naïve whole-sheet fold would collide with already stacked paper.</p>
+<h2 id="numerical-contracts">Numerical contracts</h2>
+<p>Resolved geometry uses finite numbers interpreted at least with binary64 precision by the reference model. A renderer may upload float32 buffers but may not change canonical source data to match its display precision. Comparison uses declared positional, angular and relative-edge tolerances, not string equality of decimals.</p>
+<p>Document tolerances are bounded: position up to 0.01 mm, angle up to 0.01 degree, and relative-edge error up to 0.005. Exact requirements such as increasing times and matching IDs are not softened by these tolerances. A writer must not increase a tolerance silently to rescue an invalid model.</p>
+<p>Angular residuals should be measured as angles or normalized directional residuals, not mixed with millimeter errors in a dimensionally ambiguous score. Report each family’s residuals separately. Near-degenerate roots should be isolated/refined or rejected as unresolved; do not snap distinct solutions together because their decimal strings look similar.</p>
+<p>Precision has several dimensions: symbolic intent, numerical residual, repeatable motion, material strain and physical feasibility. Passing one does not prove the others. The reference helper enumerates the first four families and checks supplied witnesses for all seven; it deliberately errors for unsupported higher-family enumeration.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

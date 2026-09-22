@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fold Source grammar and AST mapping · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="fold-source-grammar-and-ast-mapping">Fold Source grammar and AST mapping</h1>
+<p>The <a href="fold-source.ebnf">EBNF</a> is normative for <code>source-1</code>. Its semantic target is the same <a href="../schemas/1.0.0-draft.1/document.schema.json">document schema</a> used for readable JSON. Parsing does not certify constraints or produce a 3D animation.</p>
+<table>
+<thead>
+<tr>
+  <th>Declaration</th>
+  <th>JSON destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>document {...};</code></td>
+  <td>Root document, excluding inline <code>authoring</code></td>
+</tr>
+<tr>
+  <td><code>frame name {...};</code></td>
+  <td><code>authoring.frames[]</code>, outer name becomes <code>id</code></td>
+</tr>
+<tr>
+  <td><code>point name in frame = ...;</code></td>
+  <td><code>authoring.points[]</code></td>
+</tr>
+<tr>
+  <td><code>line name in frame = ...;</code></td>
+  <td><code>authoring.lines[]</code></td>
+</tr>
+<tr>
+  <td><code>region name on sheet in frame = ...;</code></td>
+  <td><code>authoring.regions[]</code></td>
+</tr>
+<tr>
+  <td><code>intent name {...};</code></td>
+  <td><code>authoring.intents[]</code></td>
+</tr>
+<tr>
+  <td><code>use name {...};</code></td>
+  <td><code>authoring.imports[]</code>, pinned data reference only</td>
+</tr>
+<tr>
+  <td><code>step name {...};</code></td>
+  <td>Appends to <code>instructions.steps[]</code></td>
+</tr>
+</tbody>
+</table>
+<p>A missing optional witness becomes <code>branch: {&quot;mode&quot;:&quot;unique&quot;}</code>. This requests uniqueness; it does not establish that there is only one solution. Values inside JSON blocks use their schema-defined units. Construction literals attach <code>mm</code> or <code>deg</code> to avoid accidental unit confusion.</p>
+<p>The complete <a href="../examples/authoring/named-fold.foldsrc">named-fold source</a> and <a href="../examples/crane/crane-authoring.foldsrc">crane authoring study</a> have paired JSON ASTs. Tests compare the parsed trees, not merely whether the parser accepted a string.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

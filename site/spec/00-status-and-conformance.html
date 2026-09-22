@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>00 · Status and conformance · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="00--status-and-conformance">00 · Status and conformance</h1>
+<p><strong>Normative · Fold Spec 1.0.0-draft.1 · 22 September 2026</strong></p>
+<p>Fold Spec describes portable origami lessons: their words, geometric intent, resolved paper motion, presentation, and publication. This is a <strong>complete implementer draft for review</strong>, not a ratified industry standard or a claim that all proposed readers already exist. The reference tools implement a documented subset; see <a href="../IMPLEMENTATION-STATUS.html">implementation status</a>.</p>
+<h2 id="requirements-language-and-authority">Requirements language and authority</h2>
+<p>Uppercase MUST, MUST NOT, SHOULD, SHOULD NOT and MAY have their BCP 14 meanings <a href="https://www.rfc-editor.org/info/bcp14/">R1</a>. Lowercase usage is ordinary prose. Normative requirements are in the numbered <code>spec/</code> chapters. The JSON schemas enforce structure; prose adds cross-reference, mathematical, state-machine, and behavioral requirements. Examples and implementation guides are informative. A schema/prose disagreement is a defect to report, not permission to choose whichever behavior is easier. Until clarified, the normative prose governs.</p>
+<h2 id="representation-versus-capability">Representation versus capability</h2>
+<p>A valid document does not prove that an application can animate it. A reader MUST publish the capabilities it implements and the resource limits it applies. It MUST NOT skip an unsupported physical operation and continue as if the resulting paper were correct.</p>
+<table>
+<thead>
+<tr>
+  <th>Profile</th>
+  <th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>document-1</code></td>
+  <td>Parse the document, validate structure, IDs, local references, statuses and required default-locale copy.</td>
+</tr>
+<tr>
+  <td><code>package-1</code></td>
+  <td>Verify the bounded archive, every declared asset and every digest before use.</td>
+</tr>
+<tr>
+  <td><code>text-1</code></td>
+  <td>Present the canonical instructions, setup, limitations and final guidance without depending on geometry.</td>
+</tr>
+<tr>
+  <td><code>accessible-viewer-1</code></td>
+  <td>Implement the nonvisual, keyboard, motion and user-control contract in chapter 09.</td>
+</tr>
+<tr>
+  <td><code>source-1</code></td>
+  <td>Parse all declared Fold Source syntax to the same JSON authoring graph. Parsing is not solving.</td>
+</tr>
+<tr>
+  <td><code>construction-1</code></td>
+  <td>Resolve the seven crease-constraint families, typed references, explicit branches and region expressions.</td>
+</tr>
+<tr>
+  <td><code>library-1</code></td>
+  <td>Expand bounded, pinned, data-only reusable parts with capture-free names.</td>
+</tr>
+<tr>
+  <td><code>playback-1</code></td>
+  <td>Interpret all core resolved operations, their continuity, instruction ranges and semantic layer data.</td>
+</tr>
+<tr>
+  <td><code>presentation-1</code></td>
+  <td>Interpret static display poses, safe root flourishes and validated bilateral rigs.</td>
+</tr>
+<tr>
+  <td><code>print-1</code></td>
+  <td>Produce equivalent static instruction panels and physical-size templates.</td>
+</tr>
+</tbody>
+</table>
+<p>Profiles are cumulative only where their contracts explicitly require another. For example, a text reader need not contain a constraint solver. A package reader needs document validation but need not decode every optional audio asset. A playback reader does not become a physical simulator by passing its profile.</p>
+<h2 id="document-availability">Document availability</h2>
+<p><code>status</code> is one of <code>planned</code>, <code>instructions</code>, <code>partial</code>, or <code>resolved</code>.</p>
+<ul>
+<li><code>planned</code>: no instructional steps and no geometry. This is a catalogue record, not an executable lesson.</li>
+<li><code>instructions</code>: one or more real instructions, no resolved geometry. Symbolic authoring may be present, but is not misrepresented as compiled motion.</li>
+<li><code>partial</code>: resolved geometry for an initial prefix of the physical instruction sequence; later operations remain unauthored. A reader stops 3D progression at that boundary while retaining the remaining text.</li>
+<li><code>resolved</code>: all physical instructions have a resolved motion representation. Setup, check and optional decoration may be non-geometric.</li>
+</ul>
+<p>A check can be a real instruction without changing geometry. A required opening cannot be relabeled as a check to evade completeness rules. <code>resolved</code> means a continuous representation exists; it does <strong>not</strong> mean collision-free, physically tested, mathematically exact, or accessible-user-tested.</p>
+<h2 id="honest-failure-and-fallback">Honest failure and fallback</h2>
+<p>A reader MAY offer Text mode when playback is unsupported, but MUST label the unavailable capability and MUST retain the unmodified source. Unknown required <code>text</code> extensions prevent a faithful text conformance claim. Unknown required <code>playback</code> extensions do not necessarily prevent reading the base instructions.</p>
+<p>Limits are implementation policy, not evidence that a larger document is mathematically invalid. Diagnostics SHOULD distinguish malformed data, unsupported capabilities, exceeded resource limits, unresolved construction, and failed physical validation.</p>
+<h2 id="version-policy">Version policy</h2>
+<p><code>specVersion</code> is exactly <code>1.0.0-draft.1</code> in this edition. Draft revisions require exact support; no forward interpretation is implied. The stable major/minor/patch policy is described in chapter 16. Neither this spelling nor a schema passing grants a legacy application support for the new format.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

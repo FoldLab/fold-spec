@@ -1,0 +1,3388 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fold-spec.example/schemas/1.0.0-draft.1/document.schema.json",
+  "title": "Fold Spec document — 1.0.0-draft.1",
+  "description": "Structural validation only. Run the semantic validator; passing JSON Schema does not prove foldability.",
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "fold-spec"
+    },
+    "specVersion": {
+      "const": "1.0.0-draft.1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Case-sensitive identifier; stable within this document.",
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "defaultLocale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "BCP 47 language tag, checked by the author; syntax subset enforced here.",
+      "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "instructions",
+        "partial",
+        "resolved"
+      ]
+    },
+    "metadata": {
+      "$ref": "#/$defs/metadata"
+    },
+    "sheets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sheet"
+      },
+      "minItems": 1,
+      "maxItems": 32
+    },
+    "accessibility": {
+      "$ref": "#/$defs/accessibility"
+    },
+    "instructions": {
+      "$ref": "#/$defs/instructions"
+    },
+    "geometry": {
+      "$ref": "#/$defs/geometry"
+    },
+    "authoring": {
+      "$ref": "#/$defs/authoring"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "presentation": {
+      "$ref": "#/$defs/presentation"
+    },
+    "narration": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/narration"
+      },
+      "minItems": 0,
+      "maxItems": 8192
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/history"
+      },
+      "minItems": 0,
+      "maxItems": 32
+    },
+    "print": {
+      "$ref": "#/$defs/print"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extensionUse"
+      },
+      "minItems": 0,
+      "maxItems": 64
+    }
+  },
+  "required": [
+    "format",
+    "specVersion",
+    "id",
+    "revision",
+    "defaultLocale",
+    "status",
+    "metadata",
+    "sheets",
+    "accessibility",
+    "instructions",
+    "assets",
+    "narration",
+    "history",
+    "extensions"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "description": "BCP 47 language tag, checked by the author; syntax subset enforced here.",
+        "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 12000
+      },
+      "description": "Localized plain text. The document defaultLocale entry is required by semantic validation."
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "draft",
+            "authored",
+            "tested"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "A claim by an author, not a certification by the parser."
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "accessed": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "rightsNote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url"
+      ],
+      "additionalProperties": false
+    },
+    "author": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "design",
+              "instructions",
+              "geometry",
+              "translation",
+              "review",
+              "assets"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 6,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "roles"
+      ],
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "summary": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/author"
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "rightsNote": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "difficulty": {
+          "enum": [
+            "beginner",
+            "intermediate",
+            "advanced",
+            "unspecified"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "minItems": 0,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "title",
+        "summary",
+        "authors",
+        "license",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "material": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 7,
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "roughness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "texture": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "smooth",
+                "washi",
+                "kraft"
+              ]
+            },
+            "strength": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "scaleMm": {
+              "type": "number",
+              "minimum": 0.01,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "kind",
+            "strength",
+            "seed",
+            "scaleMm"
+          ],
+          "additionalProperties": false
+        },
+        "pattern": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "none",
+                "waves",
+                "hemp-leaf",
+                "checks",
+                "linked-circles"
+              ]
+            },
+            "ink": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 7,
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "tileMm": {
+              "type": "number",
+              "minimum": 0.1,
+              "maximum": 1000
+            }
+          },
+          "required": [
+            "kind",
+            "ink",
+            "opacity",
+            "tileMm"
+          ],
+          "additionalProperties": false
+        },
+        "imageAsset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "uvTransform": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 6,
+          "maxItems": 6
+        }
+      },
+      "required": [
+        "color",
+        "roughness",
+        "texture"
+      ],
+      "additionalProperties": false,
+      "description": "Image UVs and patterns are anchored to original material coordinates, not generated faces."
+    },
+    "sheet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "widthMm": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10000
+        },
+        "heightMm": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 10000
+        },
+        "thicknessMm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "front": {
+          "$ref": "#/$defs/material"
+        },
+        "back": {
+          "$ref": "#/$defs/material"
+        }
+      },
+      "required": [
+        "id",
+        "widthMm",
+        "heightMm",
+        "thicknessMm",
+        "front",
+        "back"
+      ],
+      "additionalProperties": false,
+      "description": "One rectangular connected sheet. Centered material XY, +Z is original front."
+    },
+    "landmark": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "name": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "description": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "uvMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "name",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "accessibility": {
+      "type": "object",
+      "properties": {
+        "referenceFrame": {
+          "const": "folder-table"
+        },
+        "setup": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 1,
+          "maxItems": 64
+        },
+        "landmarks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/landmark"
+          },
+          "minItems": 0,
+          "maxItems": 1024
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "referenceFrame",
+        "setup",
+        "landmarks",
+        "review",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "tactile": {
+      "type": "object",
+      "properties": {
+        "orientation": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "locate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "check": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "recovery": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "landmarkIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        }
+      },
+      "required": [
+        "orientation",
+        "locate",
+        "check",
+        "recovery",
+        "landmarkIds",
+        "review"
+      ],
+      "additionalProperties": false
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "projection": {
+          "enum": [
+            "orthographic",
+            "perspective"
+          ]
+        },
+        "positionMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "targetMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "up": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "verticalSpanMm": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 100000
+        },
+        "verticalFovDeg": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 170
+        },
+        "transitionMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        }
+      },
+      "required": [
+        "projection",
+        "positionMm",
+        "targetMm",
+        "up"
+      ],
+      "additionalProperties": false,
+      "description": "Vectors use the containing pose or stage frame; semantic validation rejects collinear view/up."
+    },
+    "run": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "from": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "to": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "operation",
+        "from",
+        "to"
+      ],
+      "additionalProperties": false,
+      "description": "An increasing normalized interval of one geometric operation; ranges form a continuous partition."
+    },
+    "step": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "body": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "kind": {
+          "enum": [
+            "setup",
+            "fold",
+            "unfold",
+            "turn-over",
+            "rotate",
+            "shape",
+            "check",
+            "decorate",
+            "assemble"
+          ]
+        },
+        "animation": {
+          "enum": [
+            "resolved",
+            "not-authored",
+            "not-applicable"
+          ]
+        },
+        "runs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/run"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "pauseAfterMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 600000
+        },
+        "tactile": {
+          "$ref": "#/$defs/tactile"
+        },
+        "sourceSteps": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "minItems": 0,
+          "maxItems": 64
+        },
+        "camera": {
+          "$ref": "#/$defs/camera"
+        },
+        "narrationIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "body",
+        "kind",
+        "animation",
+        "runs",
+        "pauseAfterMs",
+        "tactile"
+      ],
+      "additionalProperties": false
+    },
+    "instructionGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "stepIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 1,
+          "maxItems": 4096,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "stepIds"
+      ],
+      "additionalProperties": false
+    },
+    "instructions": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/step"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/instructionGroup"
+          },
+          "minItems": 0,
+          "maxItems": 512
+        }
+      },
+      "required": [
+        "steps",
+        "groups"
+      ],
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9][A-Za-z0-9_./-]{0,239}$"
+        },
+        "mediaType": {
+          "enum": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "audio/mpeg",
+            "audio/ogg",
+            "audio/wav",
+            "application/json",
+            "text/plain"
+          ]
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 33554432
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Lowercase SHA-256 of the exact stored bytes.",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "role": {
+          "enum": [
+            "background",
+            "paper-image",
+            "narration",
+            "library",
+            "evidence",
+            "source"
+          ]
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "description": {
+          "$ref": "#/$defs/localizedText"
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "mediaType",
+        "byteLength",
+        "sha256",
+        "required",
+        "role",
+        "license"
+      ],
+      "additionalProperties": false
+    },
+    "meshVertex": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "uvMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "id",
+        "uvMm"
+      ],
+      "additionalProperties": false
+    },
+    "meshFace": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "vertices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "vertices"
+      ],
+      "additionalProperties": false
+    },
+    "mesh": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "vertices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/meshVertex"
+          },
+          "minItems": 3,
+          "maxItems": 65536
+        },
+        "faces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/meshFace"
+          },
+          "minItems": 1,
+          "maxItems": 131072
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "vertices",
+        "faces"
+      ],
+      "additionalProperties": false,
+      "description": "CCW triangles in material space covering the rectangle once; no cuts or disconnected patches in the core."
+    },
+    "layerHint": {
+      "type": "object",
+      "properties": {
+        "axis": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "ranks": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -1000000,
+            "maximum": 1000000
+          },
+          "minItems": 1,
+          "maxItems": 131072
+        }
+      },
+      "required": [
+        "axis",
+        "ranks"
+      ],
+      "additionalProperties": false,
+      "description": "Rendering-only coplanar priority, not a physical stacking certificate."
+    },
+    "localLayerRelation": {
+      "type": "object",
+      "properties": {
+        "firstFace": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "secondFace": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "normal": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "planeOffsetMm": {
+          "type": "number",
+          "minimum": -1000000.0,
+          "maximum": 1000000.0
+        },
+        "overlapMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 3,
+          "maxItems": 128
+        },
+        "at": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "firstFace",
+        "secondFace",
+        "normal",
+        "planeOffsetMm",
+        "overlapMm",
+        "at"
+      ],
+      "additionalProperties": false,
+      "description": "First face is above second in +normal within the stated coplanar overlap patch at operation progress at."
+    },
+    "keyframe": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "positionsMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 3,
+          "maxItems": 65536
+        },
+        "layerHint": {
+          "$ref": "#/$defs/layerHint"
+        }
+      },
+      "required": [
+        "at",
+        "positionsMm"
+      ],
+      "additionalProperties": false
+    },
+    "crease": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "segmentMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "assignment": {
+          "enum": [
+            "mountain",
+            "valley",
+            "unassigned",
+            "reference"
+          ]
+        },
+        "establishedAt": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "segmentMm",
+        "assignment",
+        "establishedAt"
+      ],
+      "additionalProperties": false,
+      "description": "Persistent material crease event. State bend angle and historical assignment are different data."
+    },
+    "sampledOperation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "mesh": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "creases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/crease"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localLayerRelation"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "kind": {
+          "const": "sampled"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/keyframe"
+          },
+          "minItems": 2,
+          "maxItems": 4096
+        },
+        "interpolation": {
+          "const": "linear"
+        },
+        "maxRelativeEdgeError": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.005
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "mesh",
+        "durationMs",
+        "creases",
+        "layers",
+        "kind",
+        "keys",
+        "interpolation",
+        "maxRelativeEdgeError"
+      ],
+      "additionalProperties": false
+    },
+    "hingeOperation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "mesh": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "creases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/crease"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localLayerRelation"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "kind": {
+          "const": "hinge"
+        },
+        "startPositionsMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 3,
+          "maxItems": 65536
+        },
+        "axisMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "movingFaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 1,
+          "maxItems": 131072,
+          "uniqueItems": true
+        },
+        "angleDeg": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "easing": {
+          "enum": [
+            "linear",
+            "smoothstep"
+          ]
+        },
+        "startLayerHint": {
+          "$ref": "#/$defs/layerHint"
+        },
+        "endLayerHint": {
+          "$ref": "#/$defs/layerHint"
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "mesh",
+        "durationMs",
+        "creases",
+        "layers",
+        "kind",
+        "startPositionsMm",
+        "axisMm",
+        "movingFaces",
+        "angleDeg",
+        "easing"
+      ],
+      "additionalProperties": false
+    },
+    "rigidOperation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "mesh": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "creases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/crease"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localLayerRelation"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "kind": {
+          "const": "rigid"
+        },
+        "startPositionsMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 3,
+          "maxItems": 65536
+        },
+        "axisMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "angleDeg": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "translationMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "liftMm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "easing": {
+          "enum": [
+            "linear",
+            "smoothstep"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "mesh",
+        "durationMs",
+        "creases",
+        "layers",
+        "kind",
+        "startPositionsMm",
+        "axisMm",
+        "angleDeg",
+        "translationMm",
+        "liftMm",
+        "easing"
+      ],
+      "additionalProperties": false
+    },
+    "operation": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sampledOperation"
+        },
+        {
+          "$ref": "#/$defs/hingeOperation"
+        },
+        {
+          "$ref": "#/$defs/rigidOperation"
+        }
+      ]
+    },
+    "geometry": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "partial",
+            "complete"
+          ]
+        },
+        "meshes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mesh"
+          },
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/operation"
+          },
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "tolerances": {
+          "type": "object",
+          "properties": {
+            "positionMm": {
+              "type": "number",
+              "minimum": 1e-09,
+              "maximum": 0.01
+            },
+            "relativeEdge": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.005
+            },
+            "angularDeg": {
+              "type": "number",
+              "minimum": 1e-09,
+              "maximum": 0.01
+            }
+          },
+          "required": [
+            "positionMm",
+            "relativeEdge",
+            "angularDeg"
+          ],
+          "additionalProperties": false
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 64
+        }
+      },
+      "required": [
+        "status",
+        "meshes",
+        "operations",
+        "tolerances",
+        "review",
+        "limitations"
+      ],
+      "additionalProperties": false,
+      "description": "Ordered resolved geometry. The reference validator checks continuity/topology/strain, not collision or physical usability."
+    },
+    "constructionFrame": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "afterOperation": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "originMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "u": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "v": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "afterOperation",
+        "originMm",
+        "u",
+        "v"
+      ],
+      "additionalProperties": false,
+      "description": "Explicit coplanar construction frame after a named operation or initially. u and v are unit perpendicular vectors."
+    },
+    "pointDefinition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "material"
+            },
+            "sheet": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "uvMm": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -1000000.0,
+                "maximum": 1000000.0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "kind",
+            "sheet",
+            "uvMm"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "literal"
+            },
+            "xyMm": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -1000000.0,
+                "maximum": 1000000.0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            }
+          },
+          "required": [
+            "kind",
+            "xyMm"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "midpoint"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ratio"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "numerator": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b",
+            "numerator",
+            "denominator"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "intersection"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "constraint": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "through-points"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "point-to-point"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "line-to-line"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "perpendicular-through"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "point": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "line",
+            "point"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "point-to-line-through"
+            },
+            "point": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "through": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "point",
+            "line",
+            "through"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "two-points-to-lines"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "lineA": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "lineB": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "lineA",
+            "b",
+            "lineB"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "point-to-line-perpendicular"
+            },
+            "point": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "perpendicularTo": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "point",
+            "line",
+            "perpendicularTo"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "branch": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "unique"
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "witness"
+            },
+            "normal": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "offsetMm": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            }
+          },
+          "required": [
+            "mode",
+            "normal",
+            "offsetMm"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "lineDefinition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "through"
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "perpendicular"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "point": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "line",
+            "point"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "angle"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "point": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "angleDeg": {
+              "type": "number",
+              "minimum": -360,
+              "maximum": 360
+            }
+          },
+          "required": [
+            "kind",
+            "line",
+            "point",
+            "angleDeg"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "alignment"
+            },
+            "constraint": {
+              "$ref": "#/$defs/constraint"
+            },
+            "branch": {
+              "$ref": "#/$defs/branch"
+            }
+          },
+          "required": [
+            "kind",
+            "constraint",
+            "branch"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "frame": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "definition": {
+          "$ref": "#/$defs/pointDefinition"
+        }
+      },
+      "required": [
+        "id",
+        "frame",
+        "definition"
+      ],
+      "additionalProperties": false
+    },
+    "line": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "frame": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "definition": {
+          "$ref": "#/$defs/lineDefinition"
+        }
+      },
+      "required": [
+        "id",
+        "frame",
+        "definition"
+      ],
+      "additionalProperties": false
+    },
+    "regionDefinition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "polygon"
+            },
+            "verticesMm": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": -1000000.0,
+                  "maximum": 1000000.0
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "minItems": 3,
+              "maxItems": 4096
+            }
+          },
+          "required": [
+            "kind",
+            "verticesMm"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "half-plane"
+            },
+            "line": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "containsPoint": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "line",
+            "containsPoint"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "union",
+                "intersection",
+                "difference",
+                "xor"
+              ]
+            },
+            "a": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "b": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            }
+          },
+          "required": [
+            "kind",
+            "a",
+            "b"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "region": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "frame": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "definition": {
+          "$ref": "#/$defs/regionDefinition"
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "frame",
+        "definition"
+      ],
+      "additionalProperties": false
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "crease": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "movingRegion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "materialFilter": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -1000000.0,
+                "maximum": 1000000.0
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "minItems": 3,
+            "maxItems": 4096
+          },
+          "minItems": 1,
+          "maxItems": 128
+        },
+        "rotationDeg": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600000
+        },
+        "resolvedOperations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 4096,
+          "uniqueItems": true
+        },
+        "note": {
+          "$ref": "#/$defs/localizedText"
+        }
+      },
+      "required": [
+        "id",
+        "sheet",
+        "crease",
+        "movingRegion",
+        "rotationDeg",
+        "durationMs",
+        "resolvedOperations"
+      ],
+      "additionalProperties": false
+    },
+    "partImport": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "asset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "part": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "parameters": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "additionalProperties": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          }
+        },
+        "expandedOperationIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 4096,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "asset",
+        "part",
+        "sheet",
+        "parameters",
+        "expandedOperationIds"
+      ],
+      "additionalProperties": false,
+      "description": "Pinned data-only library dependency. Expansion occurs before playback; no runtime imports."
+    },
+    "authoring": {
+      "type": "object",
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/constructionFrame"
+          },
+          "minItems": 1,
+          "maxItems": 4096
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 0,
+          "maxItems": 65536
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/line"
+          },
+          "minItems": 0,
+          "maxItems": 65536
+        },
+        "regions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/region"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "intents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/intent"
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        },
+        "imports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/partImport"
+          },
+          "minItems": 0,
+          "maxItems": 256
+        }
+      },
+      "required": [
+        "frames",
+        "points",
+        "lines",
+        "regions",
+        "intents",
+        "imports"
+      ],
+      "additionalProperties": false,
+      "description": "Typed construction graph. No loops, network execution, or arbitrary expressions."
+    },
+    "cue": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "at": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "label": {
+          "$ref": "#/$defs/localizedText"
+        }
+      },
+      "required": [
+        "operation",
+        "at",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "rig": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "kind": {
+          "const": "bilateral-hinge"
+        },
+        "sheet": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "afterOperation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "axisMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "partitionNormal": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sheet",
+        "afterOperation",
+        "axisMm",
+        "partitionNormal"
+      ],
+      "additionalProperties": false,
+      "description": "A validated final-pose hinge with no face crossing the partition off its axis."
+    },
+    "flourish": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "resolved"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "none",
+            "tip",
+            "bow",
+            "turn",
+            "flutter"
+          ]
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30000
+        },
+        "cycles": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 12
+        },
+        "amplitudeDeg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 45
+        },
+        "axisMm": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "minimum": -1000000.0,
+              "maximum": 1000000.0
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "rig": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "description": {
+          "$ref": "#/$defs/localizedText"
+        }
+      },
+      "required": [
+        "status",
+        "kind",
+        "durationMs",
+        "cycles",
+        "amplitudeDeg",
+        "description"
+      ],
+      "additionalProperties": false
+    },
+    "stageKey": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "positionMm": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -1000000.0,
+            "maximum": 1000000.0
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "rotationDeg": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -360,
+            "maximum": 360
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "required": [
+        "at",
+        "positionMm",
+        "rotationDeg"
+      ],
+      "additionalProperties": false
+    },
+    "paperResponse": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "bendWidthMm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 8
+        },
+        "settleDeg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "damping": {
+          "type": "number",
+          "minimum": 2,
+          "maximum": 12
+        },
+        "cycles": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 3
+        }
+      },
+      "required": [
+        "enabled",
+        "bendWidthMm",
+        "settleDeg",
+        "damping",
+        "cycles"
+      ],
+      "additionalProperties": false,
+      "description": "Art-directed presentation only; never changes canonical endpoints or implies calibrated elasticity."
+    },
+    "stage": {
+      "type": "object",
+      "properties": {
+        "backgroundAsset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stageKey"
+          },
+          "minItems": 2,
+          "maxItems": 256
+        },
+        "modelScale": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 3
+        },
+        "camera": {
+          "$ref": "#/$defs/camera"
+        },
+        "paperResponse": {
+          "$ref": "#/$defs/paperResponse"
+        }
+      },
+      "required": [
+        "keys",
+        "modelScale",
+        "camera"
+      ],
+      "additionalProperties": false
+    },
+    "presentation": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "resolved"
+          ]
+        },
+        "finishingStepIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 0,
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "afterOperation": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "description": "Case-sensitive identifier; stable within this document.",
+              "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+            },
+            "camera": {
+              "$ref": "#/$defs/camera"
+            },
+            "orientation": {
+              "$ref": "#/$defs/localizedText"
+            },
+            "checks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/localizedText"
+              },
+              "minItems": 0,
+              "maxItems": 32
+            }
+          },
+          "required": [
+            "orientation",
+            "checks"
+          ],
+          "additionalProperties": false
+        },
+        "flourish": {
+          "$ref": "#/$defs/flourish"
+        },
+        "rigs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/rig"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        }
+      },
+      "required": [
+        "status",
+        "finishingStepIds",
+        "display",
+        "flourish",
+        "rigs"
+      ],
+      "additionalProperties": false
+    },
+    "narration": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "step": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "locale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "BCP 47 language tag, checked by the author; syntax subset enforced here.",
+          "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+        },
+        "variant": {
+          "enum": [
+            "primary",
+            "descriptive"
+          ]
+        },
+        "status": {
+          "enum": [
+            "missing",
+            "ready",
+            "stale"
+          ]
+        },
+        "transcript": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24000
+        },
+        "textSha256": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "Lowercase SHA-256 of the exact stored bytes.",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "asset": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600000
+        },
+        "pronunciations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "written": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "spoken": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              }
+            },
+            "required": [
+              "written",
+              "spoken"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 128
+        }
+      },
+      "required": [
+        "id",
+        "step",
+        "locale",
+        "variant",
+        "status",
+        "transcript",
+        "textSha256"
+      ],
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "scope": {
+          "enum": [
+            "model",
+            "symbol",
+            "tradition"
+          ]
+        },
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "summary": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Case-sensitive identifier; stable within this document.",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "review": {
+          "$ref": "#/$defs/review"
+        },
+        "qualifications": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localizedText"
+          },
+          "minItems": 0,
+          "maxItems": 32
+        }
+      },
+      "required": [
+        "id",
+        "scope",
+        "title",
+        "summary",
+        "sourceIds",
+        "review",
+        "qualifications"
+      ],
+      "additionalProperties": false
+    },
+    "print": {
+      "type": "object",
+      "properties": {
+        "includeFinalPanel": {
+          "type": "boolean"
+        },
+        "includeHistory": {
+          "type": "boolean"
+        },
+        "template": {
+          "type": "object",
+          "properties": {
+            "sizeMm": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 10000
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "sides": {
+              "enum": [
+                "front",
+                "back",
+                "both"
+              ]
+            },
+            "includePattern": {
+              "type": "boolean"
+            },
+            "includeGuides": {
+              "type": "boolean"
+            },
+            "guideConvention": {
+              "const": "mountain-solid-valley-dashed"
+            }
+          },
+          "required": [
+            "sizeMm",
+            "sides",
+            "includePattern",
+            "includeGuides",
+            "guideConvention"
+          ],
+          "additionalProperties": false
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128,
+                "description": "Case-sensitive identifier; stable within this document.",
+                "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+              },
+              "samples": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 1,
+                "maxItems": 16,
+                "uniqueItems": true
+              },
+              "camera": {
+                "$ref": "#/$defs/camera"
+              }
+            },
+            "required": [
+              "step",
+              "samples"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "maxItems": 4096
+        }
+      },
+      "required": [
+        "includeFinalPanel",
+        "includeHistory",
+        "panels"
+      ],
+      "additionalProperties": false
+    },
+    "extensionUse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*)+:[a-z][a-z0-9-]*$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "requiredFor": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "text",
+              "authoring",
+              "playback",
+              "presentation",
+              "print"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 5,
+          "uniqueItems": true
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "requiredFor",
+        "data"
+      ],
+      "additionalProperties": false,
+      "description": "Unknown required capabilities fail at the relevant profile boundary; no plugin code."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "resolved"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "geometry"
+        ],
+        "properties": {
+          "geometry": {
+            "properties": {
+              "status": {
+                "const": "complete"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "partial"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "geometry"
+        ],
+        "properties": {
+          "geometry": {
+            "properties": {
+              "status": {
+                "const": "partial"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "planned",
+              "instructions"
+            ]
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "geometry"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "planned"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "instructions": {
+            "properties": {
+              "steps": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "instructions": {
+            "properties": {
+              "steps": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

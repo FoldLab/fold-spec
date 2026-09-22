@@ -1,0 +1,152 @@
+{
+  "format": "fold-spec-library",
+  "specVersion": "1.0.0-draft.1",
+  "id": "parameterized-landmarks",
+  "revision": 1,
+  "license": "MIT",
+  "parts": [
+    {
+      "id": "scaled-center",
+      "description": {
+        "en": "A bounded sideMm parameter sets original square corners before midpoint/alignment construction."
+      },
+      "parameters": [
+        {
+          "id": "sideMm",
+          "minimum": 10,
+          "maximum": 1000,
+          "default": 150
+        }
+      ],
+      "authoring": {
+        "frames": [
+          {
+            "id": "work",
+            "sheet": "paper",
+            "afterOperation": null,
+            "originMm": [
+              0,
+              0,
+              0
+            ],
+            "u": [
+              1,
+              0,
+              0
+            ],
+            "v": [
+              0,
+              1,
+              0
+            ]
+          }
+        ],
+        "points": [
+          {
+            "id": "nw",
+            "frame": "work",
+            "definition": {
+              "kind": "material",
+              "sheet": "paper",
+              "uvMm": [
+                -75,
+                75
+              ]
+            }
+          },
+          {
+            "id": "ne",
+            "frame": "work",
+            "definition": {
+              "kind": "material",
+              "sheet": "paper",
+              "uvMm": [
+                75,
+                75
+              ]
+            }
+          },
+          {
+            "id": "far-midpoint",
+            "frame": "work",
+            "definition": {
+              "kind": "midpoint",
+              "a": "nw",
+              "b": "ne"
+            }
+          }
+        ],
+        "lines": [
+          {
+            "id": "center-fold-line",
+            "frame": "work",
+            "definition": {
+              "kind": "alignment",
+              "constraint": {
+                "kind": "point-to-point",
+                "a": "nw",
+                "b": "ne"
+              },
+              "branch": {
+                "mode": "unique"
+              }
+            }
+          }
+        ],
+        "regions": [
+          {
+            "id": "left-half",
+            "sheet": "paper",
+            "frame": "work",
+            "definition": {
+              "kind": "half-plane",
+              "line": "center-fold-line",
+              "containsPoint": "nw"
+            }
+          }
+        ],
+        "intents": [
+          {
+            "id": "bring-left-to-right",
+            "sheet": "paper",
+            "crease": "center-fold-line",
+            "movingRegion": "left-half",
+            "rotationDeg": 180,
+            "durationMs": 1800,
+            "resolvedOperations": []
+          }
+        ],
+        "imports": []
+      },
+      "exports": [
+        "far-midpoint",
+        "center-fold-line",
+        "left-half",
+        "bring-left-to-right"
+      ],
+      "sheetSlot": "paper",
+      "bindings": [
+        {
+          "parameter": "sideMm",
+          "pointer": "/points/0/definition/uvMm/0",
+          "factor": -0.5
+        },
+        {
+          "parameter": "sideMm",
+          "pointer": "/points/0/definition/uvMm/1",
+          "factor": 0.5
+        },
+        {
+          "parameter": "sideMm",
+          "pointer": "/points/1/definition/uvMm/0",
+          "factor": 0.5
+        },
+        {
+          "parameter": "sideMm",
+          "pointer": "/points/1/definition/uvMm/1",
+          "factor": 0.5
+        }
+      ]
+    }
+  ]
+}

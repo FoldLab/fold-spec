@@ -1,0 +1,57 @@
+(* Fold Source — 1.0.0-draft.1. Normative lexical/declaration grammar.
+   JSONValue/JSONObject/JSONString/JSONNumber use RFC 8259, plus chapter 01 limits.
+   A declaration's JSON object may not contain "id"; its outer name supplies it.
+   Whitespace and // line comments separate tokens outside JSON blocks.
+   This is data syntax: no arbitrary expressions, functions or executable imports. *)
+
+Document       = "fold-source", JSONString, ";", "document", JSONObject, ";",
+                 { Declaration } ;
+Declaration    = Frame | Point | Line | Region | Intent | Import | Step ;
+Frame          = "frame", Identifier, JSONObject, ";" ;
+Point          = "point", Identifier, "in", Identifier, "=", PointExpr, ";" ;
+Line           = "line", Identifier, "in", Identifier, "=", LineExpr, ";" ;
+Region         = "region", Identifier, "on", Identifier, "in", Identifier,
+                 "=", RegionExpr, ";" ;
+Intent         = "intent", Identifier, JSONObject, ";" ;
+Import         = "use", Identifier, JSONObject, ";" ;
+Step           = "step", Identifier, JSONObject, ";" ;
+
+PointExpr      = "material", "(", Ref, ",", Length, ",", Length, ")"
+               | "literal", "(", Length, ",", Length, ")"
+               | "midpoint", "(", Ref, ",", Ref, ")"
+               | "ratio", "(", Ref, ",", Ref, ",", Integer, ",", Integer, ")"
+               | "intersection", "(", Ref, ",", Ref, ")" ;
+LineExpr       = "through", "(", Ref, ",", Ref, ")"
+               | "perpendicular", "(", Ref, ",", Ref, ")"
+               | "angle", "(", Ref, ",", Ref, ",", Angle, ")"
+               | Alignment ;
+Alignment      = ("align-points" | "align-lines" | "crease-through"
+                  | "crease-perpendicular"), "(", Ref, ",", Ref, [ Branch ], ")"
+               | ("point-to-line-through" | "point-to-line-perpendicular"),
+                 "(", Ref, ",", Ref, ",", Ref, [ Branch ], ")"
+               | "two-points-to-lines", "(", Ref, ",", Ref, ",", Ref, ",", Ref,
+                 [ Branch ], ")" ;
+Branch         = ",", "witness", "(", JSONNumber, ",", JSONNumber, ",", Length, ")" ;
+RegionExpr     = "half-plane", "(", Ref, ",", Ref, ")"
+               | "polygon", "(", CoordinateArray, ")"
+               | ("union" | "intersection" | "difference" | "xor"),
+                 "(", Ref, ",", Ref, ")" ;
+
+Ref            = Identifier | JSONString ;
+Length         = JSONNumber, "mm" ;
+Angle          = JSONNumber, "deg" ;
+Integer        = JSONNumber ; (* MUST be mathematically integral, without a unit. *)
+CoordinateArray= JSONArray ;  (* Pairs of finite numbers, in millimeters. *)
+Identifier     = Letter, { Letter | Digit | "_" | "." | ":" | "-" } ;
+Letter         = "A".."Z" | "a".."z" ;
+Digit          = "0".."9" ;
+
+(* Keywords end at a token boundary. Units attach directly to their number.
+   Version string MUST equal "1.0.0-draft.1".
+   document.format MUST equal "fold-spec" and specVersion match the header.
+   document.authoring is prohibited: declarations supply that object.
+   step declarations append to document.instructions.steps in source order.
+   Referenced kinds, sheet/frame compatibility, ranges and graph cycles are
+   validated after parsing. Unknown construction functions are errors.
+   Comments inside JSON are not part of this grammar.
+   No include/eval/loop/macro/JavaScript rule exists. *)

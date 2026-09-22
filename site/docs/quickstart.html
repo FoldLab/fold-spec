@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quick start · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="quick-start">Quick start</h1>
+<p><strong>Informative; commands use the repository root.</strong></p>
+<h2 id="1-install-and-check">1. Install and check</h2>
+<pre><code class="language-sh">python -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python tools/check.py
+</code></pre>
+<p>PowerShell activation: <code>.venv\Scripts\Activate.ps1</code>. The reference tools require Python 3.10+. They do not need your application project, a renderer, a GPU, or an API key. Install dependencies before going offline.</p>
+<p><code>check.py</code> checks schema syntax, complete examples, source-to-JSON equivalence, local documentation links, shipped package integrity, fixtures, and the unit suite. It exits nonzero on failure and prints an explicit summary. It does not claim the unresolved authoring graphs have been compiled into geometry.</p>
+<h2 id="2-read-a-text-only-model">2. Read a text-only model</h2>
+<pre><code class="language-sh">python tools/foldspec.py validate examples/minimal-text/first-fold.fold.json
+python tools/foldspec.py text examples/minimal-text/first-fold.fold.json --descriptive
+python tools/foldspec.py text examples/minimal-text/first-fold.fold.json --locale fr-CA --html -o build/lesson-fr.html
+</code></pre>
+<p>The partial French translation demonstrates fallback. Translated and fallback spans retain their actual language. Text-only content has no phantom mesh or canned animation.</p>
+<h2 id="3-inspect-actual-motion">3. Inspect actual motion</h2>
+<pre><code class="language-sh">python tools/foldspec.py sample examples/hinge/center-fold.fold.json --operation fold-center --progress 0.5 -o build/hinge-state.json
+</code></pre>
+<p>The output contains the referenced triangle topology and current millimeter positions. It is suitable input to a renderer. It is not a screenshot or an image file. To see the exact operation IDs in any document, inspect its <code>geometry.operations</code> array.</p>
+<h2 id="4-use-the-crane">4. Use the crane</h2>
+<pre><code class="language-sh">python tools/foldspec.py validate examples/crane/crane.fold.json
+python tools/foldspec.py sample examples/crane/crane.fold.json --operation op-12 --progress 0.55 -o build/collapse-state.json
+python tools/foldspec.py text examples/crane/crane.fold.json --html --descriptive -o build/crane.html
+</code></pre>
+<p>Read <a href="../examples/crane/README.html">the crane notes</a> before treating it as a physical reference. Its resolved geometry has deliberately documented approximations and measured strain bounds.</p>
+<h2 id="5-package-and-inspect">5. Package and inspect</h2>
+<pre><code class="language-sh">python tools/foldspec.py pack examples/scene/staged-fold.fold.json -o build/staged.foldlab
+python tools/foldspec.py inspect build/staged.foldlab
+</code></pre>
+<p>The packer copies the declared local background bytes and creates their manifest hashes. It rejects missing assets, invalid paths, symlinks, duplicate names, and an existing destination. It does not fetch remote audio. Archives and file suffixes in this repository use the new Fold Spec discriminator; they are not directly loadable by legacy FoldLab readers.</p>
+<h2 id="6-parse-authoring-source">6. Parse authoring source</h2>
+<pre><code class="language-sh">python tools/foldspec.py parse-source examples/authoring/named-fold.foldsrc -o build/named.fold.json
+python tools/foldspec.py validate build/named.fold.json
+</code></pre>
+<p>This produces a typed authoring graph, not a completed fold animation. The example retains <code>status: &quot;instructions&quot;</code> until a compiler binds and validates executable operations.</p>
+<h2 id="errors">Errors</h2>
+<p>CLI failures return nonzero and write JSON containing <code>error</code>, <code>message</code> and, where available, <code>path</code> to stderr. Examples include <code>E_SCHEMA</code>, <code>E_REFERENCE</code>, <code>E_STRAIN</code>, <code>E_TEAR</code>, <code>E_PACKAGE_HASH</code> and <code>E_SOLVER_UNSUPPORTED</code>. Read <a href="../spec/19-diagnostics-and-conformance-tests.html">diagnostics</a>.</p>
+<p><code>--schema-only</code> checks the document structure and deliberately skips references, geometry and assets. Do not use that flag to claim complete validity.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

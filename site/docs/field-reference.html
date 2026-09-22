@@ -1,0 +1,3011 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Structural field reference · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="structural-field-reference">Structural field reference</h1>
+<p><strong>Generated from <code>tools/schema_source.py</code> output.</strong> Normative behavior and cross-field rules live in the <a href="../SPEC.html">specification</a>; this reference is not sufficient by itself to implement a player. Property names match JSON exactly. <code>Required</code> applies within its containing object, not to every document. No silent defaults are implied by optional properties. Referenced definitions and every discriminated variant are included below.</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#document">document</a></li>
+<li><a href="#localizedtext">localizedText</a></li>
+<li><a href="#review">review</a></li>
+<li><a href="#source">source</a></li>
+<li><a href="#author">author</a></li>
+<li><a href="#metadata">metadata</a></li>
+<li><a href="#material">material</a></li>
+<li><a href="#sheet">sheet</a></li>
+<li><a href="#landmark">landmark</a></li>
+<li><a href="#accessibility">accessibility</a></li>
+<li><a href="#tactile">tactile</a></li>
+<li><a href="#camera">camera</a></li>
+<li><a href="#run">run</a></li>
+<li><a href="#step">step</a></li>
+<li><a href="#instructiongroup">instructionGroup</a></li>
+<li><a href="#instructions">instructions</a></li>
+<li><a href="#asset">asset</a></li>
+<li><a href="#meshvertex">meshVertex</a></li>
+<li><a href="#meshface">meshFace</a></li>
+<li><a href="#mesh">mesh</a></li>
+<li><a href="#layerhint">layerHint</a></li>
+<li><a href="#locallayerrelation">localLayerRelation</a></li>
+<li><a href="#keyframe">keyframe</a></li>
+<li><a href="#crease">crease</a></li>
+<li><a href="#sampledoperation">sampledOperation</a></li>
+<li><a href="#hingeoperation">hingeOperation</a></li>
+<li><a href="#rigidoperation">rigidOperation</a></li>
+<li><a href="#operation">operation</a></li>
+<li><a href="#geometry">geometry</a></li>
+<li><a href="#constructionframe">constructionFrame</a></li>
+<li><a href="#pointdefinition">pointDefinition</a></li>
+<li><a href="#constraint">constraint</a></li>
+<li><a href="#branch">branch</a></li>
+<li><a href="#linedefinition">lineDefinition</a></li>
+<li><a href="#point">point</a></li>
+<li><a href="#line">line</a></li>
+<li><a href="#regiondefinition">regionDefinition</a></li>
+<li><a href="#region">region</a></li>
+<li><a href="#intent">intent</a></li>
+<li><a href="#partimport">partImport</a></li>
+<li><a href="#authoring">authoring</a></li>
+<li><a href="#cue">cue</a></li>
+<li><a href="#rig">rig</a></li>
+<li><a href="#flourish">flourish</a></li>
+<li><a href="#stagekey">stageKey</a></li>
+<li><a href="#paperresponse">paperResponse</a></li>
+<li><a href="#stage">stage</a></li>
+<li><a href="#presentation">presentation</a></li>
+<li><a href="#narration">narration</a></li>
+<li><a href="#history">history</a></li>
+<li><a href="#print">print</a></li>
+<li><a href="#extensionuse">extensionUse</a></li>
+</ul>
+<h2 id="document">document</h2>
+<p>Structural validation only. Run the semantic validator; passing JSON Schema does not prove foldability.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>format</code></td>
+  <td>yes</td>
+  <td><code>&quot;fold-spec&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>specVersion</code></td>
+  <td>yes</td>
+  <td><code>&quot;1.0.0-draft.1&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>revision</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>2147483647</code></td>
+</tr>
+<tr>
+  <td><code>defaultLocale</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>64</code>; pattern: <code>^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$</code>; BCP 47 language tag, checked by the author; syntax subset enforced here.</td>
+</tr>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;planned&quot;</code>, <code>&quot;instructions&quot;</code>, <code>&quot;partial&quot;</code>, <code>&quot;resolved&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>metadata</code></td>
+  <td>yes</td>
+  <td><code>metadata</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sheets</code></td>
+  <td>yes</td>
+  <td>array of <code>sheet</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>accessibility</code></td>
+  <td>yes</td>
+  <td><code>accessibility</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>instructions</code></td>
+  <td>yes</td>
+  <td><code>instructions</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>geometry</code></td>
+  <td>no</td>
+  <td><code>geometry</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>authoring</code></td>
+  <td>no</td>
+  <td><code>authoring</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>assets</code></td>
+  <td>yes</td>
+  <td>array of <code>asset</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>256</code></td>
+</tr>
+<tr>
+  <td><code>presentation</code></td>
+  <td>no</td>
+  <td><code>presentation</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>narration</code></td>
+  <td>yes</td>
+  <td>array of <code>narration</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>8192</code></td>
+</tr>
+<tr>
+  <td><code>history</code></td>
+  <td>yes</td>
+  <td>array of <code>history</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>print</code></td>
+  <td>no</td>
+  <td><code>print</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>extensions</code></td>
+  <td>yes</td>
+  <td>array of <code>extensionUse</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>64</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="localizedtext">localizedText</h2>
+<p>Localized plain text. The document defaultLocale entry is required by semantic validation.</p>
+<p><strong>Type:</strong> localized string map.</p>
+<p>minProperties: <code>1</code>; maxProperties: <code>64</code>; Localized plain text. The document defaultLocale entry is required by semantic validation.</p>
+<p>Each member value: <code>string</code>. minLength: <code>1</code>; maxLength: <code>12000</code></p>
+<p>Member names: minLength: <code>1</code>; maxLength: <code>64</code>; pattern: <code>^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$</code>; BCP 47 language tag, checked by the author; syntax subset enforced here.</p>
+<h2 id="review">review</h2>
+<p>A claim by an author, not a certification by the parser.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;draft&quot;</code>, <code>&quot;authored&quot;</code>, <code>&quot;tested&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>evidence</code></td>
+  <td>no</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="source">source</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>title</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>300</code></td>
+</tr>
+<tr>
+  <td><code>url</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>2048</code>; pattern: <code>^https://[^\s]+$</code></td>
+</tr>
+<tr>
+  <td><code>accessed</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>4096</code>; pattern: <code>^\d{4}-\d{2}-\d{2}$</code></td>
+</tr>
+<tr>
+  <td><code>rightsNote</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>3000</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="author">author</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>name</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>200</code></td>
+</tr>
+<tr>
+  <td><code>roles</code></td>
+  <td>yes</td>
+  <td>array of <code>&quot;design&quot;</code>, <code>&quot;instructions&quot;</code>, <code>&quot;geometry&quot;</code>, <code>&quot;translation&quot;</code>, <code>&quot;review&quot;</code>, <code>&quot;assets&quot;</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>6</code>; uniqueItems: <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="metadata">metadata</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>title</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>summary</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>authors</code></td>
+  <td>yes</td>
+  <td>array of <code>author</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>license</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>160</code></td>
+</tr>
+<tr>
+  <td><code>rightsNote</code></td>
+  <td>no</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>tags</code></td>
+  <td>no</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>64</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>categories</code></td>
+  <td>no</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>16</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>difficulty</code></td>
+  <td>no</td>
+  <td><code>&quot;beginner&quot;</code>, <code>&quot;intermediate&quot;</code>, <code>&quot;advanced&quot;</code>, <code>&quot;unspecified&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sources</code></td>
+  <td>yes</td>
+  <td>array of <code>source</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>128</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="material">material</h2>
+<p>Image UVs and patterns are anchored to original material coordinates, not generated faces.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>color</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>7</code>; pattern: <code>^#[0-9A-Fa-f]{6}$</code></td>
+</tr>
+<tr>
+  <td><code>roughness</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+<tr>
+  <td><code>texture</code></td>
+  <td>yes</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>pattern</code></td>
+  <td>no</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>imageAsset</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>uvTransform</code></td>
+  <td>no</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>6</code>; maxItems: <code>6</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="sheet">sheet</h2>
+<p>One rectangular connected sheet. Centered material XY, +Z is original front.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>widthMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0.1</code>; maximum: <code>10000</code></td>
+</tr>
+<tr>
+  <td><code>heightMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0.1</code>; maximum: <code>10000</code></td>
+</tr>
+<tr>
+  <td><code>thicknessMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>10</code></td>
+</tr>
+<tr>
+  <td><code>front</code></td>
+  <td>yes</td>
+  <td><code>material</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>back</code></td>
+  <td>yes</td>
+  <td><code>material</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="landmark">landmark</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>name</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>description</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>uvMm</code></td>
+  <td>no</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="accessibility">accessibility</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>referenceFrame</code></td>
+  <td>yes</td>
+  <td><code>&quot;folder-table&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>setup</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>64</code></td>
+</tr>
+<tr>
+  <td><code>landmarks</code></td>
+  <td>yes</td>
+  <td>array of <code>landmark</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>1024</code></td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>yes</td>
+  <td><code>review</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>limitations</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="tactile">tactile</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>orientation</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>locate</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>check</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>recovery</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>landmarkIds</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>64</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>yes</td>
+  <td><code>review</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="camera">camera</h2>
+<p>Vectors use the containing pose or stage frame; semantic validation rejects collinear view/up.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>projection</code></td>
+  <td>yes</td>
+  <td><code>&quot;orthographic&quot;</code>, <code>&quot;perspective&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>positionMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>targetMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>up</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>verticalSpanMm</code></td>
+  <td>no</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0.1</code>; maximum: <code>100000</code></td>
+</tr>
+<tr>
+  <td><code>verticalFovDeg</code></td>
+  <td>no</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>170</code></td>
+</tr>
+<tr>
+  <td><code>transitionMs</code></td>
+  <td>no</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>10000</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="run">run</h2>
+<p>An increasing normalized interval of one geometric operation; ranges form a continuous partition.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>operation</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>from</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+<tr>
+  <td><code>to</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="step">step</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>title</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>body</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;setup&quot;</code>, <code>&quot;fold&quot;</code>, <code>&quot;unfold&quot;</code>, <code>&quot;turn-over&quot;</code>, <code>&quot;rotate&quot;</code>, <code>&quot;shape&quot;</code>, <code>&quot;check&quot;</code>, <code>&quot;decorate&quot;</code>, <code>&quot;assemble&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>animation</code></td>
+  <td>yes</td>
+  <td><code>&quot;resolved&quot;</code>, <code>&quot;not-authored&quot;</code>, <code>&quot;not-applicable&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>runs</code></td>
+  <td>yes</td>
+  <td>array of <code>run</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>pauseAfterMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>600000</code></td>
+</tr>
+<tr>
+  <td><code>tactile</code></td>
+  <td>yes</td>
+  <td><code>tactile</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sourceSteps</code></td>
+  <td>no</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>64</code></td>
+</tr>
+<tr>
+  <td><code>camera</code></td>
+  <td>no</td>
+  <td><code>camera</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>narrationIds</code></td>
+  <td>no</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>16</code>; uniqueItems: <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="instructiongroup">instructionGroup</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>title</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>stepIds</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>4096</code>; uniqueItems: <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="instructions">instructions</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>steps</code></td>
+  <td>yes</td>
+  <td>array of <code>step</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>groups</code></td>
+  <td>yes</td>
+  <td>array of <code>instructionGroup</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>512</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="asset">asset</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>path</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>240</code>; pattern: <code>^(?!/)(?!.*(?:^\|/)\.\.(?:/\|$))[A-Za-z0-9][A-Za-z0-9_./-]{0,239}$</code></td>
+</tr>
+<tr>
+  <td><code>mediaType</code></td>
+  <td>yes</td>
+  <td><code>&quot;image/png&quot;</code>, <code>&quot;image/jpeg&quot;</code>, <code>&quot;image/webp&quot;</code>, <code>&quot;audio/mpeg&quot;</code>, <code>&quot;audio/ogg&quot;</code>, <code>&quot;audio/wav&quot;</code>, <code>&quot;application/json&quot;</code>, <code>&quot;text/plain&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>byteLength</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>33554432</code></td>
+</tr>
+<tr>
+  <td><code>sha256</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>64</code>; pattern: <code>^[a-f0-9]{64}$</code>; Lowercase SHA-256 of the exact stored bytes.</td>
+</tr>
+<tr>
+  <td><code>required</code></td>
+  <td>yes</td>
+  <td><code>boolean</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>role</code></td>
+  <td>yes</td>
+  <td><code>&quot;background&quot;</code>, <code>&quot;paper-image&quot;</code>, <code>&quot;narration&quot;</code>, <code>&quot;library&quot;</code>, <code>&quot;evidence&quot;</code>, <code>&quot;source&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>license</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>160</code></td>
+</tr>
+<tr>
+  <td><code>description</code></td>
+  <td>no</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="meshvertex">meshVertex</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>uvMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="meshface">meshFace</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>vertices</code></td>
+  <td>yes</td>
+  <td>array of <code>integer</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code>; uniqueItems: <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="mesh">mesh</h2>
+<p>CCW triangles in material space covering the rectangle once; no cuts or disconnected patches in the core.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>vertices</code></td>
+  <td>yes</td>
+  <td>array of <code>meshVertex</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>faces</code></td>
+  <td>yes</td>
+  <td>array of <code>meshFace</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>131072</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="layerhint">layerHint</h2>
+<p>Rendering-only coplanar priority, not a physical stacking certificate.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>axis</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>ranks</code></td>
+  <td>yes</td>
+  <td>array of <code>integer</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>131072</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="locallayerrelation">localLayerRelation</h2>
+<p>First face is above second in +normal within the stated coplanar overlap patch at operation progress at.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>firstFace</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>secondFace</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>normal</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>planeOffsetMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-1000000.0</code>; maximum: <code>1000000.0</code></td>
+</tr>
+<tr>
+  <td><code>overlapMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>128</code></td>
+</tr>
+<tr>
+  <td><code>at</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="keyframe">keyframe</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>at</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+<tr>
+  <td><code>positionsMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>layerHint</code></td>
+  <td>no</td>
+  <td><code>layerHint</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="crease">crease</h2>
+<p>Persistent material crease event. State bend angle and historical assignment are different data.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>segmentMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>assignment</code></td>
+  <td>yes</td>
+  <td><code>&quot;mountain&quot;</code>, <code>&quot;valley&quot;</code>, <code>&quot;unassigned&quot;</code>, <code>&quot;reference&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>establishedAt</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="sampledoperation">sampledOperation</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>mesh</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>600000</code></td>
+</tr>
+<tr>
+  <td><code>creases</code></td>
+  <td>yes</td>
+  <td>array of <code>crease</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>layers</code></td>
+  <td>yes</td>
+  <td>array of <code>localLayerRelation</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;sampled&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>keys</code></td>
+  <td>yes</td>
+  <td>array of <code>keyframe</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>interpolation</code></td>
+  <td>yes</td>
+  <td><code>&quot;linear&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>maxRelativeEdgeError</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>0.005</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="hingeoperation">hingeOperation</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>mesh</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>600000</code></td>
+</tr>
+<tr>
+  <td><code>creases</code></td>
+  <td>yes</td>
+  <td>array of <code>crease</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>layers</code></td>
+  <td>yes</td>
+  <td>array of <code>localLayerRelation</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;hinge&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>startPositionsMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>axisMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>movingFaces</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>131072</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>angleDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-180</code>; maximum: <code>180</code></td>
+</tr>
+<tr>
+  <td><code>easing</code></td>
+  <td>yes</td>
+  <td><code>&quot;linear&quot;</code>, <code>&quot;smoothstep&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>startLayerHint</code></td>
+  <td>no</td>
+  <td><code>layerHint</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>endLayerHint</code></td>
+  <td>no</td>
+  <td><code>layerHint</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="rigidoperation">rigidOperation</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>mesh</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>600000</code></td>
+</tr>
+<tr>
+  <td><code>creases</code></td>
+  <td>yes</td>
+  <td>array of <code>crease</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>layers</code></td>
+  <td>yes</td>
+  <td>array of <code>localLayerRelation</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;rigid&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>startPositionsMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>axisMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>angleDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-360</code>; maximum: <code>360</code></td>
+</tr>
+<tr>
+  <td><code>translationMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>liftMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>10000</code></td>
+</tr>
+<tr>
+  <td><code>easing</code></td>
+  <td>yes</td>
+  <td><code>&quot;linear&quot;</code>, <code>&quot;smoothstep&quot;</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="operation">operation</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="operation--variant-1">operation — variant 1</h3>
+<p><code>sampledOperation</code></p>
+<h3 id="operation--variant-2">operation — variant 2</h3>
+<p><code>hingeOperation</code></p>
+<h3 id="operation--variant-3">operation — variant 3</h3>
+<p><code>rigidOperation</code></p>
+<h2 id="geometry">geometry</h2>
+<p>Ordered resolved geometry. The reference validator checks continuity/topology/strain, not collision or physical usability.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;partial&quot;</code>, <code>&quot;complete&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>meshes</code></td>
+  <td>yes</td>
+  <td>array of <code>mesh</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>operations</code></td>
+  <td>yes</td>
+  <td>array of <code>operation</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>tolerances</code></td>
+  <td>yes</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>yes</td>
+  <td><code>review</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>limitations</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>64</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="constructionframe">constructionFrame</h2>
+<p>Explicit coplanar construction frame after a named operation or initially. u and v are unit perpendicular vectors.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>afterOperation</code></td>
+  <td>yes</td>
+  <td><code>JSON value</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>originMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>u</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>v</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="pointdefinition">pointDefinition</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="pointdefinition--material">pointDefinition — material</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;material&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>uvMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="pointdefinition--literal">pointDefinition — literal</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;literal&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>xyMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="pointdefinition--midpoint">pointDefinition — midpoint</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;midpoint&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="pointdefinition--ratio">pointDefinition — ratio</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;ratio&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>numerator</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1000000</code></td>
+</tr>
+<tr>
+  <td><code>denominator</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>1000000</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="pointdefinition--intersection">pointDefinition — intersection</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;intersection&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="constraint">constraint</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="constraint--through-points">constraint — through-points</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;through-points&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--point-to-point">constraint — point-to-point</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;point-to-point&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--line-to-line">constraint — line-to-line</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;line-to-line&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--perpendicular-through">constraint — perpendicular-through</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;perpendicular-through&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>point</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--point-to-line-through">constraint — point-to-line-through</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;point-to-line-through&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>point</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>through</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--two-points-to-lines">constraint — two-points-to-lines</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;two-points-to-lines&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>lineA</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>lineB</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="constraint--point-to-line-perpendicular">constraint — point-to-line-perpendicular</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;point-to-line-perpendicular&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>point</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>perpendicularTo</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="branch">branch</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="branch--unique">branch — unique</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>mode</code></td>
+  <td>yes</td>
+  <td><code>&quot;unique&quot;</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="branch--witness">branch — witness</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>mode</code></td>
+  <td>yes</td>
+  <td><code>&quot;witness&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>normal</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>offsetMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-1000000.0</code>; maximum: <code>1000000.0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="linedefinition">lineDefinition</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="linedefinition--through">lineDefinition — through</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;through&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="linedefinition--perpendicular">lineDefinition — perpendicular</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;perpendicular&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>point</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="linedefinition--angle">lineDefinition — angle</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;angle&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>point</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>angleDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-360</code>; maximum: <code>360</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="linedefinition--alignment">lineDefinition — alignment</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;alignment&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>constraint</code></td>
+  <td>yes</td>
+  <td><code>constraint</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>branch</code></td>
+  <td>yes</td>
+  <td><code>branch</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="point">point</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>frame</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>definition</code></td>
+  <td>yes</td>
+  <td><code>pointDefinition</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="line">line</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>frame</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>definition</code></td>
+  <td>yes</td>
+  <td><code>lineDefinition</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="regiondefinition">regionDefinition</h2>
+<p>Exactly one of the following variants must match.</p>
+<h3 id="regiondefinition--polygon">regionDefinition — polygon</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;polygon&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>verticesMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>4096</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="regiondefinition--half-plane">regionDefinition — half-plane</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;half-plane&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>line</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>containsPoint</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h3 id="regiondefinition--union--intersection--difference--xor">regionDefinition — union / intersection / difference / xor</h3>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;union&quot;</code>, <code>&quot;intersection&quot;</code>, <code>&quot;difference&quot;</code>, <code>&quot;xor&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>a</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>b</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="region">region</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>frame</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>definition</code></td>
+  <td>yes</td>
+  <td><code>regionDefinition</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="intent">intent</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>crease</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>movingRegion</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>materialFilter</code></td>
+  <td>no</td>
+  <td>array of array of array of <code>number</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>128</code></td>
+</tr>
+<tr>
+  <td><code>rotationDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>-180</code>; maximum: <code>180</code></td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>600000</code></td>
+</tr>
+<tr>
+  <td><code>resolvedOperations</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>note</code></td>
+  <td>no</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="partimport">partImport</h2>
+<p>Pinned data-only library dependency. Expansion occurs before playback; no runtime imports.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>asset</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>part</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>parameters</code></td>
+  <td>yes</td>
+  <td>object map</td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>expandedOperationIds</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code>; uniqueItems: <code>True</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="authoring">authoring</h2>
+<p>Typed construction graph. No loops, network execution, or arbitrary expressions.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>frames</code></td>
+  <td>yes</td>
+  <td>array of <code>constructionFrame</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>points</code></td>
+  <td>yes</td>
+  <td>array of <code>point</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>lines</code></td>
+  <td>yes</td>
+  <td>array of <code>line</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>65536</code></td>
+</tr>
+<tr>
+  <td><code>regions</code></td>
+  <td>yes</td>
+  <td>array of <code>region</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>intents</code></td>
+  <td>yes</td>
+  <td>array of <code>intent</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+<tr>
+  <td><code>imports</code></td>
+  <td>yes</td>
+  <td>array of <code>partImport</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>256</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="cue">cue</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>operation</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>at</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+<tr>
+  <td><code>label</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="rig">rig</h2>
+<p>A validated final-pose hinge with no face crossing the partition off its axis.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;bilateral-hinge&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sheet</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>afterOperation</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>axisMm</code></td>
+  <td>yes</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>partitionNormal</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="flourish">flourish</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;proposed&quot;</code>, <code>&quot;resolved&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>kind</code></td>
+  <td>yes</td>
+  <td><code>&quot;none&quot;</code>, <code>&quot;tip&quot;</code>, <code>&quot;bow&quot;</code>, <code>&quot;turn&quot;</code>, <code>&quot;flutter&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>30000</code></td>
+</tr>
+<tr>
+  <td><code>cycles</code></td>
+  <td>yes</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>12</code></td>
+</tr>
+<tr>
+  <td><code>amplitudeDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>45</code></td>
+</tr>
+<tr>
+  <td><code>axisMm</code></td>
+  <td>no</td>
+  <td>array of array of <code>number</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>2</code></td>
+</tr>
+<tr>
+  <td><code>rig</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>description</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="stagekey">stageKey</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>at</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>1</code></td>
+</tr>
+<tr>
+  <td><code>positionMm</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>rotationDeg</code></td>
+  <td>yes</td>
+  <td>array of <code>number</code></td>
+  <td>minItems: <code>3</code>; maxItems: <code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="paperresponse">paperResponse</h2>
+<p>Art-directed presentation only; never changes canonical endpoints or implies calibrated elasticity.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>enabled</code></td>
+  <td>yes</td>
+  <td><code>boolean</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>bendWidthMm</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>8</code></td>
+</tr>
+<tr>
+  <td><code>settleDeg</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0</code>; maximum: <code>4</code></td>
+</tr>
+<tr>
+  <td><code>damping</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>2</code>; maximum: <code>12</code></td>
+</tr>
+<tr>
+  <td><code>cycles</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>3</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="stage">stage</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>backgroundAsset</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>keys</code></td>
+  <td>yes</td>
+  <td>array of <code>stageKey</code></td>
+  <td>minItems: <code>2</code>; maxItems: <code>256</code></td>
+</tr>
+<tr>
+  <td><code>modelScale</code></td>
+  <td>yes</td>
+  <td><code>number</code></td>
+  <td>minimum: <code>0.1</code>; maximum: <code>3</code></td>
+</tr>
+<tr>
+  <td><code>camera</code></td>
+  <td>yes</td>
+  <td><code>camera</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>paperResponse</code></td>
+  <td>no</td>
+  <td><code>paperResponse</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="presentation">presentation</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;proposed&quot;</code>, <code>&quot;resolved&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>finishingStepIds</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>128</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>display</code></td>
+  <td>yes</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>flourish</code></td>
+  <td>yes</td>
+  <td><code>flourish</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>rigs</code></td>
+  <td>yes</td>
+  <td>array of <code>rig</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+<tr>
+  <td><code>stage</code></td>
+  <td>no</td>
+  <td><code>stage</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="narration">narration</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>step</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>locale</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>64</code>; pattern: <code>^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$</code>; BCP 47 language tag, checked by the author; syntax subset enforced here.</td>
+</tr>
+<tr>
+  <td><code>variant</code></td>
+  <td>yes</td>
+  <td><code>&quot;primary&quot;</code>, <code>&quot;descriptive&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>status</code></td>
+  <td>yes</td>
+  <td><code>&quot;missing&quot;</code>, <code>&quot;ready&quot;</code>, <code>&quot;stale&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>transcript</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>24000</code></td>
+</tr>
+<tr>
+  <td><code>textSha256</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>64</code>; pattern: <code>^[a-f0-9]{64}$</code>; Lowercase SHA-256 of the exact stored bytes.</td>
+</tr>
+<tr>
+  <td><code>asset</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>url</code></td>
+  <td>no</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>2048</code>; pattern: <code>^https://[^\s]+$</code></td>
+</tr>
+<tr>
+  <td><code>durationMs</code></td>
+  <td>no</td>
+  <td><code>integer</code></td>
+  <td>minimum: <code>1</code>; maximum: <code>3600000</code></td>
+</tr>
+<tr>
+  <td><code>pronunciations</code></td>
+  <td>no</td>
+  <td>array of <code>object</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>128</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="history">history</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>128</code>; pattern: <code>^[A-Za-z][A-Za-z0-9_.:-]{0,127}$</code>; Case-sensitive identifier; stable within this document.</td>
+</tr>
+<tr>
+  <td><code>scope</code></td>
+  <td>yes</td>
+  <td><code>&quot;model&quot;</code>, <code>&quot;symbol&quot;</code>, <code>&quot;tradition&quot;</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>title</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>summary</code></td>
+  <td>yes</td>
+  <td><code>localizedText</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>sourceIds</code></td>
+  <td>yes</td>
+  <td>array of <code>string</code></td>
+  <td>minItems: <code>1</code>; maxItems: <code>32</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>review</code></td>
+  <td>yes</td>
+  <td><code>review</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>qualifications</code></td>
+  <td>yes</td>
+  <td>array of <code>localizedText</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>32</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="print">print</h2>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>includeFinalPanel</code></td>
+  <td>yes</td>
+  <td><code>boolean</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>includeHistory</code></td>
+  <td>yes</td>
+  <td><code>boolean</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>template</code></td>
+  <td>no</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+<tr>
+  <td><code>panels</code></td>
+  <td>yes</td>
+  <td>array of <code>object</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>4096</code></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="extensionuse">extensionUse</h2>
+<p>Unknown required capabilities fail at the relevant profile boundary; no plugin code.</p>
+<table>
+<thead>
+<tr>
+  <th>Field</th>
+  <th>Required</th>
+  <th>Structural type</th>
+  <th>Bounds / description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>id</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>200</code>; pattern: <code>^[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+:[a-z][a-z0-9-]*$</code></td>
+</tr>
+<tr>
+  <td><code>version</code></td>
+  <td>yes</td>
+  <td><code>string</code></td>
+  <td>minLength: <code>1</code>; maxLength: <code>40</code>; pattern: <code>^\d+\.\d+\.\d+$</code></td>
+</tr>
+<tr>
+  <td><code>requiredFor</code></td>
+  <td>yes</td>
+  <td>array of <code>&quot;text&quot;</code>, <code>&quot;authoring&quot;</code>, <code>&quot;playback&quot;</code>, <code>&quot;presentation&quot;</code>, <code>&quot;print&quot;</code></td>
+  <td>minItems: <code>0</code>; maxItems: <code>5</code>; uniqueItems: <code>True</code></td>
+</tr>
+<tr>
+  <td><code>data</code></td>
+  <td>yes</td>
+  <td><code>object</code></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>Unlisted properties are rejected within this object.</p>
+<h2 id="cross-field-checks">Cross-field checks</h2>
+<p>Refer to <a href="../spec/00-status-and-conformance.html">conformance</a>, <a href="../spec/06-resolved-geometry.html">resolved geometry</a>, <a href="../spec/09-accessibility-and-text-only.html">accessibility</a>, and <a href="../spec/18-security-resource-policy-and-privacy.html">security</a> for rules a structural schema cannot prove.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

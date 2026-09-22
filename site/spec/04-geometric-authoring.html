@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>04 · Typed geometric authoring · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="04--typed-geometric-authoring">04 · Typed geometric authoring</h1>
+<p><strong>Normative for <code>construction-1</code></strong></p>
+<p><code>authoring</code> preserves why a fold exists. <code>geometry</code> preserves the resolved operation used for playback. They are complementary, not interchangeable. Playback uses resolved data; changing authoring geometry invalidates its compiled bindings until they are recomputed and checked.</p>
+<h2 id="construction-frames">Construction frames</h2>
+<p>A frame names a sheet, an <code>afterOperation</code> (or <code>null</code> for the initial flat state), an <code>originMm</code>, and perpendicular unit vectors <code>u</code> and <code>v</code>. Its positive normal is <code>u × v</code>. Coordinates in a frame are millimeters projected onto this plane.</p>
+<p>A material point is mapped through the named sheet state before projection. It must lie in the construction plane within the document position tolerance. A folded material line that has become a bent polyline cannot be treated as one straight line unless its complete mapped segment is straight within tolerance. A solver MUST reject nonplanar inputs rather than flatten them silently.</p>
+<p>A frame does not mutate paper orientation. Repositioning the model is a separate physical operation; moving a camera changes neither frame nor material identity.</p>
+<h2 id="points">Points</h2>
+<p>Every point has <code>id</code>, <code>frame</code>, and a typed <code>definition</code>:</p>
+<table>
+<thead>
+<tr>
+  <th>Kind</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>material</code></td>
+  <td>A named position <code>uvMm</code> on an original sheet, evaluated in the frame’s named state.</td>
+</tr>
+<tr>
+  <td><code>literal</code></td>
+  <td>Explicit <code>xyMm</code> in this construction plane; not automatically a point on the paper.</td>
+</tr>
+<tr>
+  <td><code>midpoint</code></td>
+  <td><code>(a+b)/2</code> for two points in this frame.</td>
+</tr>
+<tr>
+  <td><code>ratio</code></td>
+  <td><code>a + (numerator/denominator)*(b-a)</code>; denominator positive and numerator between 0 and denominator.</td>
+</tr>
+<tr>
+  <td><code>intersection</code></td>
+  <td>The unique intersection of two nonparallel lines in the frame.</td>
+</tr>
+</tbody>
+</table>
+<p>Keep rational intent as numerator/denominator; implementations may resolve it numerically under the tolerance policy. A ratio representation alone does not turn every downstream floating-point computation into exact arithmetic.</p>
+<h2 id="lines">Lines</h2>
+<p>Line definitions are <code>through</code>, <code>perpendicular</code>, <code>angle</code>, or <code>alignment</code>. All dependencies use the same construction frame. <code>angle</code> rotates an existing line’s direction by <code>angleDeg</code> in the positive frame orientation, then passes it through a named point.</p>
+<p>Resolved lines use a unit normal and offset: <code>n · x = d</code>. Canonical orientation chooses <code>n.y &gt; 0</code>, or when n.y is zero, <code>n.x &gt;= 0</code>. A canonical normal only normalizes naming; it does not decide which paper moves or whether the fold is a mountain or valley.</p>
+<p>An <code>alignment</code> uses one of the seven constraint families in chapter 05 plus a branch-selection policy. The solver must preserve the selected solution and provide diagnostics when it ceases to satisfy the construction.</p>
+<h2 id="regions-and-layer-selection">Regions and layer selection</h2>
+<p>A region is a polygon, a half-plane chosen by a point strictly off its boundary, or a finite union/intersection/difference/xor of prior regions. Region operations apply to sets in the stated construction plane; boundary points are retained as shared boundaries. To select paper, map each original material location through the frame's named pose and test its planar membership. This is a preimage in the material domain, not a direct comparison between original UVs and unrelated plane coordinates. Selected material must lie in the construction plane within tolerance; the core planar authoring compiler must not flatten an out-of-plane selection.</p>
+<p>Where several coplanar layers occupy the same region, plane membership selects all of them by default. An intent may supply <code>materialFilter</code>: an array of simple polygons in <strong>original material millimeters</strong>. Their union intersects the plane-region preimage, allowing a specific original flap to be selected even when it overlaps another layer. Filter polygons must lie inside the sheet and must not self-intersect. Omitting the filter means no additional material restriction.</p>
+<p>Region selection is not an instruction to duplicate paper or detach a flap. The compiler freezes the resulting <code>movingFaces</code> in the resolved mesh and checks every shared moving/stationary vertex against the actual hinge. A geometric region may identify material that currently lies below another layer; screen-space clicking must not replace that identity.</p>
+<p>If an intended region divides an existing face, the compiler must create a conforming mesh revision before the motion begins and prove the starting pose is unchanged. A display-layer rank does not define selection. General pocket insertion between named surfaces requires an explicit operation/constraint extension; a half-plane expression alone does not solve it.</p>
+<h2 id="intents-and-dependency-checking">Intents and dependency checking</h2>
+<p>An intent records sheet, crease line, moving region, signed rotation, duration, and <code>resolvedOperations</code>. The crease normal is canonicalized as described above. In plane coordinates its directed tangent is <code>(-n.y,n.x)</code>. The 3D axis passes through <code>origin + u*(d*n.x) + v*(d*n.y)</code> and points along <code>u*(-n.y) + v*n.x</code>. <code>rotationDeg</code> is right-handed about <strong>that</strong> direction. This rule prevents two compilers choosing opposite fold paths from the same undirected line. A resolved hinge may use a reversed numerical axis only when its angle is also negated.</p>
+<p>Empty bindings mean not compiled. Nonempty bindings are promises that the associated operations implement that intent; a construction-conforming writer must check the residuals and selections.</p>
+<p>Cycles, cross-type references, dangling names and accidental frame crossings are errors. Forward references are allowed if the complete graph is acyclic. The compiler topologically orders dependencies; the serialized <code>geometry.operations</code> still defines physical execution order.</p>
+<p>The crane example binds the first two diagonal precreases to explicit authoring relationships; it does not pretend that the rest of its complex 3D demonstration is already expressed as a symbolic constraint program.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>

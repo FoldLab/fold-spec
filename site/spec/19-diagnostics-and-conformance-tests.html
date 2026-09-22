@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>19 · Diagnostics and conformance tests · fold-spec</title><link rel="stylesheet" href="../assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="../README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="../README.html">Read me</a><a href="../SPEC.html">Specification index</a><a href="../docs/quickstart.html">Quick start</a><a href="../examples/crane/README.html">Crane example</a><a href="../IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="../spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="../spec/01-files-and-packages.html">01 · Files and packages</a><a href="../spec/02-document-and-identities.html">02 · Document model and identities</a><a href="../spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="../spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="../spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="../spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="../spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="../spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="../spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="../spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="../spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="../spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="../spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="../spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="../spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="../spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="../spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="../spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="../spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="../spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="../docs/field-reference.html">Field reference</a><a href="../docs/glossary.html">Glossary</a><a href="../VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="19--diagnostics-and-conformance-tests">19 · Diagnostics and conformance tests</h1>
+<p><strong>Normative diagnostic categories; informative reference tooling</strong></p>
+<p>Diagnostics have a stable code, readable message and optional path/identifier. JSON Pointer-style paths identify document members; Fold Source diagnostics identify source lines. Readers may provide additional context, but must not hide an unsupported capability behind “success.”</p>
+<table>
+<thead>
+<tr>
+  <th>Code family</th>
+  <th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>E_JSON</code>, <code>E_ENCODING</code>, <code>E_UNICODE</code>, <code>E_DUPLICATE_KEY</code>, <code>E_NUMBER</code></td>
+  <td>Input cannot be interpreted as strict bounded JSON/text.</td>
+</tr>
+<tr>
+  <td><code>E_SCHEMA</code>, <code>E_VERSION</code></td>
+  <td>Structural shape or required version unsupported.</td>
+</tr>
+<tr>
+  <td><code>E_REFERENCE</code>, <code>E_DUPLICATE_ID</code>, <code>E_FRAME</code>, <code>E_CYCLE</code></td>
+  <td>Broken identity, type, frame or dependency graph.</td>
+</tr>
+<tr>
+  <td><code>E_STATUS</code>, <code>E_RUN_COVERAGE</code></td>
+  <td>Availability claims and instructional motion coverage disagree.</td>
+</tr>
+<tr>
+  <td><code>E_DEGENERATE</code>, <code>E_AMBIGUOUS</code>, <code>E_NO_SOLUTION</code>, <code>E_CONSTRAINT</code></td>
+  <td>Crease construction cannot be resolved as requested.</td>
+</tr>
+<tr>
+  <td><code>E_SOLVER_UNSUPPORTED</code></td>
+  <td>This implementation cannot enumerate the requested family; it did not guess.</td>
+</tr>
+<tr>
+  <td><code>E_TOPOLOGY</code>, <code>E_MATERIAL</code>, <code>E_COVERAGE</code>, <code>E_TEAR</code></td>
+  <td>Invalid material mesh or disconnected hinge selection.</td>
+</tr>
+<tr>
+  <td><code>E_CONTINUITY</code>, <code>E_STRAIN</code></td>
+  <td>State mismatch or motion outside declared numerical budgets.</td>
+</tr>
+<tr>
+  <td><code>E_LAYER</code>, <code>E_CAMERA</code>, <code>E_RIG</code>, <code>E_PRESENTATION</code></td>
+  <td>Invalid view/contact/rig/display relationship.</td>
+</tr>
+<tr>
+  <td><code>E_NARRATION</code>, <code>E_NARRATION_HASH</code>, <code>E_NARRATION_STALE</code></td>
+  <td>Audio state or transcript binding invalid.</td>
+</tr>
+<tr>
+  <td><code>E_LOCALE</code>, <code>E_REVIEW</code></td>
+  <td>Missing copy locale or unsupported review claim.</td>
+</tr>
+<tr>
+  <td><code>E_PATH</code>, <code>E_ASSET</code>, <code>E_ASSET_HASH</code>, <code>E_PACKAGE_HASH</code>, <code>E_MANIFEST</code>, <code>E_ZIP</code>, <code>E_IMAGE</code></td>
+  <td>Packaging or media integrity issue.</td>
+</tr>
+<tr>
+  <td><code>E_LIMIT</code>, <code>E_UNSUPPORTED</code>, <code>E_DEPENDENCY</code>, <code>E_IO</code></td>
+  <td>Resource/capability/environment failure, not necessarily invalid origami.</td>
+</tr>
+</tbody>
+</table>
+<p>Different validators may detect different first failures when one fixture violates several requirements. Negative fixtures should isolate one defect. Compare acceptance/rejection and relevant category, not an entire implementation-specific prose error string.</p>
+<h2 id="test-layers">Test layers</h2>
+<ol>
+<li><strong>Structure:</strong> every positive JSON example passes the pinned schema and every negative fixture fails its intended layer.</li>
+<li><strong>Semantics:</strong> typed references, locales, statuses, range coverage and resource roles are coherent.</li>
+<li><strong>Geometry:</strong> material topology, hinge seams, endpoint continuity, remesh matching and interpolation error are checked.</li>
+<li><strong>Packaging:</strong> hashes, CRCs, size bounds, paths and asset equality survive pack/unpack.</li>
+<li><strong>Language:</strong> valid Fold Source produces the expected AST; invalid syntax/types are rejected without execution.</li>
+<li><strong>Behavior:</strong> player timing, waits, narration lifecycle, focus, reduced motion and printing agree with their contracts.</li>
+<li><strong>Human/physical:</strong> actual paper folding and assistive-technology/user testing validate claims that data checks cannot prove.</li>
+</ol>
+<p>The repository includes layers 1–5 with explicit implementation limits. It does not ship a production browser simulator or PDF runtime. Tests for those belong to implementing applications.</p>
+<h2 id="test-manifest-and-deterministic-examples">Test manifest and deterministic examples</h2>
+<p><code>conformance/cases.json</code> lists language-independent fixture intent and expected validity. <code>tests/</code> exercises numeric and package behaviors in Python. <code>tools/check.py</code> validates all examples, schemas, source AST equality, local Markdown links and package contents, then runs the test suite.</p>
+<p>The crane report distinguishes triangle counts summed across mesh revisions from the final model’s face count. A positive edge-strain check is not a collision-free certificate. Current measured results appear in <a href="../VERIFICATION.html">verification</a>, never inherited from an older application report.</p>
+<footer class="doc-footer">Fold Spec · Normative requirements are identified in their chapters. Read implementation coverage before making conformance claims.</footer></main></div></body></html>
