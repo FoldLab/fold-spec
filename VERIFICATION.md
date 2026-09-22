@@ -1,6 +1,6 @@
 # Verification record
 
-**Edition:** `1.0.0-draft.1` · **Executed:** 22 September 2026 · **Environment:** Python 3.13.5 on Linux, jsonschema 4.26.0, mistune 3.2.1.
+**Edition:** `1.0.0-draft.1` beta 1 · **Executed:** 22 September 2026 · **Environment:** Python 3.13.7 on Linux, jsonschema 4.26.0, mistune 3.2.1.
 
 The reference tools and supplied examples pass the checks below. This is an implementer-draft specification with explicitly limited reference tooling, **not** a claim of complete player conformance, physical correctness, or a deployed application. The machine-readable result is [verification-results.json](docs/verification-results.json).
 
@@ -16,11 +16,11 @@ The reference tools and supplied examples pass the checks below. This is an impl
 | Standalone scene example | **1 passed** | Structure, path ordering, camera and local raster asset checks |
 | Library examples | **2 passed** | Structure, exports and parameter-binding example targets; not full expansion |
 | Language-neutral fixture corpus | **12 cases** | Two accepted cases and ten deliberately rejected cases, exercised within the unit suite |
-| Documentation links | **152 checked in the recorded run** | Existing local Markdown targets; additional site-link checks are recorded with the package |
-| Offline documentation | **59 HTML pages; 2,058 local references passed** | File and fragment targets, unique IDs, page titles/main landmarks; zero scripts and remote resources |
+| Documentation links | **153 checked in the recorded run** | Existing local Markdown targets; additional site-link checks are recorded with the package |
+| Offline documentation | **59 HTML pages; 2,060 local references passed** | File and fragment targets, unique IDs, page titles/main landmarks; zero scripts and remote resources |
 | Python syntax compatibility | **Passed** | Python 3.10 grammar parse of shipped tools/tests; actual execution used Python 3.13 |
 
-The full repository check completed in approximately 33 seconds in the recorded run. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.
+The full repository check completed in approximately 30 seconds in the recorded run. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.
 
 ## Functional README commands
 
@@ -40,7 +40,13 @@ This evidence checks the supplied numerical representation. It does not certify 
 
 The reference implementation does **not** include a full symbolic construction compiler, full reusable-part expander, complete overlap-arrangement/layer-order proof, 3D viewer, PDF renderer or legacy FoldLab application adapter. Its planar helper enumerates four constraint families and validates supplied witnesses for all seven; it does not claim general solution enumeration for the remaining three.
 
-A Chromium attempt to navigate to the locally generated documentation returned `net::ERR_BLOCKED_BY_ADMINISTRATOR` in the delivery environment. The restriction was not disabled. No browser-rendered or real-screen-reader pass is claimed. The offline documentation is instead checked for generated pages, local links/resources and script-free structure. The hosted GitHub Actions workflow is supplied but has not run on GitHub as part of this delivery.
+The rebuilt offline documentation was served locally and smoke-tested in
+Chrome. The landing page rendered its checked-in Fold Viewer screenshot, the
+specification navigation opened `SPEC.html`, and no browser console warning or
+error was observed. This is a visual/navigation smoke test, not a
+screen-reader, keyboard-completeness or multi-browser certification. The
+hosted GitHub Actions workflow also passed on the initial public `main` commit;
+release-candidate CI is verified separately before tagging.
 
 No paid audio service, online generation API, real-paper folding session, NVDA/VoiceOver review, or physical collision solver was used to manufacture a stronger test claim. See [implementation coverage](IMPLEMENTATION-STATUS.md) for the profile-by-profile limits.
 

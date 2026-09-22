@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verification record · fold-spec</title><link rel="stylesheet" href="assets/site.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a href="README.html">fold-spec</a><small>1.0.0-draft.1<br>Implementer draft</small></header><div class="layout"><aside><nav aria-label="Documentation"><strong>Overview</strong><a href="README.html">Read me</a><a href="SPEC.html">Specification index</a><a href="docs/quickstart.html">Quick start</a><a href="examples/crane/README.html">Crane example</a><a href="IMPLEMENTATION-STATUS.html">Implementation coverage</a><strong>Normative chapters</strong><a href="spec/00-status-and-conformance.html">00 · Status and conformance</a><a href="spec/01-files-and-packages.html">01 · Files and packages</a><a href="spec/02-document-and-identities.html">02 · Document model and identities</a><a href="spec/03-paper-coordinates-and-appearance.html">03 · Paper, coordinates and appearance</a><a href="spec/04-geometric-authoring.html">04 · Typed geometric authoring</a><a href="spec/05-constraints-branches-and-precision.html">05 · Crease constraints, branches and precision</a><a href="spec/06-resolved-geometry.html">06 · Resolved geometry and motion</a><a href="spec/07-layers-and-persistent-creases.html">07 · Layers, sides and persistent creases</a><a href="spec/08-instructions-timing-and-playback.html">08 · Instructions, substeps and playback</a><a href="spec/09-accessibility-and-text-only.html">09 · Accessibility and text-only copy</a><a href="spec/10-localization-and-narration.html">10 · Localization and narration</a><a href="spec/11-final-presentation-and-artistic-stage.html">11 · Final presentation and artistic stage</a><a href="spec/12-paper-response-and-rendering.html">12 · Paper response and rendering fidelity</a><a href="spec/13-diagrams-print-and-templates.html">13 · Diagrams, print and cut-out templates</a><a href="spec/14-history-provenance-and-rights.html">14 · History, provenance and rights</a><a href="spec/15-reusable-parts-and-scenes.html">15 · Reusable parts and scenes</a><a href="spec/16-extensions-and-versioning.html">16 · Extensions and versioning</a><a href="spec/17-interoperability-and-migration.html">17 · Interoperability and migration</a><a href="spec/18-security-resource-policy-and-privacy.html">18 · Security, resource policy and privacy</a><a href="spec/19-diagnostics-and-conformance-tests.html">19 · Diagnostics and conformance tests</a><a href="spec/20-future-work-and-design-boundaries.html">20 · Design boundaries and future work</a><strong>Reference</strong><a href="docs/field-reference.html">Field reference</a><a href="docs/glossary.html">Glossary</a><a href="VERIFICATION.html">Verification</a></nav></aside><main id="main"><h1 id="verification-record">Verification record</h1>
-<p><strong>Edition:</strong> <code>1.0.0-draft.1</code> · <strong>Executed:</strong> 22 September 2026 · <strong>Environment:</strong> Python 3.13.5 on Linux, jsonschema 4.26.0, mistune 3.2.1.</p>
+<p><strong>Edition:</strong> <code>1.0.0-draft.1</code> beta 1 · <strong>Executed:</strong> 22 September 2026 · <strong>Environment:</strong> Python 3.13.7 on Linux, jsonschema 4.26.0, mistune 3.2.1.</p>
 <p>The reference tools and supplied examples pass the checks below. This is an implementer-draft specification with explicitly limited reference tooling, <strong>not</strong> a claim of complete player conformance, physical correctness, or a deployed application. The machine-readable result is <a href="docs/verification-results.json">verification-results.json</a>.</p>
 <h2 id="executed-checks">Executed checks</h2>
 <table>
@@ -53,12 +53,12 @@
 </tr>
 <tr>
   <td>Documentation links</td>
-  <td style="text-align:right"><strong>152 checked in the recorded run</strong></td>
+  <td style="text-align:right"><strong>153 checked in the recorded run</strong></td>
   <td>Existing local Markdown targets; additional site-link checks are recorded with the package</td>
 </tr>
 <tr>
   <td>Offline documentation</td>
-  <td style="text-align:right"><strong>59 HTML pages; 2,058 local references passed</strong></td>
+  <td style="text-align:right"><strong>59 HTML pages; 2,060 local references passed</strong></td>
   <td>File and fragment targets, unique IDs, page titles/main landmarks; zero scripts and remote resources</td>
 </tr>
 <tr>
@@ -68,7 +68,7 @@
 </tr>
 </tbody>
 </table>
-<p>The full repository check completed in approximately 33 seconds in the recorded run. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.</p>
+<p>The full repository check completed in approximately 30 seconds in the recorded run. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.</p>
 <h2 id="functional-readme-commands">Functional README commands</h2>
 <p>The subprocess suite validates the real crane file, parses the named source example into a new JSON file and validates it, samples the documented hinge operation, exports the crane to plain text and semantic HTML, creates and reopens a package with its actual background asset, rejects a second write to the same package path, checks the labelled schema-only mode, and verifies JSON error reporting for an unknown operation.</p>
 <p>Outputs are created in temporary directories. The test suite does not rewrite the shipped examples. The <code>pack</code> command intentionally refuses to overwrite an existing destination; this is documented in the README.</p>
@@ -78,7 +78,13 @@
 <p>This evidence checks the supplied numerical representation. It does not certify self-contact, physical folding, finite-thickness feasibility, tactile comprehension or perfect correspondence to every traditional crane variant. Model qualifications remain in the JSON and in the exported text.</p>
 <h2 id="boundaries-and-unexecuted-checks">Boundaries and unexecuted checks</h2>
 <p>The reference implementation does <strong>not</strong> include a full symbolic construction compiler, full reusable-part expander, complete overlap-arrangement/layer-order proof, 3D viewer, PDF renderer or legacy FoldLab application adapter. Its planar helper enumerates four constraint families and validates supplied witnesses for all seven; it does not claim general solution enumeration for the remaining three.</p>
-<p>A Chromium attempt to navigate to the locally generated documentation returned <code>net::ERR_BLOCKED_BY_ADMINISTRATOR</code> in the delivery environment. The restriction was not disabled. No browser-rendered or real-screen-reader pass is claimed. The offline documentation is instead checked for generated pages, local links/resources and script-free structure. The hosted GitHub Actions workflow is supplied but has not run on GitHub as part of this delivery.</p>
+<p>The rebuilt offline documentation was served locally and smoke-tested in
+Chrome. The landing page rendered its checked-in Fold Viewer screenshot, the
+specification navigation opened <code>SPEC.html</code>, and no browser console warning or
+error was observed. This is a visual/navigation smoke test, not a
+screen-reader, keyboard-completeness or multi-browser certification. The
+hosted GitHub Actions workflow also passed on the initial public <code>main</code> commit;
+release-candidate CI is verified separately before tagging.</p>
 <p>No paid audio service, online generation API, real-paper folding session, NVDA/VoiceOver review, or physical collision solver was used to manufacture a stronger test claim. See <a href="IMPLEMENTATION-STATUS.html">implementation coverage</a> for the profile-by-profile limits.</p>
 <h2 id="reproduce">Reproduce</h2>
 <pre><code class="language-sh">python -m pip install -r requirements.txt

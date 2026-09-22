@@ -4,7 +4,15 @@
 
 `fold-spec` separates what a fold **means**, how paper **moves**, what a person **does**, and how the completed model is **presented**. A single document can support text-only lessons, named geometric constructions, deterministic 3D playback, tactile guidance, printable diagrams, and optional artistic scenes.
 
-**Current specification:** `1.0.0-draft.1` · **Status:** implementer draft · **License:** MIT
+**Current specification:** `1.0.0-draft.1` · **Release channel:** beta · **Status:** implementer draft · **License:** MIT
+
+[![Fold Viewer rendering the Fold Spec crane example at step 43, with the model, instruction card, and playback controls visible.](docs/assets/fold-viewer-crane.jpg)](https://foldlab.github.io/fold-viewer/)
+
+**See the format in motion.** The companion
+[Fold Viewer](https://github.com/FoldLab/fold-viewer) React package renders the
+same checked-in crane document shown above. Try the
+[live interactive demo](https://foldlab.github.io/fold-viewer/) or review the
+viewer repository's explicit capability limits before integrating it.
 
 This is a specification repository with runnable reference utilities and conformance examples—not an origami application or a fully general paper-physics engine. It defines a new document contract. Existing FoldLab 0.8 readers do not understand it without an adapter. See [migration](docs/migration.md) and [implementation coverage](IMPLEMENTATION-STATUS.md).
 
@@ -17,6 +25,7 @@ This is a specification repository with runnable reference utilities and conform
 | Author with named points and alignment constraints | [Authoring guide](docs/authoring-guide.md) and [Fold Source grammar](grammar/fold-source.ebnf) |
 | Write accessible, text-only instructions | [Text and accessibility guide](docs/text-only-and-accessibility.md) |
 | Implement a player or importer | [Player guide](docs/implementing-a-player.md) and [structural field reference](docs/field-reference.md) |
+| Embed the reference crane in React | [Fold Viewer](https://github.com/FoldLab/fold-viewer) and its [live demo](https://foldlab.github.io/fold-viewer/) |
 | Explore a complete example | [Paper crane](examples/crane/README.md): 44 teaching steps and a resolved geometric demonstration |
 | Evaluate exactly what is tested | [Verification](VERIFICATION.md) and [conformance corpus](conformance/README.md) |
 

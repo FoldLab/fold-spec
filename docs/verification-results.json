@@ -1,18 +1,18 @@
 {
   "status": "passed",
   "specVersion": "1.0.0-draft.1",
-  "python": "3.13.5",
+  "python": "3.13.7",
   "schemas": 4,
   "documentExamples": 10,
   "packageExamples": 10,
   "sourcePairs": 2,
   "scenes": 1,
   "libraries": 2,
-  "localLinksChecked": 152,
+  "localLinksChecked": 153,
   "unitTests": 124,
   "testFailures": 0,
   "testErrors": 0,
-  "seconds": 33.015,
+  "seconds": 29.589,
   "documents": [
     {
       "file": "examples/authoring/named-fold.fold.json",
