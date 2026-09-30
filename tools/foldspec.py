@@ -549,7 +549,8 @@ def inspect_package(path: Path, *, geometry=True) -> tuple[dict,dict]:
             require(set(en)==names-{'manifest.json'},'E_MANIFEST','Manifest must declare exactly every payload.')
             payloads={p:read(p) for p in en}
             for p,data in payloads.items():require(len(data)==en[p]['byteLength'] and digest(data)==en[p]['sha256'],'E_PACKAGE_HASH',f'Payload integrity mismatch: {p}.')
-            d=loads(payloads['document.json']);require(d.get('specVersion')==manifest['specVersion'],'E_VERSION','Manifest/document version mismatch.')
+            d=loads(payloads['document.json']);require(isinstance(d,dict),'E_SCHEMA','Document root must be an object.')
+            require(d.get('specVersion')==manifest['specVersion'],'E_VERSION','Manifest/document version mismatch.')
             report=validate_document(d,geometry=geometry)
             require(set(payloads)=={'document.json'}|{a['path'] for a in d['assets']},'E_MANIFEST','Unreferenced or absent document asset.')
             for a in d['assets']:check_asset_bytes(payloads[a['path']],a)

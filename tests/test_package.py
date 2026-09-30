@@ -23,6 +23,16 @@ class PackageTests(unittest.TestCase):
     def test_payload_tamper(self):
         p=self.package();self.rewrite(p,lambda f:f.update({'document.json':f['document.json']+b' '}))
         with self.assertRaisesRegex(SpecError,'E_PACKAGE_HASH'):inspect_package(p)
+    def test_non_object_document_with_correct_hash_is_schema_error(self):
+        p=self.package()
+        def replace_document(files):
+            files['document.json']=b'[]'
+            manifest=loads(files['manifest.json'])
+            entry=next(e for e in manifest['entries'] if e['path']=='document.json')
+            entry.update(byteLength=2,sha256=digest(files['document.json']))
+            files['manifest.json']=json_bytes(manifest)
+        self.rewrite(p,replace_document)
+        with self.assertRaisesRegex(SpecError,'E_SCHEMA'):inspect_package(p)
     def test_unlisted_file(self):
         p=self.package();self.rewrite(p,lambda f:f.update({'extra.json':b'{}'}))
         with self.assertRaisesRegex(SpecError,'E_MANIFEST'):inspect_package(p)

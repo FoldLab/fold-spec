@@ -1,6 +1,6 @@
 # Verification record
 
-**Edition:** `1.0.0-draft.1` beta 1 · **Executed:** 22 September 2026 · **Environment:** Python 3.13.7 on Linux, jsonschema 4.26.0, mistune 3.2.1.
+**Edition:** `1.0.0-draft.1` beta 1 · **Executed:** 25 September 2026 · **Environment:** Python 3.13.7 on Linux, jsonschema 4.26.0, mistune 3.2.1.
 
 The reference tools and supplied examples pass the checks below. This is an implementer-draft specification with explicitly limited reference tooling, **not** a claim of complete player conformance, physical correctness, or a deployed application. The machine-readable result is [verification-results.json](docs/verification-results.json).
 
@@ -8,7 +8,7 @@ The reference tools and supplied examples pass the checks below. This is an impl
 
 | Check | Result | Scope |
 |---|---:|---|
-| Unit and regression suite | **124 passed, 0 failures, 0 errors** | Includes seven real command-line subprocess tests, not just direct function calls |
+| Unit and regression suite | **125 passed, 0 failures, 0 errors** | Includes seven real command-line subprocess tests and rejection of a correctly hashed package with a non-object document root |
 | JSON Schemas | **4 passed** | Draft 2020-12 structural schema checks plus regeneration equality |
 | Readable document examples | **10 passed** | Status, locale, references, topology and other implemented semantic checks |
 | Native `.foldlab` packages | **10 passed** | CRC, declared payloads, sizes, SHA-256 and equality to readable source |
@@ -20,7 +20,7 @@ The reference tools and supplied examples pass the checks below. This is an impl
 | Offline documentation | **59 HTML pages; 2,060 local references passed** | File and fragment targets, unique IDs, page titles/main landmarks; zero scripts and remote resources |
 | Python syntax compatibility | **Passed** | Python 3.10 grammar parse of shipped tools/tests; actual execution used Python 3.13 |
 
-The full repository check completed in approximately 30 seconds in the recorded run. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.
+The full repository check completed in approximately 212 seconds in the recorded run, alongside other repository tests. This is a test-runtime observation, not a performance guarantee. Runtime varies with machine load.
 
 ## Functional README commands
 
@@ -40,7 +40,7 @@ This evidence checks the supplied numerical representation. It does not certify 
 
 The reference implementation does **not** include a full symbolic construction compiler, full reusable-part expander, complete overlap-arrangement/layer-order proof, 3D viewer, PDF renderer or legacy FoldLab application adapter. Its planar helper enumerates four constraint families and validates supplied witnesses for all seven; it does not claim general solution enumeration for the remaining three.
 
-The rebuilt offline documentation was served locally and smoke-tested in
+During the 22 September release review, the offline documentation was served locally and smoke-tested in
 Chrome. The landing page rendered its checked-in Fold Viewer screenshot, the
 specification navigation opened `SPEC.html`, and no browser console warning or
 error was observed. This is a visual/navigation smoke test, not a

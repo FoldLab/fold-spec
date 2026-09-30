@@ -8,7 +8,7 @@
 same checked-in crane document shown above. Try the
 <a href="https://foldlab.github.io/fold-viewer/">live interactive demo</a> or review the
 viewer repository's explicit capability limits before integrating it.</p>
-<p>This is a specification repository with runnable reference utilities and conformance examples—not an origami application or a fully general paper-physics engine. It defines a new document contract. Existing FoldLab 0.8 readers do not understand it without an adapter. See <a href="docs/migration.html">migration</a> and <a href="IMPLEMENTATION-STATUS.html">implementation coverage</a>.</p>
+<p>This is a specification repository with runnable reference utilities and conformance examples—not an origami application or a fully general paper-physics engine. It defines a new document contract, distinct from the FoldLab application's native lesson format. Native readers require an explicit adapter; a shared <code>.foldlab</code> suffix does not imply compatibility. See <a href="docs/migration.html">migration</a> and <a href="IMPLEMENTATION-STATUS.html">implementation coverage</a>.</p>
 <h2 id="start-here">Start here</h2>
 <table>
 <thead>
@@ -52,6 +52,42 @@ viewer repository's explicit capability limits before integrating it.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="companion-projects">Companion projects</h2>
+<table>
+<thead>
+<tr>
+  <th>Project</th>
+  <th>Responsibility</th>
+  <th>Integration boundary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="https://github.com/FoldLab/foldlab">FoldLab</a></td>
+  <td>Lesson catalogue, model cards, and guided learning</td>
+  <td>Native application lessons are not Fold Spec documents.</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/FoldLab/fold-viewer">Fold Viewer</a></td>
+  <td>Embeddable React playback and text controls</td>
+  <td>Check its pinned version and supported capabilities before loading a document.</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/FoldLab/fold-editor">Fold Editor</a></td>
+  <td>Interactive authoring and editable project history</td>
+  <td>Its local project format is separate from validated Fold Spec export.</td>
+</tr>
+<tr>
+  <td><a href="https://github.com/FoldLab/fold-simulator">Fold Simulator</a></td>
+  <td>Framework-independent motion sampling and experimental relaxation</td>
+  <td>A supported motion profile is not a complete symbolic compiler or physical solver.</td>
+</tr>
+</tbody>
+</table>
+<p>These implementations evolve independently. Their READMEs define their supported
+profiles and installation status; this specification does not imply that every
+feature is available in every companion. Implementers should pin a spec version,
+bundle matching schemas, and test both structural and semantic validation.</p>
 <h2 id="three-complementary-representations">Three complementary representations</h2>
 <pre><code class="language-text">.foldsrc                     .fold.json                       .foldlab
 readable authoring source  →  structured document + assets  →  portable ZIP package
@@ -61,12 +97,12 @@ readable authoring source  →  structured document + assets  →  portable ZIP 
 <p>The suffix <code>.fold</code> is reserved for the existing FOLD geometry interchange ecosystem; this repository does not redefine it. <code>.foldlib.json</code> carries reusable data-only construction parts. <code>.foldscene</code> carries a reusable scene with explicitly declared sibling assets. Schema identifiers under <code>fold-spec.example</code> are reserved documentation identifiers, not a deployed service.</p>
 <h2 id="quick-start">Quick start</h2>
 <p>Python <strong>3.10 or newer</strong> is required. No Node.js, browser, service key, or online API is needed to use the installed tools.</p>
-<pre><code class="language-sh">python -m venv .venv
+<pre><code class="language-sh">python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 python tools/check.py
 </code></pre>
-<p>In PowerShell, activate with <code>.venv\Scripts\Activate.ps1</code> instead. Package installation needs access to the Python package registry; validation afterward uses bundled schemas and never fetches a document's URLs.</p>
+<p>On Windows, create the environment with <code>py -3 -m venv .venv</code> and activate in PowerShell with <code>.venv\Scripts\Activate.ps1</code>. After activation, <code>python</code> refers to the environment's interpreter. Package installation needs access to the Python package registry; validation afterward uses bundled schemas and never fetches a document's URLs.</p>
 <p>Validate the crane, inspect its packaged counterpart, and export descriptive text:</p>
 <pre><code class="language-sh">python tools/foldspec.py validate examples/crane/crane.fold.json
 python tools/foldspec.py inspect examples/crane/crane.foldlab

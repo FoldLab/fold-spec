@@ -5,13 +5,13 @@
 ## 1. Install and check
 
 ```sh
-python -m venv .venv
+python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 python tools/check.py
 ```
 
-PowerShell activation: `.venv\Scripts\Activate.ps1`. The reference tools require Python 3.10+. They do not need your application project, a renderer, a GPU, or an API key. Install dependencies before going offline.
+On Windows, create the environment with `py -3 -m venv .venv`; PowerShell activation is `.venv\Scripts\Activate.ps1`. After activation, use `python` for the remaining commands. The reference tools require Python 3.10+. They do not need your application project, a renderer, a GPU, or an API key. Install dependencies before going offline.
 
 `check.py` checks schema syntax, complete examples, source-to-JSON equivalence, local documentation links, shipped package integrity, fixtures, and the unit suite. It exits nonzero on failure and prints an explicit summary. It does not claim the unresolved authoring graphs have been compiled into geometry.
 

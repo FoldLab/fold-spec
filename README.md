@@ -14,7 +14,7 @@ same checked-in crane document shown above. Try the
 [live interactive demo](https://foldlab.github.io/fold-viewer/) or review the
 viewer repository's explicit capability limits before integrating it.
 
-This is a specification repository with runnable reference utilities and conformance examples—not an origami application or a fully general paper-physics engine. It defines a new document contract. Existing FoldLab 0.8 readers do not understand it without an adapter. See [migration](docs/migration.md) and [implementation coverage](IMPLEMENTATION-STATUS.md).
+This is a specification repository with runnable reference utilities and conformance examples—not an origami application or a fully general paper-physics engine. It defines a new document contract, distinct from the FoldLab application's native lesson format. Native readers require an explicit adapter; a shared `.foldlab` suffix does not imply compatibility. See [migration](docs/migration.md) and [implementation coverage](IMPLEMENTATION-STATUS.md).
 
 ## Start here
 
@@ -28,6 +28,20 @@ This is a specification repository with runnable reference utilities and conform
 | Embed the reference crane in React | [Fold Viewer](https://github.com/FoldLab/fold-viewer) and its [live demo](https://foldlab.github.io/fold-viewer/) |
 | Explore a complete example | [Paper crane](examples/crane/README.md): 44 teaching steps and a resolved geometric demonstration |
 | Evaluate exactly what is tested | [Verification](VERIFICATION.md) and [conformance corpus](conformance/README.md) |
+
+## Companion projects
+
+| Project | Responsibility | Integration boundary |
+|---|---|---|
+| [FoldLab](https://github.com/FoldLab/foldlab) | Lesson catalogue, model cards, and guided learning | Native application lessons are not Fold Spec documents. |
+| [Fold Viewer](https://github.com/FoldLab/fold-viewer) | Embeddable React playback and text controls | Check its pinned version and supported capabilities before loading a document. |
+| [Fold Editor](https://github.com/FoldLab/fold-editor) | Interactive authoring and editable project history | Its local project format is separate from validated Fold Spec export. |
+| [Fold Simulator](https://github.com/FoldLab/fold-simulator) | Framework-independent motion sampling and experimental relaxation | A supported motion profile is not a complete symbolic compiler or physical solver. |
+
+These implementations evolve independently. Their READMEs define their supported
+profiles and installation status; this specification does not imply that every
+feature is available in every companion. Implementers should pin a spec version,
+bundle matching schemas, and test both structural and semantic validation.
 
 ## Three complementary representations
 
@@ -46,13 +60,13 @@ The suffix `.fold` is reserved for the existing FOLD geometry interchange ecosys
 Python **3.10 or newer** is required. No Node.js, browser, service key, or online API is needed to use the installed tools.
 
 ```sh
-python -m venv .venv
+python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -r requirements.txt
 python tools/check.py
 ```
 
-In PowerShell, activate with `.venv\Scripts\Activate.ps1` instead. Package installation needs access to the Python package registry; validation afterward uses bundled schemas and never fetches a document's URLs.
+On Windows, create the environment with `py -3 -m venv .venv` and activate in PowerShell with `.venv\Scripts\Activate.ps1`. After activation, `python` refers to the environment's interpreter. Package installation needs access to the Python package registry; validation afterward uses bundled schemas and never fetches a document's URLs.
 
 Validate the crane, inspect its packaged counterpart, and export descriptive text:
 
