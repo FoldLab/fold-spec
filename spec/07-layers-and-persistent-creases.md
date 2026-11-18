@@ -10,7 +10,7 @@ An operation MAY supply `layers` relations. Each relation names two faces, progr
 
 The patch plane is `normal·p = planeOffsetMm`. Its origin is `planeOffsetMm*normal`. Choose the projected +X direction as u unless `abs(normal.x)>0.9`, in which case use projected +Y; normalize it. Let v=`normal×u`. `overlapMm` coordinates use this u/v basis. This deterministic basis prevents two readers interpreting the same local polygon in different planes.
 
-A validator for local layers checks the face references, unit normal, planar overlap, patch containment, no self-relations and no contradictory cycles within the same patch/state. It must not reject legitimate relationships in distinct spatial patches merely because a global graph cycles. The current reference tool checks references and normals, not a complete planar arrangement proof; see implementation status.
+A validator for local layers checks the face references, unit normal, planar overlap, patch containment, no self-relations and no contradictory cycles within the same patch/state. It must not reject legitimate relationships in distinct spatial patches merely because a global graph cycles. The current reference tool checks references, normals and contradictory cycles within exactly identical patch/plane/time declarations (allowing cyclic rotation or reversed polygon winding). It does not merge different patch polygons, approximately equal planes or different normal encodings; overlapping but nonidentical regions still require a complete planar arrangement proof. See implementation status.
 
 ## Optional coplanar hints
 

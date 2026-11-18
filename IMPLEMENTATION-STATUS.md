@@ -8,7 +8,7 @@ This table describes **the supplied tools**, not every behavior a conforming ind
 | Cross-field semantics | IDs, references, locales, status, instruction-run partitions, narration hashes, camera vectors, review evidence, core authoring cycles | Does not authenticate evidence or review the truth of prose |
 | Geometric validation | Rectangular disk topology, orientation/coverage checks, hinge seam constraints, finite positions, analytic sampled-edge bounds | No collision, finite-thickness, force simulation or physical user review |
 | Operation boundaries | Bidirectional material vertex/edge-midpoint/centroid comparisons | Not a full overlay-arrangement proof for all possible remesh intersections |
-| Local layer relations | Face references and unit normals | No full overlap-region order/cycle/contact validator; display hints are not physical order proof |
+| Local layer relations | Face references, unit normals and cycles within identical patch/plane/time declarations | No full overlap-region order/cycle/contact validator; display hints are not physical order proof |
 | Motion sampling | Analytic hinges/rigid handling, shared sampled positions, duration-weighted instruction runs | No real-time renderer, no arbitrary solver-generated complex folds |
 | Fold Source | Finite parser producing the JSON AST; typed graph/reference checks | Not a complete construction compiler |
 | Planar constraint helpers | Enumerates four families; checks all seven supplied witness families with separate position/angular residuals | No general enumeration for the last three families, no root conditioning certificate |

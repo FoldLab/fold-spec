@@ -241,6 +241,43 @@ def continuity(prev_mesh,prev_positions,mesh,positions,eps):
 def _hint(h,nfaces):
     require(len(h['ranks'])==nfaces and abs(norm(h['axis'])-1)<1e-6,'E_LAYER','Layer hint dimensions or unit axis invalid.')
 
+def validate_layer_cycles(layers: list[dict]) -> None:
+    """Reject cycles only for exactly matching patch/state declarations.
+
+    This is deliberately not a planar-overlap or contact proof. Different
+    polygons, planes, normals or progress values remain independent; even
+    overlapping but nonidentical patches require a future arrangement checker.
+    """
+    groups = defaultdict(lambda: defaultdict(set))
+    for relation in layers:
+        polygon = [tuple(p) for p in relation['overlapMm']]
+        # Equivalent boundary encodings may start at any corner or reverse
+        # winding. A repeated closing corner does not change the patch.
+        if len(polygon) > 1 and polygon[0] == polygon[-1]:
+            polygon.pop()
+        rotations = [tuple(seq[i:] + seq[:i])
+                     for seq in (polygon, list(reversed(polygon)))
+                     for i in range(len(seq))]
+        key = (relation['at'], tuple(relation['normal']),
+               relation['planeOffsetMm'], min(rotations))
+        groups[key][relation['firstFace']].add(relation['secondFace'])
+    for graph in groups.values():
+        # Kahn's algorithm avoids recursion limits on large valid documents.
+        indegree = {face: 0 for face in graph}
+        for targets in graph.values():
+            for face in targets:
+                indegree[face] = indegree.get(face, 0) + 1
+        ready = [face for face, degree in indegree.items() if degree == 0]
+        visited = 0
+        while ready:
+            face = ready.pop(); visited += 1
+            for target in graph.get(face, ()):
+                indegree[target] -= 1
+                if indegree[target] == 0:
+                    ready.append(target)
+        require(visited == len(indegree), 'E_LAYER',
+                'Contradictory layer-order cycle within the same patch and state.')
+
 def validate_geometry(d: dict) -> dict:
     g=d.get('geometry')
     if not g:return {'operations':0,'triangles':0,'maxMeasuredRelativeEdgeError':0.0,'checks':'no-geometry'}
@@ -265,6 +302,7 @@ def validate_geometry(d: dict) -> dict:
         for layer in op['layers']:
             require(layer['firstFace'] in fids and layer['secondFace'] in fids and layer['firstFace']!=layer['secondFace'],'E_LAYER','Missing or identical faces in layer relation.')
             require(abs(norm(layer['normal'])-1)<1e-6,'E_LAYER','Layer normal must be unit length.')
+        validate_layer_cycles(op['layers'])
         if op['kind']=='sampled':
             keys=op['keys'];require(keys[0]['at']==0 and keys[-1]['at']==1 and all(a['at']<b['at'] for a,b in zip(keys,keys[1:])),'E_TIME','Key times must strictly increase from 0 to 1.')
             require(all(len(k['positionsMm'])==count for k in keys),'E_DIMENSION','Keyframe vertex count differs from mesh.')
