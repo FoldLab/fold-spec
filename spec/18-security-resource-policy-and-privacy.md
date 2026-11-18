@@ -16,6 +16,8 @@ Inspect package entries before extraction. Reject symlinks, device files, encryp
 
 Static images must have supported signatures and consistent metadata, decoded dimensions and chunk structure before display. Use a maintained sandboxed/platform decoder, decoded-pixel budgets and cancellation of superseded jobs. Audio decoders also need size/duration policies. The reference tool’s signature/PNG-CRC checks do not certify every codec implementation against malicious input.
 
+Thumbnails are ordinary images for these purposes, with one added privacy rule: raster previews often carry camera, location, editing-software or author metadata. Writers SHOULD strip EXIF, XMP and similar metadata from a thumbnail before packaging, because a package is meant to be shared and an index makes the image visible to every consumer. The reference tool verifies the image signature and its declared pixel size from the header; it does not decode pixels or strip metadata.
+
 The reference package limits are 64 MiB compressed, 32 MiB per payload, 128 MiB expanded and 258 entries; JSON nesting is capped at 96 in its parser. Raster decoding is capped at 8192 per side and 16,777,216 pixels in the reference PNG preflight. Implementations may enforce lower limits but should report `E_LIMIT`, not pretend the geometry was invalid.
 
 ## Remote resources

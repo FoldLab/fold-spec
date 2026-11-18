@@ -27,6 +27,7 @@ MAX_TOTAL = 128 * 1024 * 1024
 MAX_ARCHIVE = 64 * 1024 * 1024
 MAX_ENTRIES = 258
 MAX_DEPTH = 96
+MAX_THUMBNAIL = 1024 * 1024
 
 class SpecError(ValueError):
     def __init__(self, code: str, message: str, path: str = ''):
@@ -139,7 +140,7 @@ def validate_camera(c: dict) -> None:
 
 def validate_locales(d: dict) -> None:
     locale=d['defaultLocale']
-    singular={'title','summary','body','name','description','orientation','rightsNote'}
+    singular={'title','summary','body','name','description','orientation','rightsNote','alt'}
     plural={'setup','locate','check','recovery','limitations','checks','qualifications'}
     def text(value):
         require(len({k.lower() for k in value})==len(value),'E_LOCALE','Case-colliding locale tags.')
@@ -373,10 +374,12 @@ def validate_document(d: dict, *, geometry=True) -> dict:
     sheets=indexed(d['sheets'],'sheet');steps=indexed(d['instructions']['steps'],'step');assets=indexed(d['assets'],'asset');sources=indexed(d['metadata']['sources'],'source');landmarks=indexed(d['accessibility']['landmarks'],'landmark');narration=indexed(d['narration'],'narration')
     indexed(d['history'],'history');indexed(d['extensions'],'extension');paths=set()
     for a in assets.values():
-        expected={'background':('image/png','image/jpeg','image/webp'),'paper-image':('image/png','image/jpeg','image/webp'),'narration':('audio/mpeg','audio/ogg','audio/wav'),'library':('application/json',)}
+        expected={'background':('image/png','image/jpeg','image/webp'),'paper-image':('image/png','image/jpeg','image/webp'),'narration':('audio/mpeg','audio/ogg','audio/wav'),'library':('application/json',),'thumbnail':('image/png','image/jpeg','image/webp')}
+        require(a['role']!='thumbnail' or a['byteLength']<=MAX_THUMBNAIL,'E_THUMBNAIL','Thumbnail exceeds the 1 MiB preview budget.')
         require(a['role'] not in expected or a['mediaType'] in expected[a['role']],'E_ASSET_ROLE','Asset media type disagrees with its role.')
         path=safe_path(a['path']);key=path.casefold()
         require(key not in paths and key not in ('manifest.json','document.json'),'E_PATH','Duplicate, case-colliding, or reserved asset path.');paths.add(key)
+    validate_catalog(d,assets,steps)
     for s in sheets.values():
         for face in ('front','back'):
             m=s[face]
@@ -493,18 +496,83 @@ def check_asset_bytes(data: bytes, asset: dict) -> None:
     elif mt=='text/plain':check_tree(data.decode('utf-8'))
     # Media decode remains the responsibility of a sandboxed platform decoder.
 
+def image_size(data: bytes, media_type: str) -> tuple[int,int]:
+    """Read pixel dimensions from the container header only; pixels are never decoded."""
+    import struct
+    if media_type=='image/png':
+        require(data[:8]==b'\x89PNG\r\n\x1a\n' and data[12:16]==b'IHDR','E_IMAGE','PNG header missing.')
+        return struct.unpack('>II',data[16:24])
+    if media_type=='image/webp':
+        require(data[:4]==b'RIFF' and data[8:12]==b'WEBP' and len(data)>=30,'E_IMAGE','WebP header missing.')
+        kind=data[12:16]
+        if kind==b'VP8X':return (int.from_bytes(data[24:27],'little')+1,int.from_bytes(data[27:30],'little')+1)
+        if kind==b'VP8L':
+            require(data[20]==0x2f,'E_IMAGE','Invalid lossless WebP signature.');bits=int.from_bytes(data[21:25],'little');return ((bits&0x3fff)+1,((bits>>14)&0x3fff)+1)
+        if kind==b'VP8 ':
+            require(data[23:26]==b'\x9d\x01\x2a','E_IMAGE','Invalid lossy WebP start code.');return (struct.unpack('<H',data[26:28])[0]&0x3fff,struct.unpack('<H',data[28:30])[0]&0x3fff)
+        raise SpecError('E_IMAGE','Unsupported WebP chunk layout.')
+    require(media_type=='image/jpeg' and data[:2]==b'\xff\xd8','E_IMAGE','JPEG header missing.')
+    at=2
+    while at+4<=len(data):
+        require(data[at]==0xff,'E_IMAGE','Invalid JPEG marker.')
+        marker=data[at+1];at+=2
+        if marker in (0xd8,0x01) or 0xd0<=marker<=0xd7:continue
+        length=int.from_bytes(data[at:at+2],'big');require(length>=2 and at+length<=len(data),'E_IMAGE','Truncated JPEG segment.')
+        if marker in (0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf):
+            require(length>=8,'E_IMAGE','Truncated JPEG frame header.');return (int.from_bytes(data[at+5:at+7],'big'),int.from_bytes(data[at+3:at+5],'big'))
+        at+=length
+    raise SpecError('E_IMAGE','JPEG frame header not found.')
+
+def validate_catalog(d: dict, assets: dict, steps: dict) -> None:
+    """Structural catalog rules. Pixel dimensions are checked later, once the bytes are in hand."""
+    thumbs=[a for a in assets.values() if a['role']=='thumbnail']
+    catalog=d.get('catalog')
+    if catalog is None:
+        require(not thumbs,'E_CATALOG','Thumbnail assets require a catalog member that describes them.');return
+    purposes=set();used=set()
+    for t in catalog['thumbnails']:
+        asset=assets.get(t['asset']);require(asset is not None and asset['role']=='thumbnail','E_REFERENCE','Catalog thumbnail must reference a thumbnail asset.')
+        require(t['asset'] not in used,'E_CATALOG','A thumbnail asset may be described only once.');used.add(t['asset'])
+        require(t['purpose'] not in purposes,'E_CATALOG','At most one thumbnail per purpose.');purposes.add(t['purpose'])
+        require(('step' in t)==(t['pose']=='step'),'E_CATALOG','A step reference is required for, and only for, the step pose.')
+        require('step' not in t or t['step'] in steps,'E_REFERENCE','Thumbnail step is not an instruction step.')
+    require(used=={a['id'] for a in thumbs},'E_CATALOG','Every thumbnail asset must be described by the catalog.')
+
+def check_catalog_images(d: dict, read) -> None:
+    """Verify declared pixel dimensions against the stored bytes. `read(asset)` returns the exact payload."""
+    assets={a['id']:a for a in d['assets']}
+    for t in d.get('catalog',{}).get('thumbnails',[]):
+        a=assets[t['asset']];size=image_size(read(a),a['mediaType'])
+        require(size==(t['widthPx'],t['heightPx']),'E_THUMBNAIL',f'Thumbnail {t["asset"]} declares {t["widthPx"]}x{t["heightPx"]} but the image is {size[0]}x{size[1]}.')
+
+def derive_index(d: dict) -> dict:
+    """The normative projection of a document used as a package's browse index."""
+    m=d['metadata'];c=d.get('catalog');out={'id':d['id'],'revision':d['revision'],'defaultLocale':d['defaultLocale'],'status':d['status'],'title':m['title'],'summary':m['summary'],'authors':[a['name'] for a in m['authors']],'license':m['license']}
+    for key in ('tags','categories','difficulty'):
+        if key in m:out[key]=m[key]
+    out['stepCount']=len(d['instructions']['steps'])
+    if c:
+        out['slug']=c['slug']
+        if 'addedAt' in c:out['addedAt']=c['addedAt']
+        gallery=next((t for t in c['thumbnails'] if t['purpose']=='gallery'),None)
+        if gallery:
+            a=next(x for x in d['assets'] if x['id']==gallery['asset'])
+            out['thumbnail']={'path':a['path'],'mediaType':a['mediaType'],'widthPx':gallery['widthPx'],'heightPx':gallery['heightPx'],'byteLength':a['byteLength'],'sha256':a['sha256'],'alt':gallery['alt']}
+    return out
+
 def load_document(path: Path, *, geometry=True) -> tuple[dict, dict]:
     if path.suffix=='.foldlab':return inspect_package(path,geometry=geometry)
     require(path.stat().st_size<=MAX_ENTRY,'E_LIMIT','Document too large.')
     d=loads(path.read_bytes());report=validate_document(d,geometry=geometry)
     for a in d['assets']:asset_data(path.parent,a)
+    check_catalog_images(d,lambda a:asset_data(path.parent,a))
     return d,report
 
 def pack_document(path: Path, destination: Path) -> dict:
     d,_=load_document(path);document=json_bytes(d);payloads={'document.json':document}
     for a in d['assets']:payloads[a['path']]=asset_data(path.parent,a)
     require(sum(map(len,payloads.values()))<=MAX_TOTAL,'E_LIMIT','Expanded package exceeds policy.')
-    manifest={'format':'fold-spec-package','specVersion':VERSION,'document':'document.json','entries':[{'path':p,'byteLength':len(b),'sha256':digest(b)} for p,b in sorted(payloads.items())]}
+    manifest={'format':'fold-spec-package','specVersion':VERSION,'document':'document.json','index':derive_index(d),'entries':[{'path':p,'byteLength':len(b),'sha256':digest(b)} for p,b in sorted(payloads.items())]}
     destination.parent.mkdir(parents=True,exist_ok=True)
     require(not destination.exists(),'E_EXISTS','Refusing to overwrite an existing package.')
     try:
@@ -554,6 +622,8 @@ def inspect_package(path: Path, *, geometry=True) -> tuple[dict,dict]:
             report=validate_document(d,geometry=geometry)
             require(set(payloads)=={'document.json'}|{a['path'] for a in d['assets']},'E_MANIFEST','Unreferenced or absent document asset.')
             for a in d['assets']:check_asset_bytes(payloads[a['path']],a)
+            check_catalog_images(d,lambda a:payloads[a['path']])
+            require('index' not in manifest or manifest['index']==derive_index(d),'E_INDEX','Manifest index differs from the document it describes; the index is derived, never authoritative.')
             report['package']={'entries':len(infos),'expandedBytes':total,'sha256':digest(path.read_bytes())}
             return d,report
     except (zipfile.BadZipFile,RuntimeError,EOFError) as exc:raise SpecError('E_ZIP',str(exc)) from exc
@@ -627,10 +697,19 @@ def main(argv=None)->int:
     sp=commands.add_parser('pack');sp.add_argument('file',type=Path);sp.add_argument('-o','--output',type=Path,required=True)
     sp=commands.add_parser('text');sp.add_argument('file',type=Path);sp.add_argument('-o','--output',type=Path);sp.add_argument('--locale');sp.add_argument('--descriptive',action='store_true');sp.add_argument('--html',action='store_true')
     sp=commands.add_parser('sample');sp.add_argument('file',type=Path);sp.add_argument('--operation',required=True);sp.add_argument('--progress',type=float,required=True);sp.add_argument('-o','--output',type=Path)
+    sp=commands.add_parser('index');sp.add_argument('files',type=Path,nargs='+');sp.add_argument('-o','--output',type=Path)
     sp=commands.add_parser('parse-source');sp.add_argument('file',type=Path);sp.add_argument('-o','--output',type=Path,required=True)
     args=p.parse_args(argv)
     try:
-        if args.command=='pack':result=pack_document(args.file,args.output)
+        if args.command=='index':
+            entries=[]
+            for f in args.files:
+                d,_=load_document(f);entries.append({'file':f.name,'sha256':digest(f.read_bytes()),'index':derive_index(d)})
+            require(len({e['index']['id'] for e in entries})==len(entries),'E_DUPLICATE_ID','Two inputs share a document ID.')
+            slugs=[e['index']['slug'] for e in entries if 'slug' in e['index']];require(len(set(slugs))==len(slugs),'E_CATALOG','Two inputs share a catalog slug.')
+            result={'format':'fold-spec-index','specVersion':VERSION,'entries':sorted(entries,key=lambda e:e['index']['id'])}
+            if args.output:args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(json_bytes(result));result={'output':str(args.output),'entries':len(entries)}
+        elif args.command=='pack':result=pack_document(args.file,args.output)
         elif args.command=='parse-source':
             from source_parser import parse_source
             doc=parse_source(args.file.read_text(encoding='utf-8'));validate_document(doc);args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(json_bytes(doc));result={'output':str(args.output),'interpretation':'authoring AST only; no symbolic compilation claimed'}

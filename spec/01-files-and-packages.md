@@ -25,6 +25,7 @@ paper-crane.foldlab
 ├── manifest.json
 ├── document.json
 └── assets/
+    ├── gallery.webp          # thumbnail, only when declared
     ├── stage.png             # only when declared
     └── narration-01.mp3      # only when declared
 ```
@@ -34,6 +35,16 @@ paper-crane.foldlab
 A document asset record repeats the asset’s byte length and hash. Both declarations MUST match the actual bytes. No unlisted, unreferenced, or missing payload is allowed in a complete package, including optional assets that were explicitly declared. A hosted optional narration URL is different: it is not a fictitious local asset and is not in the package manifest.
 
 Hashes cover exact stored uncompressed bytes. They detect corruption, not authorship or trust. There is no signature mechanism in the core draft. A signature extension must specify its canonicalization and trust model independently.
+
+## Package index and thumbnails
+
+A package is meant to be sufficient on its own for browsing, not only for playing. `manifest.json` MAY carry an `index` member: a small **browse record** a library, gallery or search page can read without parsing `document.json`. The record holds the document `id`, `revision`, `defaultLocale`, `status`, localized `title` and `summary`, author names, `license`, `tags`, `categories`, `difficulty`, `stepCount`, and, when the document has a [catalog](02-document-and-identities.md#catalog-and-thumbnails), its `slug`, `addedAt` and the primary gallery thumbnail.
+
+The index is a **derived cache, never a second source of truth**. Its exact content is the projection of the document defined by `derive_index` in the reference tools: every member is copied from the document, and `thumbnail` is the first thumbnail whose `purpose` is `gallery`, with its path, media type, size, hash and alt text copied from the matching asset and catalog entry. A reader that validates a package MUST recompute the projection and reject the package when `index` differs in any way, since a stale index would show one title or image in a gallery and another once opened. A reader MUST NOT use an index value to override the document. The member is optional so that packages written before it existed remain valid; writers SHOULD include it. Unknown index members are rejected like any other closed object.
+
+Thumbnails are ordinary package assets with `role: "thumbnail"`, declared in `document.json` and listed in the manifest like any other payload. They are packaged at any path the asset rules allow; `assets/` is conventional. Because they are assets, every rule in this chapter applies: hashes, size limits, no unlisted payloads, and no remote fetching. A page that lists many packages can read each `manifest.json` and extract only the thumbnail named by its index; it does not need a separate image service, thumbnail manifest or slug registry.
+
+Collections of packages remain a deployment concern. The reference `index` command prints the records of many documents as one JSON list and rejects duplicate IDs and slugs. Its aggregate output is informative; it has no schema and a package is never required to appear in one.
 
 ## Paths and compression
 

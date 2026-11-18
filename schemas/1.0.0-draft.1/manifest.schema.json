@@ -13,6 +13,175 @@
     "document": {
       "const": "document.json"
     },
+    "index": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Case-sensitive identifier; stable within this document.",
+          "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,127}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "defaultLocale": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "description": "BCP 47 language tag, checked by the author; syntax subset enforced here.",
+          "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "instructions",
+            "partial",
+            "resolved"
+          ]
+        },
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "summary": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 1,
+          "maxItems": 32
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          },
+          "minItems": 0,
+          "maxItems": 64,
+          "uniqueItems": true
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "minItems": 0,
+          "maxItems": 16,
+          "uniqueItems": true
+        },
+        "difficulty": {
+          "enum": [
+            "beginner",
+            "intermediate",
+            "advanced",
+            "unspecified"
+          ]
+        },
+        "stepCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4096
+        },
+        "slug": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "URL-safe lowercase slug: letters, digits and single hyphens.",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "addedAt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 30,
+          "description": "RFC 3339 UTC timestamp, for example 2026-09-21T00:00:00Z.",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,3})?Z$"
+        },
+        "thumbnail": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_./-]{0,239}$"
+            },
+            "mediaType": {
+              "enum": [
+                "image/png",
+                "image/jpeg",
+                "image/webp"
+              ]
+            },
+            "widthPx": {
+              "type": "integer",
+              "minimum": 16,
+              "maximum": 2048
+            },
+            "heightPx": {
+              "type": "integer",
+              "minimum": 16,
+              "maximum": 2048
+            },
+            "byteLength": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 33554432
+            },
+            "sha256": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "description": "Lowercase SHA-256 of the exact stored bytes.",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "alt": {
+              "$ref": "#/$defs/localizedText"
+            }
+          },
+          "required": [
+            "path",
+            "mediaType",
+            "widthPx",
+            "heightPx",
+            "byteLength",
+            "sha256",
+            "alt"
+          ],
+          "additionalProperties": false,
+          "description": "The first gallery thumbnail declared by the document catalog, copied so a browser can show it without opening the document."
+        }
+      },
+      "required": [
+        "id",
+        "revision",
+        "defaultLocale",
+        "status",
+        "title",
+        "summary",
+        "authors",
+        "license",
+        "stepCount"
+      ],
+      "additionalProperties": false,
+      "description": "Derived browse record. A validator recomputes it from document.json and rejects any difference, so it can never be a second source of truth."
+    },
     "entries": {
       "type": "array",
       "items": {
@@ -54,5 +223,25 @@
     "document",
     "entries"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 64,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "description": "BCP 47 language tag, checked by the author; syntax subset enforced here.",
+        "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 12000
+      },
+      "description": "Localized plain text. The document defaultLocale entry is required by semantic validation."
+    }
+  }
 }

@@ -12,6 +12,8 @@ Map an old one-action step to an operation plus one instruction run. Preserve pa
 
 Map old material-region selection to explicit resolved moving faces after conforming triangulation. Convert old sampled clips without dropping required keys or relaxing edge budgets. Preserve the starting pose and visible ordering across remeshes. Old numerical face ranks become coplanar **hints**, not new claims of general physical stacking correctness.
 
+A legacy package's catalogue identity (its slug, added date and gallery thumbnail, when it carries them) maps to `catalog` and to a `thumbnail`-role asset with new alt text. Legacy thumbnail files that were rendered from the legacy geometry stay valid previews only if the converted geometry is the same pose; otherwise regenerate them. A browse index is always recomputed after conversion, never copied across.
+
 Accessibility prose, review status, limitations, source attribution, scene images and paper response must survive. A draft accessibility migration remains draft. Unsupported historical geometry or presentation must be reported in a conversion report, not replaced by a finished silhouette.
 
 The crane example includes an adapted legacy geometric demonstration in the new resolved representation. Its limitations are written into the file and example guide. The reference repository does not include a universal legacy migration engine.

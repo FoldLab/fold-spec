@@ -55,6 +55,8 @@
 - [narration](#narration)
 - [history](#history)
 - [print](#print)
+- [thumbnail](#thumbnail)
+- [catalog](#catalog)
 - [extensionUse](#extensionuse)
 
 ## document
@@ -76,6 +78,7 @@ Structural validation only. Run the semantic validator; passing JSON Schema does
 | `geometry` | no | `geometry` |  |
 | `authoring` | no | `authoring` |  |
 | `assets` | yes | array of `asset` | minItems: `0`; maxItems: `256` |
+| `catalog` | no | `catalog` |  |
 | `presentation` | no | `presentation` |  |
 | `narration` | yes | array of `narration` | minItems: `0`; maxItems: `8192` |
 | `history` | yes | array of `history` | minItems: `0`; maxItems: `32` |
@@ -286,7 +289,7 @@ Unlisted properties are rejected within this object.
 | `byteLength` | yes | `integer` | minimum: `0`; maximum: `33554432` |
 | `sha256` | yes | `string` | minLength: `1`; maxLength: `64`; pattern: `^[a-f0-9]{64}$`; Lowercase SHA-256 of the exact stored bytes. |
 | `required` | yes | `boolean` |  |
-| `role` | yes | `"background"`, `"paper-image"`, `"narration"`, `"library"`, `"evidence"`, `"source"` |  |
+| `role` | yes | `"background"`, `"paper-image"`, `"narration"`, `"library"`, `"evidence"`, `"source"`, `"thumbnail"` |  |
 | `license` | yes | `string` | minLength: `1`; maxLength: `160` |
 | `description` | no | `localizedText` |  |
 
@@ -925,6 +928,34 @@ Unlisted properties are rejected within this object.
 | `includeHistory` | yes | `boolean` |  |
 | `template` | no | `object` |  |
 | `panels` | yes | array of `object` | minItems: `0`; maxItems: `4096` |
+
+Unlisted properties are rejected within this object.
+
+## thumbnail
+
+A packaged preview image. It is a rendering aid for browsing, never instructional content, and the alt text is mandatory.
+
+| Field | Required | Structural type | Bounds / description |
+|---|---|---|---|
+| `asset` | yes | `string` | minLength: `1`; maxLength: `128`; pattern: `^[A-Za-z][A-Za-z0-9_.:-]{0,127}$`; Case-sensitive identifier; stable within this document. |
+| `purpose` | yes | `"gallery"`, `"social"`, `"icon"` |  |
+| `pose` | yes | `"final"`, `"flat-sheet"`, `"step"` |  |
+| `step` | no | `string` | minLength: `1`; maxLength: `128`; pattern: `^[A-Za-z][A-Za-z0-9_.:-]{0,127}$`; Case-sensitive identifier; stable within this document. |
+| `widthPx` | yes | `integer` | minimum: `16`; maximum: `2048` |
+| `heightPx` | yes | `integer` | minimum: `16`; maximum: `2048` |
+| `alt` | yes | `localizedText` |  |
+
+Unlisted properties are rejected within this object.
+
+## catalog
+
+Browse-time identity and previews that cannot be derived from the lesson itself. Everything else in a package index is derived from the document.
+
+| Field | Required | Structural type | Bounds / description |
+|---|---|---|---|
+| `slug` | yes | `string` | minLength: `1`; maxLength: `100`; pattern: `^[a-z0-9]+(?:-[a-z0-9]+)*$`; URL-safe lowercase slug: letters, digits and single hyphens. |
+| `addedAt` | no | `string` | minLength: `1`; maxLength: `30`; pattern: `^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$`; RFC 3339 UTC timestamp, for example 2026-09-21T00:00:00Z. |
+| `thumbnails` | yes | array of `thumbnail` | minItems: `0`; maxItems: `8` |
 
 Unlisted properties are rejected within this object.
 

@@ -83,6 +83,26 @@
       "profile": "document-1",
       "valid": false,
       "error": "E_NUMBER"
+    },
+    {
+      "id": "catalog-thumbnail",
+      "file": "valid/catalog-thumbnail.fold.json",
+      "profile": "document-1",
+      "valid": true
+    },
+    {
+      "id": "catalog-missing-default-alt",
+      "file": "invalid/catalog-missing-default-alt.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_LOCALE"
+    },
+    {
+      "id": "thumbnail-without-catalog",
+      "file": "invalid/thumbnail-without-catalog.fold.json",
+      "profile": "document-1",
+      "valid": false,
+      "error": "E_CATALOG"
     }
   ]
 }

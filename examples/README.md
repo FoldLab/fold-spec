@@ -12,6 +12,7 @@ All documents are original examples for this draft. Use `python tools/check.py` 
 | [planned](planned/README.md) | Cup finishing/display requirements before construction is authored | Metadata/proposed presentation only |
 | [presentation](presentation/README.md) | Validated bilateral hinge and bounded flutter | Calibration sheet, not a butterfly pattern |
 | [scene](scene/README.md) | Raster asset, reusable stage data and a packaged lesson | Runnable validation and asset round trip; no graphical stage player |
+| [catalog](catalog/README.md) | Browse slug, date and a gallery thumbnail with alt text; package carries a derived index | Instructions only; thumbnail is a generated placeholder |
 | [library](library/README.md) | Data-only base declarations with exports | Structural example; full expansion not implemented by the helper |
 
 Readable `.fold.json` documents are the source for the corresponding shipped `.foldlab` archives. Every archive has a new-format manifest; it is not a legacy application file. No optional artwork, physics or accessibility test is implied merely by a field or filename existing.

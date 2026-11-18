@@ -4,6 +4,8 @@
 
 Run all checks with `python tools/check.py` from the root. `tests/test_fixtures.py` runs this manifest through the supplied reader. Other test modules cover operations, mathematical branch selection, presentation seams, parser AST equivalence, safe packages and the crane.
 
+Catalog fixtures that need image bytes (declared pixel size, hashes, packaged index) are covered by `tests/test_catalog.py` and `examples/catalog`, because the language-neutral manifest validates documents without a directory of assets.
+
 The manifest fixtures deliberately isolate small failures. They are not a complete conformance certification suite, and a successful run must be interpreted alongside `IMPLEMENTATION-STATUS.md`. Invalid files are not normal example packages; do not publish them as valid models.
 
 The current corpus tests structural and semantic failures, not live attacks against external services. Never add enormous decompression bombs, secrets or copyrighted site mirrors as test inputs.

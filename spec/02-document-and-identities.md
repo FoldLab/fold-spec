@@ -17,6 +17,7 @@
 | `geometry` | Optional resolved meshes and ordered operations. |
 | `authoring` | Optional typed construction graph and explicit links to resolved operations. |
 | `assets` | Local packaged resources with exact hashes. |
+| `catalog` | Optional browse identity (`slug`, `addedAt`) and thumbnail descriptions. |
 | `presentation` | Final state and optional playthrough-only staging/flourish. |
 | `narration` | Optional per-step transcripts and audio availability. |
 | `history` | Optional sourced model/symbol/tradition context. |
@@ -38,6 +39,16 @@ Revisions are not timestamps. The core does not require embedding a complete edi
 Titles and summaries are localized plain text. Authors declare roles such as design, instructions, geometry, translation, review and assets. A design being traditional does not establish the rights to another author’s prose, photographs or diagrams. Document licensing and each asset’s license are distinct. An application’s open-source license does not overwrite imported content restrictions.
 
 Categories are broad labels; tags are concise search terms. The spec does not prescribe a global category taxonomy. Applications SHOULD deduplicate obvious aliases and keep source IDs so two procedures sharing a title are not accidentally merged.
+
+## Catalog and thumbnails
+
+`catalog` holds the browse-time facts that cannot be derived from the lesson: a stable URL-safe `slug`, an optional RFC 3339 UTC `addedAt` timestamp, and up to eight `thumbnails`. Everything else a gallery needs, such as the title, summary, tags, difficulty and step count, is already in the document and is not repeated here. Deployment state such as whether a model is published, who liked it, or where a copy is hosted is **not** document data and has no place in `catalog`.
+
+A `slug` is lowercase letters and digits separated by single hyphens. It is an address for people and links, not an identity: `id` remains the identity, and a slug may be changed without making a different model. Slug uniqueness across a collection is enforced by whatever collects the documents (the reference `index` command does so), not by a single file.
+
+A thumbnail is a **preview**, not instruction. Each entry names an asset whose `role` is `thumbnail` (PNG, JPEG or WebP, at most 1 MiB), a `purpose` (`gallery`, `social` or `icon`), a `pose` (`final`, `flat-sheet` or `step`), its pixel `widthPx` and `heightPx`, and **mandatory localized `alt` text** that includes the default locale. A `step` pose MUST name an instruction `step` and no other pose may. A document has at most one thumbnail per purpose; every thumbnail-role asset MUST be described by exactly one entry; and a thumbnail-role asset without a `catalog` is invalid.
+
+Validators read the pixel size from the image container header and MUST reject a thumbnail whose declared size differs from the stored bytes. They do not decode pixels. Thumbnails MUST represent the stated pose faithfully and MUST NOT be used to stand in for missing geometry or animation: the rule against substituting pictures for motion applies here too. A thumbnail rendered by an application is not evidence that the lesson is complete, and the alt text should describe what the image shows, not promise more.
 
 ## Planned entries and derived UI status
 

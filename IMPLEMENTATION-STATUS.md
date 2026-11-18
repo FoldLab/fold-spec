@@ -15,6 +15,7 @@ This table describes **the supplied tools**, not every behavior a conforming ind
 | Libraries | Versioned structural schema and fully declared example | No parameter expander, nested-library resolver or multisheet assembly engine |
 | Scenes | Structural schema and example asset checks | No interactive stage renderer; image files still need safe platform decoding |
 | Packages | ZIP creation/inspection, sizes/hashes/paths/regular-file checks and declared payload enforcement | Not signed author authentication; codec decoding not an image security certificate |
+| Catalog and index | `catalog` rules, thumbnail role/alt/size/pose checks, header-only PNG/JPEG/WebP size verification, derived manifest `index` written by `pack` and recomputed on inspection, `index` listing command | No pixel decoding, no EXIF/XMP stripping or detection, no cross-package slug registry beyond the listing command, no thumbnail renderer |
 | Text output | Plain text and semantic, escaped, localized HTML | No actual screen-reader/voice testing or tagged PDF generation |
 | Final presentation | Static state and deterministic root/hinge flourish sampler | No stage travel renderer, no calibrated spring/cloth solver |
 | Print | Normative diagram/template/final-panel semantics | No PDF backend or visual layout engine shipped |
