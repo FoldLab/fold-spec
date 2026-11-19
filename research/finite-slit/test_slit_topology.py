@@ -1,5 +1,5 @@
 import unittest
-from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches, remesh_single_triangle_slit, remesh_triangle_chain_slit
+from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches, remesh_single_triangle_slit, remesh_triangle_chain_slit, discover_and_remesh_folded_slit
 from fractions import Fraction
 
 # Fan triangulation around interior pivot 4. Chord 0-4 is cut.
@@ -194,6 +194,65 @@ class MultiTriangleSlit(unittest.TestCase):
             with self.subTest(extra=extra), self.assertRaisesRegex(ValueError,'non-manifold'):
                 remesh_triangle_chain_slit(self.faces+[extra],self.xy,[0,3,2],(0,1),(2,0),(7,2))
 
+
+class FoldedPathDiscovery(unittest.TestCase):
+    # Downward pointed flap: base 0--1, tip 2; two intermediate
+    # vertices refine the two side edges, so its centerline traverses
+    # the pointed lower triangle then two upper triangles.
+    xy = {0:(-6,8),1:(6,8),2:(0,0),3:(-3,4),4:(3,4),5:(1,8),
+          6:(-3,100),7:(3,100),8:(0,110)}
+    faces = [(2,4,3),(3,4,5),(3,5,0),(4,1,5),(6,7,8)]
+    # The independent bottom layer is rotated 180 degrees and offset.
+    # Mouth enters a sloping side near the point, not the singular apex.
+    start = (-1, Fraction(4,3),0)
+    stop = (-1,7,0)
+
+    def fixture(self):
+        # Scale all coordinates so the bounded projected fixture stays integral.
+        xy = {v:tuple(3*n for n in p) for v,p in self.xy.items()}
+        folded = {i:[tuple(3*n for n in p) for p in poly] for i,poly in {i:[(*self.xy[v],0) for v in f] for i,f in enumerate(self.faces[:4])}.items()}
+        folded[4] = [(9,36,0),(-9,36,0),(0,6,0)]
+        start,stop = [tuple(int(3*n) for n in p) for p in (self.start,self.stop)]
+        return xy,folded,start,stop
+
+    def test_unordered_flap_selection_and_occluding_fixture(self):
+        xy,folded,start,stop=self.fixture()
+        import slit_topology as topo
+        patches = topo.derive_overlap_patches(start,stop,folded,[],with_intervals=True)
+        witnesses=[]
+        for lo,hi,cover,_ in patches:
+            if 4 in cover:
+                exposed, = cover - {4}
+                witnesses.append((exposed,4,lo,hi))
+        self.assertGreaterEqual(len(witnesses),2)
+        chain,(new_faces, new_points, slit,lineage) = discover_and_remesh_folded_slit(
+            self.faces,xy,folded,{3,2,1,0},start,stop,witnesses)
+        self.assertEqual(chain,[0,1,2])
+        self.assertEqual(len(slit),3)
+        self.assertEqual([f for f,i in zip(new_faces,lineage) if i==4],[self.faces[4]])
+        self.assertEqual({v:new_points[v] for v in xy},xy)
+        with self.assertRaisesRegex(ValueError,'ambiguous'):
+            discover_and_remesh_folded_slit(self.faces,xy,folded,{0,1,2,3},start,stop,witnesses[:-1])
+        a,b,lo,hi=witnesses[-1]
+        with self.assertRaisesRegex(ValueError,'hidden'):
+            discover_and_remesh_folded_slit(self.faces,xy,folded,{0,1,2,3},start,stop,[*witnesses[:-1],(b,a,lo,hi)])
+        with self.assertRaisesRegex(ValueError,'cyclic'):
+            discover_and_remesh_folded_slit(self.faces,xy,folded,{0,1,2,3},start,stop,[*witnesses,(b,a,lo,hi)])
+
+    def test_apex_entry_rejected(self):
+        xy,folded,_,stop=self.fixture()
+        with self.assertRaises(ValueError):
+            discover_and_remesh_folded_slit(self.faces[:4],xy,
+                {i:folded[i] for i in range(4)},{0,1,2,3},(0,0,0),stop,[])
+
+    def test_incomplete_view_or_nonrigid_mapping_rejected(self):
+        xy,folded,start,stop=self.fixture()
+        with self.assertRaisesRegex(ValueError,'incomplete'):
+            discover_and_remesh_folded_slit(self.faces,xy,
+                {i:folded[i] for i in range(4)},{0,1,2,3},start,stop,[])
+        with self.assertRaisesRegex(ValueError,'nonrigid'):
+            discover_and_remesh_folded_slit(self.faces,xy,
+                {**folded,4:[(10,36,0),(-9,36,0),(0,6,0)]},{0,1,2,3},start,stop,[])
 
 if __name__ == '__main__':
     unittest.main()

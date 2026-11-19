@@ -135,3 +135,23 @@ acceptable. Authoring and playback capability claims must be separate.
 Test archive round-trip and legacy unsupported-reader behavior before
 shipping. This research code introduces no extension, archive syntax,
 schema change, or capability claim.
+
+### Discover a chain from a bounded folded fixture
+
+An unordered selection of allowed triangle IDs, a complete exact coplanar
+projected triangle set, corresponding material triangles, and local order
+witnesses are sufficient to derive a chain for this bounded case. Partition
+the path by projected overlap; require exactly one allowed frontmost face
+throughout each positive-length interval. Verify rigid vertex correspondence
+from edge lengths and map interval boundaries back to the material frame by
+exact barycentric coordinates. Require one straight continuous material
+segment; then run the chain remesher's free-entry, interior-crossing and
+welded-stop checks. The triangular flap fixture discovers a three-triangle
+path and preserves an overlapping 180-degree transformed lower layer.
+Reversing, omitting or contradicting its ordering evidence prevents a cut.
+
+This is source-shaped, not a verified turtle reconstruction. The fixture
+enters through a free edge near the apex. Entry through the actual apex,
+grazes, along-edge paths, a material segment kink, or unsupported geometry
+are rejected. It does not extract real states or independently certify
+global conformity, order-witness truth, or complete authored simulation.

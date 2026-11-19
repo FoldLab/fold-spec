@@ -68,7 +68,7 @@ def resolve_frontmost_layer(intended, patches):
     return intended
 
 
-def derive_overlap_patches(start, stop, polygons, witnesses):
+def derive_overlap_patches(start, stop, polygons, witnesses, *, with_intervals=False):
     """Exact positive-length path partition for strict-convex coplanar fixtures.
 
     Points are integer (x,y,z) in one orthographic frame. Witnesses are
@@ -135,7 +135,7 @@ def derive_overlap_patches(start, stop, polygons, witnesses):
     for lo,hi in pairwise(sorted(limits)):
         covering = {region for region,(a,b) in coverage.items() if a <= lo < hi <= b}
         above = [(a,b) for a,b,s,t in orders if s <= lo < hi <= t]
-        patches.append((covering, above))
+        patches.append((lo, hi, covering, above) if with_intervals else (covering, above))
     return patches
 
 
@@ -330,3 +330,73 @@ def remesh_triangle_chain_slit(faces, points, chain, mouth_edge, mouth, tip):
     if len({weld[i,next_id] for i,f in enumerate(output) if next_id in f}) != 1:
         raise ValueError('chain remesh did not preserve a welded tip')
     return output,coords,cut,lineage
+
+
+def discover_and_remesh_folded_slit(faces, points, folded, selected, start, stop, witnesses):
+    """Derive a path from complete coplanar rigid triangle fixtures.
+
+    `folded` maps every triangle index to XYZ vertices in material tuple
+    order. `selected` is an unordered explicit set of allowed triangle
+    IDs. Witness pairs refer to individual triangles, not layers.
+    """
+    from fractions import Fraction
+    from itertools import pairwise
+
+    if set(folded) != set(range(len(faces))) or not selected or not set(selected) <= set(folded):
+        raise ValueError('incomplete folded view or selection')
+    for i, poly in folded.items():
+        if len(poly)!=3 or len(faces[i])!=3:
+            raise ValueError('folded face must be a triangle')
+        for slot,j in pairwise([0,1,2,0]):
+            a,b = (points.get(faces[i][k]) for k in (slot,j))
+            if a is None or b is None:
+                raise ValueError('missing source coordinates')
+            u,v = poly[slot],poly[j]
+            if sum((x-y)**2 for x,y in zip(a,b)) != sum((x-y)**2 for x,y in zip(u,v)):
+                raise ValueError('nonrigid folded correspondence')
+    patches = derive_overlap_patches(start,stop,folded,witnesses,with_intervals=True)
+    runs = []
+    for lo,hi,covering,order in patches:
+        allowed = set(selected) & covering
+        if len(allowed)!=1:
+            raise ValueError('ambiguous or missing selected triangle')
+        f, = allowed
+        resolve_frontmost_layer(f, [(covering,order)])
+        if runs and runs[-1][2]==f:
+            runs[-1] = runs[-1][0],hi,f
+        else:
+            runs.append((lo,hi,f))
+
+    def world_to_material(face, t):
+        a,b,c = [p[:2] for p in folded[face]]
+        px,py = (u+t*(v-u) for u,v in zip(start[:2],stop[:2]))
+        bx,by = b[0]-a[0],b[1]-a[1]
+        cx,cy = c[0]-a[0],c[1]-a[1]
+        dx,dy = px-a[0],py-a[1]
+        den = bx*cy-by*cx
+        s = Fraction(dx*cy-dy*cx,den)
+        r = Fraction(bx*dy-by*dx,den)
+        m,n,o = (points[v] for v in faces[face])
+        return tuple(u+s*(v-u)+r*(w-u) for u,v,w in zip(m,n,o))
+
+    mouth = world_to_material(runs[0][2],0)
+    tip = world_to_material(runs[-1][2],1)
+    for _,hi,face in runs:
+        actual = world_to_material(face,hi)
+        expected = tuple(a+hi*(b-a) for a,b in zip(mouth,tip))
+        if actual!=expected:
+            raise ValueError('folded path does not map to a single straight material segment')
+    for lo,_,face in runs:
+        if world_to_material(face,lo)!=tuple(a+lo*(b-a) for a,b in zip(mouth,tip)):
+            raise ValueError('discontinuous folded correspondence')
+    initial = faces[runs[0][2]]
+    boundary = []
+    for a,b in pairwise([*initial,initial[0]]):
+        x,y = points[a],points[b]
+        if ((y[0]-x[0])*(mouth[1]-x[1])==(y[1]-x[1])*(mouth[0]-x[0])
+                and sum((u-v)*(u-w) for u,v,w in zip(mouth,x,y))<0):
+            boundary.append((a,b))
+    if len(boundary)!=1:
+        raise ValueError('ambiguous or missing mouth boundary')
+    chain = [face for _,_,face in runs]
+    return chain, remesh_triangle_chain_slit(faces,points,chain,boundary[0],mouth,tip)
