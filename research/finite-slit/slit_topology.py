@@ -137,3 +137,58 @@ def derive_overlap_patches(start, stop, polygons, witnesses):
         above = [(a,b) for a,b,s,t in orders if s <= lo < hi <= t]
         patches.append((covering, above))
     return patches
+
+
+def remesh_single_triangle_slit(faces, points, selected, mouth_edge, mouth, tip):
+    """Insert a real edge-chain for one slit contained in one triangle.
+
+    Points map material IDs to exact 2D coordinates. Input is assumed to
+    be a conforming consistently wound coplanar material mesh. Returns
+    copied mesh, copied coordinates and the internal cut-edge set.
+    """
+    from fractions import Fraction
+
+    def orient(a,b,c):
+        return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+
+    def valid_point(p):
+        return len(p) == 2 and all(type(v) in (int,Fraction) for v in p)
+
+    if type(selected) is not int or not 0 <= selected < len(faces):
+        raise ValueError('invalid selected triangle')
+    f = tuple(faces[selected])
+    if len(f) != 3 or len(set(f)) != 3 or not all(v in points for v in f):
+        raise ValueError('invalid selected triangle')
+    if any(not valid_point(p) for p in (*[points[v] for v in f], mouth, tip)):
+        raise ValueError('expected exact material coordinates')
+    edges = list(zip(f,f[1:]+f[:1]))
+    key = frozenset(mouth_edge)
+    matches = [i for i, edge in enumerate(edges) if frozenset(edge) == key]
+    if len(matches) != 1 or sum(key <= set(tri) for tri in faces) != 1:
+        raise ValueError('mouth edge must be free in the complete mesh')
+
+    i = matches[0]
+    a,b,c = f[i:]+f[:i]
+    pa,pb,pc = (points[v] for v in (a,b,c))
+    parent_area = orient(pa,pb,pc)
+    if not parent_area or orient(pa,pb,mouth) or sum((v-x)*(v-y) for v,x,y in zip(mouth,pa,pb)) >= 0:
+        raise ValueError('mouth must lie strictly within the free edge')
+    if any(parent_area*orient(points[x],points[y],tip) <= 0 for x,y in edges):
+        raise ValueError('tip must lie strictly inside the selected triangle')
+
+    if any(type(v) is not int for v in points):
+        raise ValueError('expected integer material IDs')
+    m = max(points)+1
+    t = m+1
+    coords = {**points, m:tuple(mouth), t:tuple(tip)}
+    replacement = [(a,m,t),(m,b,t),(b,c,t),(c,a,t)]
+    areas = [orient(*(coords[v] for v in tri)) for tri in replacement]
+    if sum(areas) != parent_area or any(x*parent_area <= 0 for x in areas):
+        raise ValueError('remesh failed signed-area invariant')
+    new_faces = list(faces[:selected]) + replacement + list(faces[selected+1:])
+    cut = {frozenset((m,t))}
+    # Exercise the connectivity contract, including the two banks and tip.
+    welds = welded_corners(new_faces, cut)
+    if welds[selected,m] == welds[selected+1,m] or len({welds[i,t] for i in range(selected,selected+4)}) != 1:
+        raise ValueError('remesh failed slit connectivity invariant')
+    return new_faces, coords, cut

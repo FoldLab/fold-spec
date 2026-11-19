@@ -78,3 +78,32 @@ complete; the experiment does not extract faces from folded documents,
 certify physical witnesses, verify that the selected path is a valid
 edge-to-interior cut, remesh, or implement the turtle. Turtle remains a
 requirements case, not a geometry fixture.
+
+### Constrained remeshing inside one triangle
+
+Given an explicitly selected triangle in a conforming, consistently wound
+material mesh, insert the mouth strictly inside an existing **free** edge and
+the stop strictly inside the triangle. Split the free edge at the mouth and
+fan from the stop to the four boundary segments. The straight slit is now
+one exact internal constrained edge shared by the two bank triangles. This
+is a zero-kerf replacement; it preserves the parent's exact signed area and
+orientation, the neighbors' original triangle tuples, and all existing
+material coordinates. The connectivity split then separates the mouth banks
+but preserves a single welded stop and welds along the untouched shared edges.
+Tests include rational points, reversed winding, overrun, shared-edge
+rejection, and an unchanged underlying triangle with overlapping fixture
+coordinates but distinct material IDs.
+
+The experiment does not test frontmost position in this remesher. Select the
+material triangle using the separate order validator after projecting the
+material coordinates into the folded view frame. Neither projection nor
+mapping back through an authored fold is implemented here.
+
+Cross-triangle paths, entry at an existing vertex, seam or prior-slit
+intersections, and nonconforming input meshes are not supported. The next
+algorithmic blocker is a global segment/edge overlay: compute the ordered
+exact intersections, split each crossed shared edge once with common
+material identity on both incident triangles, then retriangulate each crossed
+face with preserved boundaries and constrain its segment. That work is
+required for any multi-triangle cut; this fixture neither approximates
+crossing a seam nor claims to implement the turtle.

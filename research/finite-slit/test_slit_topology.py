@@ -1,5 +1,5 @@
 import unittest
-from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches
+from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches, remesh_single_triangle_slit
 from fractions import Fraction
 
 # Fan triangulation around interior pivot 4. Chord 0-4 is cut.
@@ -112,6 +112,46 @@ class GeometricPartition(unittest.TestCase):
     def test_witness_outside_overlay_rejected(self):
         with self.assertRaisesRegex(ValueError,'co-coverage'):
             self.patches(self.rect(2,7),[('flap','base',0,1)])
+
+
+class BoundedRemesh(unittest.TestCase):
+    # A flap shares an uncut edge with attached sheet. The independent
+    # lower layer has identical projected footprint but distinct IDs.
+    points = {0:(0,0),1:(8,0),2:(0,8),3:(8,8),4:(0,0),5:(8,0),6:(0,8)}
+    faces = [(0,1,2),(2,1,3),(4,5,6)]
+
+    def test_exact_rational_partition_and_unchanged_remainder(self):
+        mouth, tip = (Fraction(5,2),0), (Fraction(9,4),Fraction(5,4))
+        out, xy, cut = remesh_single_triangle_slit(self.faces,self.points,0,(0,1),mouth,tip)
+        self.assertEqual(out[4:],self.faces[1:])
+        self.assertEqual({k:xy[k] for k in self.points},self.points)
+        self.assertEqual([xy[k] for k in sorted(next(iter(cut)))],[mouth,tip])
+        self.assertEqual(sum((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+                             for a,b,c in ([xy[v] for v in f] for f in out[:4])),64)
+        self.assertEqual(len(self.faces),3)
+        self.assertEqual(len(self.points),7)
+        # Attached neighbors still weld; slit banks at mouth do not.
+        weld = welded_corners(out,cut)
+        self.assertEqual(weld[2,1],weld[4,1])
+        self.assertNotEqual(weld[0,7],weld[1,7])
+        self.assertEqual(len({weld[k,8] for k in range(4)}),1)
+        self.assertEqual(out[5],(4,5,6))
+
+    def test_clockwise_triangle_supported(self):
+        out, _, _ = remesh_single_triangle_slit([(2,1,0)],self.points,0,(0,1),(3,0),(2,1))
+        self.assertEqual(len(out),4)
+
+    def test_attached_or_invalid_mouth_rejected(self):
+        with self.assertRaisesRegex(ValueError,'free'):
+            remesh_single_triangle_slit(self.faces,self.points,0,(1,2),(4,4),(2,2))
+        for mouth in [(0,0),(-2,0),(3,1)]:
+            with self.subTest(mouth=mouth), self.assertRaisesRegex(ValueError,'strictly'):
+                remesh_single_triangle_slit(self.faces,self.points,0,(0,1),mouth,(2,2))
+
+    def test_tip_boundary_or_overrun_rejected(self):
+        for tip in [(2,0),(4,4),(6,6),(-1,1)]:
+            with self.subTest(tip=tip), self.assertRaisesRegex(ValueError,'strictly'):
+                remesh_single_triangle_slit(self.faces,self.points,0,(0,1),(3,0),tip)
 
 
 if __name__ == '__main__':
