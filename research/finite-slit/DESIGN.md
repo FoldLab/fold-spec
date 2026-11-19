@@ -58,3 +58,23 @@ first need a path/face overlay with completeness checks, positive-length
 patches, a specified viewing side, and stable lineage through remeshing.
 A fold can cross changing stacks, so validation must cover the whole
 path, not just the slit tip or a single global face-order array.
+
+### Geometric overlap partition (bounded fixture mode)
+
+For strictly convex ordered polygons of integer XYZ points in one declared
+plane, clip the finite segment against each polygon using rational parameters.
+Split the path at all coverage and order-witness endpoints. Every positive
+length interval is checked by the frontmost-layer resolver. This detects
+a shorter layer hiding only the middle of a slit, and rejects unsupported
+geometries (noncoplanar/invalid polygons, boundary overlap and isolated
+touches), and witnesses extending outside geometric co-coverage. Transverse
+boundary crossings, including an entering endpoint, delimit coverage without
+making a claim about zero-length intervals. Compare supplied witness
+orientation in the same view frame; the experiment does not derive order
+from coplanar geometry.
+
+Requires Python 3.10+. Fixture-only: candidate polygon list must be
+complete; the experiment does not extract faces from folded documents,
+certify physical witnesses, verify that the selected path is a valid
+edge-to-interior cut, remesh, or implement the turtle. Turtle remains a
+requirements case, not a geometry fixture.

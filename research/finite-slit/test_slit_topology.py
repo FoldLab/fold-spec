@@ -1,5 +1,6 @@
 import unittest
-from slit_topology import welded_corners, resolve_frontmost_layer
+from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches
+from fractions import Fraction
 
 # Fan triangulation around interior pivot 4. Chord 0-4 is cut.
 # The slit banks duplicate point 0, but stay welded at point 4 (finite stop).
@@ -69,6 +70,48 @@ class LayerResolution(unittest.TestCase):
     def test_reference_outside_local_patch_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'invalid'):
             resolve_frontmost_layer('flap', [({'flap'}, [('flap', 'base')])])
+
+
+class GeometricPartition(unittest.TestCase):
+    def rect(self, x0, x1, y0=-2, y1=2, z=0):
+        return [(x0,y0,z),(x1,y0,z),(x1,y1,z),(x0,y1,z)]
+
+    def patches(self, other, witnesses=()):
+        return derive_overlap_patches((0,0,0),(10,0,0),
+                    {'flap': self.rect(0,11), 'base': other}, witnesses)
+
+    def test_partial_overlay(self):
+        p = self.patches(self.rect(2,7), [('flap','base',Fraction(1,5),Fraction(7,10))])
+        self.assertEqual([c for c, _ in p], [{'flap'},{'flap','base'},{'flap'}])
+        self.assertEqual(resolve_frontmost_layer('flap',p), 'flap')
+
+    def test_hidden_or_unproved_midpath(self):
+        for order, error in [([], 'ambiguous'),
+                             ([('base','flap',Fraction(2,5),Fraction(3,5))], 'hidden')]:
+            with self.subTest(order=order), self.assertRaisesRegex(ValueError,error):
+                resolve_frontmost_layer('flap',self.patches(self.rect(4,6),order))
+
+    def test_direction_switch_splits_even_with_same_polygon_coverage(self):
+        p = self.patches(self.rect(-1,11), [('flap','base',0,Fraction(1,2)),
+                                          ('base','flap',Fraction(1,2),1)])
+        self.assertEqual(len(p), 2)
+        with self.assertRaisesRegex(ValueError,'hidden'):
+            resolve_frontmost_layer('flap',p)
+
+    def test_boundary_coincidence_or_grazing_rejected(self):
+        for poly in [self.rect(2,7,0,2), [(2,0,0),(3,2,0),(1,2,0)]]:
+            with self.subTest(poly=poly), self.assertRaisesRegex(ValueError,'boundary'):
+                self.patches(poly)
+
+    def test_noncoplanar_and_invalid_polygon_rejected(self):
+        with self.assertRaisesRegex(ValueError,'noncoplanar'):
+            self.patches(self.rect(2,7,z=1))
+        with self.assertRaisesRegex(ValueError,'convex'):
+            self.patches([(2,-2,0),(7,2,0),(7,-2,0),(2,2,0)])
+
+    def test_witness_outside_overlay_rejected(self):
+        with self.assertRaisesRegex(ValueError,'co-coverage'):
+            self.patches(self.rect(2,7),[('flap','base',0,1)])
 
 
 if __name__ == '__main__':
