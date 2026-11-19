@@ -200,6 +200,7 @@ def remesh_triangle_chain_slit(faces, points, chain, mouth_edge, mouth, tip):
     Only transverse interior-of-edge crossings are accepted. Layer
     resolution and global mesh conformance remain caller obligations.
     Returns (faces, coordinates, cut edges, source triangle indices).
+    A singleton mouth ID is permitted only for a one-face boundary apex.
     """
     from fractions import Fraction
     from itertools import pairwise
@@ -242,18 +243,32 @@ def remesh_triangle_chain_slit(faces, points, chain, mouth_edge, mouth, tip):
         return not orient(a,b,p) and sum(x*y for x,y in zip(minus(p,a),minus(p,b))) < 0
 
     mouth_key = frozenset(mouth_edge)
-    first = incident.get(mouth_key, [])
-    if len(first)!=1 or first[0][0]!=chain[0] or not interior_of_edge(mouth,*(points[v] for v in first[0][1:])):
-        raise ValueError('mouth must enter a free edge interior')
+    apex = None
+    if len(mouth_key)==1:
+        apex, = mouth_key
+        owners = [i for i,f in enumerate(faces) if apex in f]
+        if owners != [chain[0]] or points[apex]!=tuple(mouth):
+            raise ValueError('apex must have exactly one incident triangle')
+        f = faces[chain[0]]
+        area = orient(*(points[v] for v in f))
+        if any(len(incident[frozenset((a,b))])!=1 or area*orient(points[a],points[b],tip)<=0
+               for a,b in edges(f) if apex in (a,b)):
+            raise ValueError('slit must enter the free apex wedge strictly')
+    else:
+        first = incident.get(mouth_key, [])
+        if len(first)!=1 or first[0][0]!=chain[0] or not interior_of_edge(mouth,*(points[v] for v in first[0][1:])):
+            raise ValueError('mouth must enter a free edge interior')
     last = faces[chain[-1]]
     area = orient(*(points[v] for v in last))
     if any(area * orient(points[a],points[b],tip) <= 0 for a,b in edges(last)):
         raise ValueError('tip must lie strictly inside terminal triangle')
 
     coords = dict(points)
-    next_id = max(coords)+1
-    coords[next_id] = tuple(mouth)
-    junctions = [(mouth_key,next_id)]
+    next_id = max(coords)
+    if apex is None:
+        next_id += 1
+        coords[next_id] = tuple(mouth)
+    junctions = [(mouth_key,next_id if apex is None else apex)]
     direction = minus(tip,mouth)
     last_t = Fraction(0)
     for i,j in pairwise(chain):
@@ -319,8 +334,9 @@ def remesh_triangle_chain_slit(faces, points, chain, mouth_edge, mouth, tip):
         for a,b in edges(f):
             counts[frozenset((a,b))] += 1
     expected_boundary = {e for e,uses in incident.items() if len(uses)==1}
-    expected_boundary.remove(mouth_key)
-    expected_boundary.update(frozenset((v,junctions[0][1])) for v in mouth_key)
+    if apex is None:
+        expected_boundary.remove(mouth_key)
+        expected_boundary.update(frozenset((v,junctions[0][1])) for v in mouth_key)
     if {e for e,n in counts.items() if n==1} != expected_boundary or any(n>2 for n in counts.values()):
         raise ValueError('chain remesh violated edge incidence')
     weld = welded_corners(output,cut)
@@ -396,6 +412,8 @@ def discover_and_remesh_folded_slit(faces, points, folded, selected, start, stop
         if ((y[0]-x[0])*(mouth[1]-x[1])==(y[1]-x[1])*(mouth[0]-x[0])
                 and sum((u-v)*(u-w) for u,v,w in zip(mouth,x,y))<0):
             boundary.append((a,b))
+    if not boundary:
+        boundary = [(a,) for a in initial if points[a]==mouth]
     if len(boundary)!=1:
         raise ValueError('ambiguous or missing mouth boundary')
     chain = [face for _,_,face in runs]

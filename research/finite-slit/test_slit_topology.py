@@ -239,11 +239,42 @@ class FoldedPathDiscovery(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'cyclic'):
             discover_and_remesh_folded_slit(self.faces,xy,folded,{0,1,2,3},start,stop,[*witnesses,(b,a,lo,hi)])
 
-    def test_apex_entry_rejected(self):
+    def test_folded_apex_entry_derives_and_splits_existing_vertex(self):
         xy,folded,_,stop=self.fixture()
-        with self.assertRaises(ValueError):
+        start=(0,0,0)
+        patches=derive_overlap_patches(start,stop,folded,[],with_intervals=True)
+        witnesses=[(next(iter(c-{4})),4,a,b) for a,b,c,_ in patches if 4 in c]
+        chain,(out,coords,cut,lineage)=discover_and_remesh_folded_slit(
+            self.faces,xy,folded,{0,1,2,3},start,stop,witnesses)
+        self.assertEqual(chain,[0,1,2])
+        self.assertEqual(coords[2],(0,0))
+        self.assertEqual(sum(2 in e for e in cut),1)
+        weld=welded_corners(out,cut)
+        self.assertEqual(len({weld[i,2] for i,f in enumerate(out) if 2 in f}),2)
+        self.assertEqual([f for f,i in zip(out,lineage) if i==4],[self.faces[4]])
+
+    def test_grazing_apex_rejected(self):
+        xy,folded,_,_=self.fixture()
+        with self.assertRaisesRegex(ValueError,'boundary'):
             discover_and_remesh_folded_slit(self.faces[:4],xy,
-                {i:folded[i] for i in range(4)},{0,1,2,3},(0,0,0),stop,[])
+                {i:folded[i] for i in range(4)},{0,1,2,3},(0,0,0),(-3,4,0),[])
+
+    def test_ambiguous_overlapping_selected_apex_wedges_rejected(self):
+        faces = [(0,1,2),(3,4,5)]
+        xy = dict(enumerate([(0,0),(4,0),(0,4)]*2))
+        folded = {i:[(*xy[v],0) for v in f] for i,f in enumerate(faces)}
+        with self.assertRaisesRegex(ValueError,'ambiguous'):
+            discover_and_remesh_folded_slit(faces,xy,folded,{0,1},
+                                          (0,0,0),(1,1,0),[(0,1,0,1)])
+
+    def test_multiple_incident_triangles_rejected_even_if_only_one_selected(self):
+        faces=[(0,1,2),(1,0,3)]
+        xy={0:(0,0),1:(4,0),2:(0,4),3:(0,-4)}
+        folded={i:[(*xy[v],0) for v in f] for i,f in enumerate(faces)}
+        with self.assertRaisesRegex(ValueError,'boundary'):
+            discover_and_remesh_folded_slit(faces,xy,folded,{0},(0,0,0),(1,1,0),[])
+        with self.assertRaisesRegex(ValueError,'exactly one'):
+            remesh_triangle_chain_slit(faces,xy,[0],(0,),(0,0),(1,1))
 
     def test_incomplete_view_or_nonrigid_mapping_rejected(self):
         xy,folded,start,stop=self.fixture()

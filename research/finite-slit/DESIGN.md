@@ -155,3 +155,19 @@ enters through a free edge near the apex. Entry through the actual apex,
 grazes, along-edge paths, a material segment kink, or unsupported geometry
 are rejected. It does not extract real states or independently certify
 global conformity, order-witness truth, or complete authored simulation.
+
+### One-wedge apex entry
+
+The folded-chain path may now enter through an existing material vertex
+provided exactly one triangle in the complete material mesh uses that
+vertex, both incident edges are free, and the segment is strictly inside
+both oriented edge half-planes. At entry the remesher reuses the existing
+vertex instead of splitting a boundary edge. The expected original
+boundary edge set is unchanged; the corner-connectivity pass separates
+the two banks at that same UV while preserving the terminal weld.
+The triangular folded fixture now enters at its apex and traverses three
+triangles with its separate lower layer unchanged. Reject grazing,
+ambiguous overlapping selection and multiple incident triangles, even if
+only one is selected. This is not general fan-sector splitting, mid-path
+vertex crossing, or verified turtle geometry. Tests and experiment do not
+change the spec, site, archive or runtime.
