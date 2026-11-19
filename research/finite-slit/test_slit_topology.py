@@ -1,5 +1,5 @@
 import unittest
-from slit_topology import welded_corners
+from slit_topology import welded_corners, resolve_frontmost_layer
 
 # Fan triangulation around interior pivot 4. Chord 0-4 is cut.
 # The slit banks duplicate point 0, but stay welded at point 4 (finite stop).
@@ -33,6 +33,43 @@ class SlitConnectivity(unittest.TestCase):
     def test_boundary_edge_rejected(self):
         with self.assertRaises(ValueError):
             welded_corners(FACES,{frozenset((0,1))})
+
+class LayerResolution(unittest.TestCase):
+    def test_explicit_layer_proven_front_across_patches(self):
+        self.assertEqual(resolve_frontmost_layer('flap', [
+            ({'flap', 'middle', 'base'}, [('flap', 'middle'), ('middle', 'base')]),
+            ({'flap', 'base'}, [('flap', 'base')]),
+            ({'flap'}, []),
+        ]), 'flap')
+
+    def test_identifiers_alone_do_not_break_overlap_tie(self):
+        with self.assertRaisesRegex(ValueError, 'ambiguous'):
+            resolve_frontmost_layer('flap', [({'base', 'flap'}, [])])
+
+    def test_order_reversal_blocks_finite_path(self):
+        with self.assertRaisesRegex(ValueError, 'hidden'):
+            resolve_frontmost_layer('flap', [
+                ({'flap', 'base'}, [('flap', 'base')]),
+                ({'flap', 'base'}, [('base', 'flap')]),
+            ])
+
+    def test_missing_coverage(self):
+        with self.assertRaisesRegex(ValueError, 'full path'):
+            resolve_frontmost_layer('flap', [({'base'}, [])])
+        with self.assertRaisesRegex(ValueError, 'missing'):
+            resolve_frontmost_layer('flap', [])
+
+    def test_cycles_below_front_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'cyclic'):
+            resolve_frontmost_layer('flap', [
+                ({'flap', 'base', 'middle'},
+                 [('flap', 'middle'), ('middle', 'base'), ('base', 'middle')]),
+            ])
+
+    def test_reference_outside_local_patch_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'invalid'):
+            resolve_frontmost_layer('flap', [({'flap'}, [('flap', 'base')])])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -37,3 +37,24 @@ undo/redo and archive round-trip. For existing lessons, require unchanged
 semantic checks and sampled geometry across the corpus. Unknown cut capability
 must fail closed or be explicitly reported unsupported, never fall back to a
 no-op `manual` step.
+
+## Explicit layer-resolution experiment
+
+Material IDs identify which paper to cut, but do not encode depth. Where
+the author requires the frontmost layer, use explicit IDs together with
+local above/below relations evaluated from the declared cutting side.
+For each positive-length ordered-path patch, the intended ID must cover
+it and be provably above all other covering IDs (including transitive
+relations). Reject missing coverage, hidden targets, order ties,
+out-of-patch identities and contradictory order. No pixel/viewport depth
+or ID-based tiebreaker. Exact overlap faces can use the existing layer
+witness concepts; do not infer partial overlap from counts, display hints
+or geometry sampled at only the segment midpoint.
+
+The added resolver consumes predeclared overlap/path partitions; it does
+not construct or certify those partitions, map spec face IDs to stable
+material regions, or read an archive. Production integration would
+first need a path/face overlay with completeness checks, positive-length
+patches, a specified viewing side, and stable lineage through remeshing.
+A fold can cross changing stacks, so validation must cover the whole
+path, not just the slit tip or a single global face-order array.
