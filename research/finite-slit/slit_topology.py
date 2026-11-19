@@ -192,3 +192,141 @@ def remesh_single_triangle_slit(faces, points, selected, mouth_edge, mouth, tip)
     if welds[selected,m] == welds[selected+1,m] or len({welds[i,t] for i in range(selected,selected+4)}) != 1:
         raise ValueError('remesh failed slit connectivity invariant')
     return new_faces, coords, cut
+
+
+def remesh_triangle_chain_slit(faces, points, chain, mouth_edge, mouth, tip):
+    """Remesh a declared simple triangle chain in one material plane.
+
+    Only transverse interior-of-edge crossings are accepted. Layer
+    resolution and global mesh conformance remain caller obligations.
+    Returns (faces, coordinates, cut edges, source triangle indices).
+    """
+    from fractions import Fraction
+    from itertools import pairwise
+
+    def valid_point(p):
+        return len(p) == 2 and all(type(x) in (int, Fraction) for x in p)
+
+    def minus(a,b):
+        return a[0]-b[0], a[1]-b[1]
+
+    def cross(a,b):
+        return a[0]*b[1]-a[1]*b[0]
+
+    def orient(a,b,c):
+        return cross(minus(b,a),minus(c,a))
+
+    def edges(face):
+        return list(zip(face,face[1:]+face[:1]))
+
+    if (not chain or any(type(i) is not int or not 0 <= i < len(faces) for i in chain)
+            or len(set(chain)) != len(chain)):
+        raise ValueError('invalid triangle chain')
+    if (any(type(v) is not int or not valid_point(p) for v,p in points.items())
+            or not valid_point(mouth) or not valid_point(tip) or mouth == tip):
+        raise ValueError('invalid exact material coordinates')
+
+    incident = defaultdict(list)
+    for i, f in enumerate(faces):
+        if len(f) != 3 or len(set(f)) != 3 or any(v not in points for v in f):
+            raise ValueError('invalid triangular mesh')
+        if not orient(*(points[v] for v in f)):
+            raise ValueError('degenerate triangle')
+        for a,b in edges(f):
+            incident[frozenset((a,b))].append((i,a,b))
+    if any(len(v)>2 or (len(v)==2 and v[0][1:] != v[1][1:][::-1])
+           for v in incident.values()):
+        raise ValueError('non-manifold or inconsistent mesh winding')
+
+    def interior_of_edge(p, a, b):
+        return not orient(a,b,p) and sum(x*y for x,y in zip(minus(p,a),minus(p,b))) < 0
+
+    mouth_key = frozenset(mouth_edge)
+    first = incident.get(mouth_key, [])
+    if len(first)!=1 or first[0][0]!=chain[0] or not interior_of_edge(mouth,*(points[v] for v in first[0][1:])):
+        raise ValueError('mouth must enter a free edge interior')
+    last = faces[chain[-1]]
+    area = orient(*(points[v] for v in last))
+    if any(area * orient(points[a],points[b],tip) <= 0 for a,b in edges(last)):
+        raise ValueError('tip must lie strictly inside terminal triangle')
+
+    coords = dict(points)
+    next_id = max(coords)+1
+    coords[next_id] = tuple(mouth)
+    junctions = [(mouth_key,next_id)]
+    direction = minus(tip,mouth)
+    last_t = Fraction(0)
+    for i,j in pairwise(chain):
+        shared = frozenset(set(faces[i]) & set(faces[j]))
+        if len(shared)!=2 or len(incident.get(shared,[]))!=2 or shared==junctions[-1][0]:
+            raise ValueError('chain must cross a shared edge once')
+        a,b = [points[v] for v in sorted(shared)]
+        e = minus(b,a)
+        den = cross(direction,e)
+        if not den:
+            raise ValueError('shared edge must be crossed transversely')
+        t = Fraction(cross(minus(a,mouth),e),den)
+        u = Fraction(cross(minus(a,mouth),direction),den)
+        if not (last_t < t < 1 and 0 < u < 1):
+            raise ValueError('shared-edge crossing must be ordered and interior')
+        last_t = t
+        next_id += 1
+        coords[next_id] = tuple(x+t*d for x,d in zip(mouth,direction))
+        junctions.append((shared,next_id))
+    next_id += 1
+    coords[next_id] = tuple(tip)
+    junctions.append((None,next_id))
+
+    replacement = {}
+    cut = set()
+    for k,i in enumerate(chain):
+        entry,a = junctions[k]
+        exit,b = junctions[k+1]
+        cut.add(frozenset((a,b)))
+        boundary = []
+        for x,y in edges(faces[i]):
+            boundary.append(x)
+            edge = frozenset((x,y))
+            if edge==entry:
+                boundary.append(a)
+            if edge==exit:
+                boundary.append(b)
+        if exit is None:
+            tris = [(x,y,b) for x,y in edges(boundary)]
+        else:
+            # Build each bank polygon in the original winding; the inserted
+            # vertices on distinct edges make each bank strictly convex.
+            s = boundary.index(a)
+            boundary = boundary[s:]+boundary[:s]
+            t = boundary.index(b)
+            banks = (boundary[:t+1],[*boundary[t:],a])
+            tris = [(bank[0],x,y) for bank in banks for x,y in pairwise(bank[1:])]
+        before = orient(*(coords[v] for v in faces[i]))
+        after = [orient(*(coords[v] for v in f)) for f in tris]
+        if sum(after)!=before or any(v*before <= 0 for v in after):
+            raise ValueError('chain remesh violated signed area')
+        replacement[i] = tris
+
+    output, lineage = [], []
+    for i,f in enumerate(faces):
+        part = replacement.get(i,[f])
+        output.extend(part)
+        lineage.extend([i]*len(part))
+    # Compare incidence globally: only mouth/chain crossing edges were split;
+    # every new interior edge must have two incident triangles.
+    counts = defaultdict(int)
+    for f in output:
+        for a,b in edges(f):
+            counts[frozenset((a,b))] += 1
+    expected_boundary = {e for e,uses in incident.items() if len(uses)==1}
+    expected_boundary.remove(mouth_key)
+    expected_boundary.update(frozenset((v,junctions[0][1])) for v in mouth_key)
+    if {e for e,n in counts.items() if n==1} != expected_boundary or any(n>2 for n in counts.values()):
+        raise ValueError('chain remesh violated edge incidence')
+    weld = welded_corners(output,cut)
+    for _, v in junctions[:-1]:
+        if len({weld[i,v] for i,f in enumerate(output) if v in f}) != 2:
+            raise ValueError('chain remesh did not create separate slit banks')
+    if len({weld[i,next_id] for i,f in enumerate(output) if next_id in f}) != 1:
+        raise ValueError('chain remesh did not preserve a welded tip')
+    return output,coords,cut,lineage

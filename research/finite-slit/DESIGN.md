@@ -107,3 +107,31 @@ material identity on both incident triangles, then retriangulate each crossed
 face with preserved boundaries and constrain its segment. That work is
 required for any multi-triangle cut; this fixture neither approximates
 crossing a seam nor claims to implement the turtle.
+
+### Declared multi-triangle slit chain
+
+The chain prototype accepts a caller-declared simple path of source
+triangles. Within a conforming flat material mesh, it verifies each
+transverse shared-edge crossing in exact increasing path order, allocates
+one shared material ID per intersection, cuts intermediate triangle
+boundaries into two convex bank polygons and fans the terminal triangle
+about the stop. Returns source-triangle indices for all output triangles.
+Area and winding are checked per source triangle; global edge incidence,
+separate banks and welded tip are checked. Unselected triangle tuples and
+original coordinates are retained. Tests cover three crossed triangles,
+a separate overlapping lower layer, wrong paths, vertex crossings and
+nonmanifold/inconsistent edge incidence.
+
+This addresses the declared-chain subset of the shared-edge blocker above.
+It does not discover the chain, certify global geometric mesh conformance,
+handle vertex crossings, prior slits, crease semantics, or transform
+coordinates and identity through folded states. No turtle or runtime support.
+
+Compatibility gates for any future extension: declare a required cut
+capability or new profile, rather than treating this physical operation
+as optional decoration. Legacy readers must explicitly report that the
+profile/capability is unsupported; a no-op or silent downgrade is not
+acceptable. Authoring and playback capability claims must be separate.
+Test archive round-trip and legacy unsupported-reader behavior before
+shipping. This research code introduces no extension, archive syntax,
+schema change, or capability claim.

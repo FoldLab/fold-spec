@@ -1,5 +1,5 @@
 import unittest
-from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches, remesh_single_triangle_slit
+from slit_topology import welded_corners, resolve_frontmost_layer, derive_overlap_patches, remesh_single_triangle_slit, remesh_triangle_chain_slit
 from fractions import Fraction
 
 # Fan triangulation around interior pivot 4. Chord 0-4 is cut.
@@ -152,6 +152,47 @@ class BoundedRemesh(unittest.TestCase):
         for tip in [(2,0),(4,4),(6,6),(-1,1)]:
             with self.subTest(tip=tip), self.assertRaisesRegex(ValueError,'strictly'):
                 remesh_single_triangle_slit(self.faces,self.points,0,(0,1),(3,0),tip)
+
+
+class MultiTriangleSlit(unittest.TestCase):
+    # Four consistently wound triangles in a rectangle, with a duplicate
+    # projected triangle on another layer using distinct material IDs.
+    xy = {0:(0,0),1:(4,0),2:(4,4),3:(0,4),4:(8,0),5:(8,4),
+          6:(0,0),7:(4,0),8:(4,4)}
+    faces = [(0,1,2),(0,2,3),(1,4,5),(1,5,2),(6,7,8)]
+
+    def test_three_triangle_chain_exact_intersections_lineage_and_untouched_faces(self):
+        out, xy, cut, source = remesh_triangle_chain_slit(
+            self.faces,self.xy,[0,3,2],(0,1),(2,0),(7,2))
+        self.assertEqual([xy[v] for v in range(9,13)],
+                         [(2,0),(4,Fraction(4,5)),(Fraction(16,3),Fraction(4,3)),(7,2)])
+        self.assertEqual(cut,{frozenset((v,v+1)) for v in range(9,12)})
+        self.assertEqual([f for f,i in zip(out,source) if i in (1,4)],
+                         [self.faces[1],self.faces[4]])
+        for i,parent in enumerate(self.faces):
+            def area(ids):
+                a,b,c = (xy[v] for v in ids)
+                return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+            children = [area(f) for f,j in zip(out,source) if j==i]
+            self.assertTrue(all(n>0 for n in children))
+            self.assertEqual(sum(children),area(parent))
+        self.assertEqual({v:xy[v] for v in self.xy},self.xy)
+
+    def test_declared_chain_must_contain_geometric_path(self):
+        for chain in ([0,2],[0,1,3,2],[0,3,0,2],[0,3]):
+            with self.subTest(chain=chain), self.assertRaises(ValueError):
+                remesh_triangle_chain_slit(self.faces,self.xy,chain,(0,1),(2,0),(7,2))
+
+    def test_vertex_crossing_rejected(self):
+        with self.assertRaisesRegex(ValueError,'ordered and interior'):
+            faces = [(0,1,4),(1,2,4),(2,3,4),(3,0,4)]
+            points = {0:(0,0),1:(4,0),2:(4,4),3:(0,4),4:(2,2)}
+            remesh_triangle_chain_slit(faces,points,[0,1,2],(0,1),(2,0),(2,3))
+
+    def test_winding_and_nonmanifold_invariants(self):
+        for extra in [(1,2,4),(2,1,4)]:
+            with self.subTest(extra=extra), self.assertRaisesRegex(ValueError,'non-manifold'):
+                remesh_triangle_chain_slit(self.faces+[extra],self.xy,[0,3,2],(0,1),(2,0),(7,2))
 
 
 if __name__ == '__main__':
